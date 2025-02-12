@@ -1,0 +1,32 @@
+.landing-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 50vh;
+    color: white;
+    flex-direction: column;
+}
+ 
+h1 {
+    font-size: 4rem;
+    color: white;
+    font-weight: 550;
+    font-family: Do Hyeon;
+}
+ 
+.events{
+    display: flex;
+   
+}
+ 
+.egyjatekos{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+ 
+.toplista{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
