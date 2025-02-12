@@ -1,0 +1,104 @@
+:host ::ng-deep .p-dialog {
+    background: radial-gradient(circle at top left, #354f63, #1e2d3d) !important;
+    border-radius: 20px;
+    padding: 2rem;
+    position: relative;
+    width: 1000px; /* Megnövelt szélesség */
+    max-width: 90vw; /* Kisebb kijelzőkhöz */
+    box-shadow: none !important; /* Árnyék eltávolítása */
+    border: none !important; /* Esetleges fekete csík eltüntetése */
+  }
+  
+  
+  .login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+    width: 100%;
+  }
+  
+  /* Bezáró gomb (X) */
+  .close-button {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: transparent;
+    border: none;
+    font-size: 1.8rem;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .close-button:hover {
+    color: #ff6363;
+  }
+  
+  .login-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+  }
+  
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 400px; /* Nagyobb inputmezők */
+  }
+  
+  label {
+    color: white;
+    font-weight: 600;
+  }
+  
+  .custom-input {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    padding: 0.75rem;
+    color: white;
+    border-radius: 20px !important; 
+    width: 100%; 
+    box-sizing: border-box; 
+  }
+  
+  .custom-input:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.3);
+  }
+  
+  .forgot-password {
+    align-self: flex-end;
+    margin-right: 10px;
+  }
+  
+  .forgot-password a {
+    color: white;
+    font-size: 0.9rem;
+    text-decoration: none;
+  }
+  
+  .forgot-password a:hover {
+    text-decoration: underline;
+  }
+  
+  .login-button {
+    background: #4a6fa5;
+    color: white;
+    font-weight: bold;
+    padding: 0.75rem;
+    width: 100%;
+    max-width: 300px;
+    border-radius: 20px; /* Lekerekített gomb */
+  }
+  
+  .register-link a {
+    color: white;
+    font-size: 0.9rem;
+    text-decoration: none;
+  }
+  
+  .register-link a:hover {
+    text-decoration: underline;
+  }
+  

@@ -1,0 +1,29 @@
+<p-dialog [(visible)]="visible" modal [closable]="false" [dismissableMask]="true" styleClass="login-dialog">
+    <div class="login-container">
+        
+      <button class="close-button" (click)="closeDialog()">✕</button>
+  
+      <h2 class="login-title">Bejelentkezés</h2>
+  
+      <div class="input-group">
+        <label for="email">Email</label>
+        <input id="email" type="text" pInputText class="custom-input" />
+      </div>
+  
+      <div class="input-group">
+        <label for="password">Jelszó</label>
+        <input id="password" type="password" pInputText class="custom-input" />
+      </div>
+  
+      <div class="forgot-password">
+        <a href="#">Elfelejtett jelszó</a>
+      </div>
+  
+      <button pButton label="Bejelentkezés" class="login-button"></button>
+  
+      <div class="register-link">
+        <a href="#">Még nincs fiókom</a>
+      </div>
+    </div>
+  </p-dialog>
+  
