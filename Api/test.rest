@@ -10,3 +10,17 @@ Content-Type: application/json
     "email": "tesztelek6@gmail.com",
     "password": "123456"
 }
+
+
+### register user
+# @name register
+
+POST {{baseUrl}}/users/register
+Content-Type: application/json
+
+{
+    "name": "Teszt Elek",
+    "email": "tesztelek6@gmail.com",
+    "password": "123456",
+    "confirm": "123456"
+}
