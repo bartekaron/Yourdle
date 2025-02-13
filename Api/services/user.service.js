@@ -1,23 +1,35 @@
 const { pool } = require ("../config/database")
 const bcrypt = require('bcrypt');
-var CryptoJS = require("crypto-js");
 const { v4: uuidv4 } = require('uuid');
 const { generateToken } = require("../utils/token");
 
 
-loginUser = async (email, passwd) =>{
-    pool.query(`SELECT id, name, email, passwd FROM Users WHERE email=? AND passwd=?`, [email, CryptoJS.SHA1(passwd).toString()], (err, results)=>{
-        if (err){
-            return ("Hiba történt az adatbázis lekérdezés közben");
+const loginUser = async (email, passwd) => {
+    try {
+        const results = await new Promise((resolve, reject) => {
+            pool.query(`SELECT id, name, email, passwd, role FROM users WHERE email=?`, [email], (err, results) => {
+                if (err) return reject(new Error('Hiba az adatbázis kapcsolatban'));
+                resolve(results);
+            });
+        });
+        
+        if (results.length === 0) {
+            throw new Error('Nincs ilyen felhasználó');
         }
-        if (results.length == 0) {
-            return ('Hibás belépési adatok!');
-            
-        }
+        
+        const user = results[0];
+        if (!await bcrypt.compare(passwd, user.passwd)) throw new Error("Hibás jelszó!");
+        
         const token = generateToken({ id: user.id, name: user.name, email: user.email, role: user.role });
         return token;
-    })
-}
+ 
+    } catch (error) {
+        console.error(error.message);
+        throw error;
+    }
+};
+
+
 registerUser = async (name, email, password, role) => {
     try {
         const id = uuidv4(); // UUID generálása

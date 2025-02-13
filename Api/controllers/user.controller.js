@@ -2,11 +2,11 @@ const { loginUser, registerUser } = require("../services/user.service.js");
 
 login = async (req, res , next)=>{
     try {
-        const {email, password} = req.body;
-        if (!email || !password) {
+        const {email, passwd} = req.body;
+        if (!email || !passwd) {
             return res.status(400).json({message: "Hiányzó adatok"});
         }
-        res.status(201).json(await loginUser(email, password));
+        res.status(201).json(await loginUser(email, passwd));
     } catch (error) {
         next(error);
     }
