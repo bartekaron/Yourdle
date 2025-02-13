@@ -7,19 +7,19 @@
   
       <div class="input-group">
         <label for="email">Email</label>
-        <input id="email" type="text" pInputText class="custom-input" />
+        <input [(ngModel)]="user.email" id="email" type="text" pInputText class="custom-input" />
       </div>
   
       <div class="input-group">
         <label for="password">Jelszó</label>
-        <input id="password" type="password" pInputText class="custom-input" />
+        <input [(ngModel)]="user.passwd" id="password" type="password" pInputText class="custom-input" />
       </div>
   
       <div class="forgot-password">
         <a href="#">Elfelejtett jelszó</a>
       </div>
   
-      <button pButton label="Bejelentkezés" class="login-button"></button>
+      <button pButton (click)="Login()"  label="Bejelentkezés" class="login-button"></button>
   
       <div class="register-link">
         <a href="#">Még nincs fiókom</a>
@@ -27,3 +27,4 @@
     </div>
   </p-dialog>
   
+  <p-toast />

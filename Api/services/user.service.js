@@ -8,21 +8,32 @@ const loginUser = async (email, passwd) => {
     try {
         const results = await new Promise((resolve, reject) => {
             pool.query(`SELECT id, name, email, passwd, role FROM users WHERE email=?`, [email], (err, results) => {
-                if (err) return reject(new Error('Hiba az adatbázis kapcsolatban'));
+                if (err) {
+                    const error = new Error('Hiba az adatbázis kapcsolatban');
+                    error.status = 500;
+                    return reject(error);
+                }
                 resolve(results);
             });
         });
         
         if (results.length === 0) {
-            throw new Error('Nincs ilyen felhasználó');
+            const error = new Error('Nincs ilyen felhasználó');
+            error.status = 404;
+            throw error;
         }
         
         const user = results[0];
-        if (!await bcrypt.compare(passwd, user.passwd)) throw new Error("Hibás jelszó!");
+        const isPasswordValid = await bcrypt.compare(passwd, user.passwd);
+        if (!isPasswordValid) {
+            const error = new Error("Hibás jelszó!");
+            error.status = 401;
+            throw error;
+        }
         
         const token = generateToken({ id: user.id, name: user.name, email: user.email, role: user.role });
         return token;
- 
+
     } catch (error) {
         console.error(error.message);
         throw error;
