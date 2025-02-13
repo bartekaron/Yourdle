@@ -1,14 +1,18 @@
 const { loginUser, registerUser } = require("../services/user.service.js");
 
-login = async (req, res , next)=>{
+login = async (req, res) => {
     try {
-        const {email, passwd} = req.body;
+        const { email, passwd } = req.body;
         if (!email || !passwd) {
-            return res.status(400).json({message: "Hiányzó adatok"});
+            return res.status(400).json({ message: "Hiányzó adatok" });
         }
-        res.status(201).json(await loginUser(email, passwd));
+
+        const token = await loginUser(email, passwd);
+        res.status(200).json({ token });
     } catch (error) {
-        next(error);
+        // Ha van status mezője (pl. egyedi hibaobjektum), azt használja
+        const status = error.status || 401;
+        res.status(status).json({ message: error.message });
     }
 }
 
