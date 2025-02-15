@@ -1,15 +1,27 @@
-<div class="landing-container">
-    <h1>Yourdle</h1>
- 
-    <div class="events">
-        <div class="egyjatekos">
-            <h2>Egyjatekos</h2>
-            <p>Tedd magad oróbára egyjátékos módunkban!</p>
-        </div>
-        <br>
-        <div class="toplista">
-            <h2>Toplista</h2>
-            <p>Tekintsd meg legsikeresebb játékosaink!</p>
-        </div>
+<div class="container">
+    <h1 class="title">Yourdle</h1>
+    <div class="card-container">
+        <p-card class="custom-card">
+            <ng-template #title>
+                <span class="card-title">Egyjátékos</span>
+            </ng-template>
+            <ng-template #subtitle>
+                <span class="card-subtitle">Tedd magad próbára egyjátékos módban!</span>
+            </ng-template>
+            <ng-template #footer>
+                <p-button class="card-button"><a>Egyjátékos</a> </p-button>
+            </ng-template>
+        </p-card>
+        <p-card class="custom-card">
+            <ng-template #title>
+                <span class="card-title">Toplista</span>
+            </ng-template>
+            <ng-template #subtitle>
+                <span class="card-subtitle">Tekintsd meg legsikeresebb játékosaink!</span>
+            </ng-template>
+            <ng-template #footer>
+               <p-button class="card-button"><a>Toplista</a> </p-button>
+            </ng-template>
+        </p-card>
     </div>
 </div>
