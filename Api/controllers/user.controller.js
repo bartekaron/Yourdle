@@ -18,8 +18,7 @@ login = async (req, res) => {
 
 register = async (req, res, next) => {
     try {
-        const { name, email, password, confirm } = req.body;
-
+        const { name, email, password, confirm } = req.body; 
         if (!name || !email || !password || !confirm) {
             return res.status(400).json({ success: false, message: 'Hiányzó adatok!' });
         }
@@ -40,6 +39,8 @@ register = async (req, res, next) => {
         next(err);
     }
 };
+
+
 
 const validateEmail = (email) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

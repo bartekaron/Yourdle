@@ -102,19 +102,10 @@
     text-decoration: underline;
   }
   
-  .register-link a {
-    pointer-events: auto;  /* Biztosítja, hogy a link reagáljon a kattintásra */
-    z-index: 9999;         /* Megakadályozza, hogy más elemek eltakarják */
-  }
-  
-  .register-link a {
-    color: white;
-    font-size: 0.9rem;
-    text-decoration: none;
-    cursor: pointer; /* Ez változtatja a kurzort kattinthatóvá */
-  }
-  
-  .register-link a:hover {
-    text-decoration: underline;
+
+  .password-container {
+    display: flex;
+    align-items: center;
+    position: relative;
   }
   
