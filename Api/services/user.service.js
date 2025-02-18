@@ -67,5 +67,28 @@ const updateUserProfile = async (id, name, email) => {
     return { id, name, email };
 };
 
+const getOneUser = async (id)=>{
+    const results = await new Promise((resolve, reject) => {
+        pool.query(`SELECT * FROM users WHERE id=?`, [id], (err, results) => {
+            if (err) {
+                const error = new Error('Hiba az adatbázis kapcsolatban');
+                error.status = 500;
+                return reject(error);
+            }
+            resolve(results);
+        });
+    });
+    
+    if (results.length === 0) {
+        const error = new Error('Nincs ilyen felhasználó');
+        error.status = 404;
+        throw error;
+    }
+    
+    const user = results[0];
+    
+    return user;
 
-module.exports = {loginUser, registerUser, updateUserProfile}
+}
+
+module.exports = {loginUser, registerUser, updateUserProfile, getOneUser}

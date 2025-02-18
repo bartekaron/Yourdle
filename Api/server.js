@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const multer = require('multer');
+const path = require('path');
 const router = require('./routes/main')
 const { pool } = require ("./config/database")
 
@@ -18,38 +19,34 @@ app.use((err, req, res, next) => {
     res.status(statusCode).json({ message });
 });
 
-const storage = multer.memoryStorage();
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+
+// Konfiguráljuk a fájlok feltöltését
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, 'uploads/')
+    },
+    filename: function (req, file, cb) {
+        const timestamp = Date.now();
+        const originalname = file.originalname.replace(' ', '_');
+        const name = originalname.substring(0, originalname.lastIndexOf('.'));
+        const ext = originalname.substring(originalname.lastIndexOf('.'));
+        cb(null, name + '-' + timestamp + ext);
+    }
+  });
+
 const upload = multer({ storage: storage });
 
 app.post('/uploadProfilePicture', upload.single('profilePicture'), async (req, res) => {
+    if (!req.file) return res.status(400).json({ error: "No file uploaded" });
 
-    if (!req.file) {
-        return res.status(400).json({ error: "No file uploaded" });
-    }
+    const imageUrl = `http://localhost:3000/uploads/${req.file.filename}`; // Az URL, amit az adatbázisba mentünk
 
-    if (!req.body.id) {
-        return res.status(400).json({ error: "No user ID provided" });
-    }
+    // Mentsd az adatbázisba az imageUrl-t
+    await pool.query('UPDATE users SET profilePic = ? WHERE id = ?', [imageUrl, req.body.id]);
 
-    const fileBuffer = req.file.buffer;
-    const id = req.body.id;
-
-    try {
-        await pool.query(
-            'UPDATE users SET profilePic = ? WHERE id = ?', [fileBuffer, id], (err, results)=>{
-                if (err) {
-                    return res.status(500).json({error: "Hiba az adatbázisban"})
-                }
-                if (results.length === 0) {
-                    return res.status(400).json({error: "Fos"});
-                }
-                res.status(200).json(results);
-            }
-        );
-    } catch (err) {
-        console.error("Database error:", err);
-        res.status(500).json({ error: err.message });
-    }
+    res.status(200).json({ imageUrl });
 });
 
 

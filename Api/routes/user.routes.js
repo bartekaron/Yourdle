@@ -11,5 +11,7 @@ router.post("/register", userController.register)
 
 router.patch("/profile", authMiddleware, userController.updateProfile)
 
+router.get("/:id", authMiddleware, userController.getUser)
+
 
 module.exports = router;

@@ -10,7 +10,9 @@
       <div class="profile-image">
         <img [src]="user.image || ''" alt="Profilkép" />
         <div class="profile-image-buttons">
-          <button pButton label="Kép változtatása" class="profile-btn"></button>
+          <div class="card flex justify-center">
+            <p-fileupload mode="basic" name="demo[]" chooseIcon="pi pi-upload" url="https://www.primefaces.org/cdn/api/upload.php" accept="image/*" maxFileSize="1000000" (onUpload)="onBasicUploadAuto($event)" [auto]="true" chooseLabel="Profilkép változtatása" />
+        </div>
           <button pButton label="Kép törlése" class="profile-btn"></button>
         </div>
       </div>

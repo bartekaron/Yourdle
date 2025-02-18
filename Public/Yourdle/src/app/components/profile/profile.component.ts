@@ -9,14 +9,17 @@ import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { FileUploadModule } from 'primeng/fileupload';
+
 
 @Component({
   selector: 'app-profile',
-  imports: [ButtonModule, Dialog, InputTextModule, FormsModule, ToastModule, ConfirmDialogModule],
+  imports: [ButtonModule, Dialog, InputTextModule, FormsModule, ToastModule, ConfirmDialogModule, FileUploadModule],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
   providers: [ConfirmationService]
 })
+
 export class ProfileComponent implements OnInit {
   static instance: ProfileComponent;
 
@@ -40,14 +43,34 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.auth.isLoggedIn$.subscribe(data=>{
       if (data) {
-        console.log(this.auth.loggedUser());
         this.user.id = this.auth.loggedUser().data.id;
         this.user.name = this.auth.loggedUser().data.name;
         this.user.email = this.auth.loggedUser().data.email;
-        this.user.image = this.auth.loggedUser().data.image;
+        this.api.select('users', this.user.id).subscribe((res: any) => {
+          console.log(res.user.profilePic);
+          if (res) {
+            this.user.image = res.user.profilePic; 
+          }
+        });
       }
     })
   }
+
+  onBasicUploadAuto(event: any){
+    if (!event.files[0]) {
+      this.messageService.add({ severity: 'error', summary: 'Hiba', detail: 'Nem választottál ki fájlt!' });
+      return;
+    }
+    this.api.uploadFile(event.files[0], this.user.id).subscribe(res=>{
+      if (res) {
+        this.messageService.add({ severity: 'info', summary: 'Success', detail: 'Sikeres profilkép feltöltés' });
+        this.user.image = URL.createObjectURL(event.files[0]);
+      }
+      else{
+        this.messageService.add({ severity: 'error', summary: 'Hiba', detail: 'A kép feltöltése sikertelen.' });
+      }
+    })
+}
 
   confirmSave() {
     this.confirmationService.confirm({

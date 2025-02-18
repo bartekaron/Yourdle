@@ -69,22 +69,24 @@
       return this.http.patch(this.server + '/public/users/id/eq',+id, data);
     }
 
-    uploadFile(file:File){
+    uploadFile(profilePicture:File, id:string){
       const formData = new FormData();
-      formData.append('file', file, file.name);
-      return this.http.post(this.server + '/upload', formData, this.tokenHeader());
+      formData.append('profilePicture', profilePicture);
+      formData.append('id', id);
+      console.log(formData);
+      return this.http.post('http://localhost:3000/'+ 'uploadProfilePicture', formData, this.tokenHeader());
     }
 
     deleteFile(file:File){
       return this.http.delete(this.server + '/delete'+file, this.tokenHeader());
     }
 
-  post(name:string, data:object){
-    return this.http.post('http://localhost:3000/' + name, data, this.tokenHeader());
-  }
+    post(name:string, data:object){
+      return this.http.post('http://localhost:3000/' + name, data, this.tokenHeader());
+    }
 
-  profileSave(data: object) {
-    return this.http.patch(this.server + '/users/profile', data, this.tokenHeader());
-  }
+    profileSave(data: object) {
+      return this.http.patch(this.server + '/users/profile', data, this.tokenHeader());
+    }
 
 }
