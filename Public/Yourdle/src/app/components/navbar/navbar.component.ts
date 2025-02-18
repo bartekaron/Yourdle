@@ -66,6 +66,8 @@ export class NavbarComponent implements OnInit {
     }
   }
 
+ 
+
   openProfileDialog() {
     if (ProfileComponent.instance) {
       ProfileComponent.instance.showDialog();

@@ -5,10 +5,11 @@ import { HeaderComponent } from './components/header/header.component';
 import { LoginComponent } from "./components/login/login.component";
 import { LandingComponent } from './components/landing/landing.component';
 import { ProfileComponent } from "./components/profile/profile.component";
+import { RegisterComponent } from "./components/register/register.component";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, NavbarComponent, HeaderComponent, LoginComponent, LandingComponent, ProfileComponent],
+  imports: [RouterOutlet, NavbarComponent, HeaderComponent, LoginComponent, LandingComponent, ProfileComponent, RegisterComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

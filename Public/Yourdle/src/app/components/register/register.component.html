@@ -3,8 +3,13 @@
         
       <button class="close-button" (click)="closeDialog()">✕</button>
   
-      <h2 class="login-title">Bejelentkezés</h2>
+      <h2 class="login-title">Regisztráció</h2>
   
+      <div class="input-group">
+        <label for="name">Felhasználó név</label>
+        <input [(ngModel)]="user.name" id="name" type="text" pInputText class="custom-input" />
+      </div>
+
       <div class="input-group">
         <label for="email">Email</label>
         <input [(ngModel)]="user.email" id="email" type="text" pInputText class="custom-input" />
@@ -14,18 +19,14 @@
         <label for="password">Jelszó</label>
         <input [(ngModel)]="user.passwd" id="password" type="password" pInputText class="custom-input" />
       </div>
-  
-      <div class="forgot-password">
-        <a>Elfelejtett jelszó</a>
+
+        
+      <div class="input-group">
+        <label for="password">Jelszó megerősítés</label>
+        <input [(ngModel)]="user.confirm" id="confirm" type="password" pInputText class="custom-input" />
       </div>
   
-      <button pButton (click)="Login()"  label="Bejelentkezés" class="login-button"></button>
-      
-      <div class="register-link">
-        <a (click)="openRegisterDialog()">Még nincs fiókom</a>
-      </div>
-      
-      
+      <button pButton (click)="Register()"  label="Regisztráció" class="login-button"></button>
     </div>
   </p-dialog>
   

@@ -8,6 +8,7 @@ import { AuthService } from '../../services/auth.service';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
+import { RegisterComponent } from '../register/register.component';
 
 
 @Component({
@@ -68,6 +69,14 @@ export class LoginComponent {
       }
     });
   }
+
+  openRegisterDialog() {
+    if (RegisterComponent.instance) {
+      this.closeDialog();
+      RegisterComponent.instance.showDialog();
+    }
+  }
+  
   
   showDialog() {
       this.visible = true;
@@ -81,4 +90,7 @@ export class LoginComponent {
       }
   }
 
+
+  
+  
 }
