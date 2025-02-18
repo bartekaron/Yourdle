@@ -1,18 +1,15 @@
-const { loginUser, registerUser } = require("../services/user.service.js");
+const { loginUser, registerUser, updateUserProfile} = require("../services/user.service.js");
 
-login = async (req, res) => {
+login = async (req, res, next) => {
     try {
         const { email, passwd } = req.body;
         if (!email || !passwd) {
-            return res.status(400).json({ message: "Hiányzó adatok" });
+            return res.status(400).json({ success:false, message: "Hiányzó adatok" });
         }
-
         const token = await loginUser(email, passwd);
-        res.status(200).json({ token });
-    } catch (error) {
-        // Ha van status mezője (pl. egyedi hibaobjektum), azt használja
-        const status = error.status || 401;
-        res.status(status).json({ message: error.message });
+        res.status(200).json({ success:true, token });
+    } catch (err) {
+        next(err);
     }
 }
 
@@ -41,9 +38,25 @@ register = async (req, res, next) => {
     }
 };
 
+updateProfile = async (req, res, next) => {
+    try {
+        const { name, email, id } = req.body;
+
+        if (!name || !email || !id) {
+            return res.status(400).json({ success: false, message: 'Hiányzó adatok!' });
+        }
+        
+        const updatedUser = await updateUserProfile(id, name, email);
+        res.status(200).json({ success: true, user: updatedUser });
+    } catch (err) {
+        next(err);
+    }
+};
+
+
 const validateEmail = (email) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
 };
 
-module.exports = {login, register}
+module.exports = {login, register, updateProfile}

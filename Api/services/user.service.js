@@ -7,7 +7,7 @@ const { generateToken } = require("../utils/token");
 const loginUser = async (email, passwd) => {
     try {
         const results = await new Promise((resolve, reject) => {
-            pool.query(`SELECT id, name, email, passwd, role FROM users WHERE email=?`, [email], (err, results) => {
+            pool.query(`SELECT id, name, email, passwd, profilePic, role FROM users WHERE email=?`, [email], (err, results) => {
                 if (err) {
                     const error = new Error('Hiba az adatbázis kapcsolatban');
                     error.status = 500;
@@ -31,7 +31,7 @@ const loginUser = async (email, passwd) => {
             throw error;
         }
         
-        const token = generateToken({ id: user.id, name: user.name, email: user.email, role: user.role });
+        const token = generateToken({ id: user.id, name: user.name, email: user.email, role: user.role, image: user.profilePic });
         return token;
 
     } catch (error) {
@@ -41,7 +41,7 @@ const loginUser = async (email, passwd) => {
 };
 
 
-registerUser = async (name, email, password, role) => {
+const registerUser = async (name, email, password, role) => {
     try {
         const id = uuidv4(); // UUID generálása
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -57,4 +57,15 @@ registerUser = async (name, email, password, role) => {
         throw new Error('Hiba a felhasználó regisztrációja során: ' + error.message);
     }
 };
-module.exports = {loginUser, registerUser}
+
+const updateUserProfile = async (id, name, email) => {
+
+    const sql = `UPDATE users SET name = ?, email = ? WHERE id = ?`;
+    const values = [name, email, id];
+
+    await pool.query(sql, values);
+    return { id, name, email };
+};
+
+
+module.exports = {loginUser, registerUser, updateUserProfile}
