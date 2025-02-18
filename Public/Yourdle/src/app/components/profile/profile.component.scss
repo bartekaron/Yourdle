@@ -1,0 +1,118 @@
+:host ::ng-deep .p-dialog {
+  background: radial-gradient(circle at top left, #354f63, #1e2d3d) !important;
+  border-radius: 20px;
+  padding: 2rem;
+  width: 600px;
+  max-width: 90vw;
+  box-shadow: none !important;
+  border: none !important;
+}
+  
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative; 
+}
+  
+  .profile-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .profile-btn {
+    background: #5c768d;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 10px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .profile-btn.active {
+    background: #88a0b8;
+  }
+  
+  .profile-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: white;
+  }
+  
+  .profile-image img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    object-fit: cover;
+  }
+  
+  .profile-image-buttons {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .input-group {
+    width: 80%;
+    margin: 10px 0;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .input-group label {
+    color: white;
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+  
+  .custom-input {
+    width: 100%;
+    padding: 8px;
+    border-radius: 5px;
+    border: none;
+  }
+  
+  .button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 80%;
+    margin-top: 15px;
+  }
+  
+  .save-button {
+    display: flex;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    align-self: center;
+    width: 60%;
+    border-radius: 5px;
+  }
+  
+  .password-button {
+    display: flex;
+    background-color: #1c52c5;
+    color: white;
+    padding: 10px;
+    align-self: center;
+    width: 60%;
+    border-radius: 5px;
+  }
+
+  .exit-button {
+    position: absolute;
+    width: 100px;
+    bottom: 5px;
+    right: 1px;
+    font-size: 12px;  
+    padding: 5px 10px;
+    background-color: #685f5f;  
+    color: white;
+    border-radius: 5px;
+  }
+  

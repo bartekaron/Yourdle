@@ -44,14 +44,14 @@ export class LoginComponent {
           severity: 'success',
           summary: 'Sikeres bejelentkezés',
           detail: 'Üdv újra!',
-          life: 3000
+          life: 2000
         });
         this.user ={
           email:"",
           passwd:""
         }
         this.closeDialog();
-        this.router.navigateByUrl("/") //ide még kell majd, hogy hova vigyen a login
+        this.router.navigateByUrl("/")
       },
       error: (err) => {
         const errorMsg = err.error?.message || "Ismeretlen hiba történt.";
@@ -59,7 +59,7 @@ export class LoginComponent {
           severity: 'error',
           summary: 'Hiba',
           detail: errorMsg,
-          life: 4000
+          life: 2000
         });
         this.user ={
           email:"",
@@ -75,6 +75,10 @@ export class LoginComponent {
 
   closeDialog() {
       this.visible = false;
+      this.user ={
+        email:"",
+        passwd:""
+      }
   }
 
 }

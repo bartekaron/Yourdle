@@ -1,0 +1,38 @@
+<p-dialog [(visible)]="visible" modal [closable]="true" [dismissableMask]="true" styleClass="profile-dialog">
+    <div class="profile-container">
+      <div class="profile-tabs">
+        <button pButton label="Profilom" class="profile-btn"></button>
+        <button pButton label="Meccs előzmény" class="profile-btn"></button>
+      </div>
+  
+      <h2 class="profile-title">Profilom</h2>
+  
+      <div class="profile-image">
+        <img [src]="user.image || ''" alt="Profilkép" />
+        <div class="profile-image-buttons">
+          <button pButton label="Kép változtatása" class="profile-btn"></button>
+          <button pButton label="Kép törlése" class="profile-btn"></button>
+        </div>
+      </div>
+  
+      <div class="input-group">
+        <label for="username">Felhasználónév</label>
+        <input id="username" type="text" pInputText class="custom-input" [(ngModel)]="user.name" />
+      </div>
+  
+      <div class="input-group">
+        <label for="email">Email</label>
+        <input id="email" type="text" pInputText class="custom-input" [(ngModel)]="user.email" />
+      </div>
+  
+      <div class="button-group">
+        <button pButton (click)="confirmSave()" label="Változások mentése" class="save-button"></button>
+        <button pButton label="Jelszó változtatása" class="password-button"></button>
+      </div>
+      <button pButton (click)="Logout()" label="Kilépés" class="password-button exit-button"></button>
+
+    </div>
+  </p-dialog>
+
+  <p-confirmDialog></p-confirmDialog>
+  <p-toast></p-toast>

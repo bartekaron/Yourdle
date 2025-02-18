@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { MenuItem } from 'primeng/api';
+import { MenuItem, PrimeIcons } from 'primeng/api';
 import { Menubar } from 'primeng/menubar';
 import { LoginComponent } from '../login/login.component';
+import { AuthService } from '../../services/auth.service';
+import { ProfileComponent } from '../profile/profile.component';
 
 @Component({
   selector: 'app-navbar',
@@ -11,30 +13,50 @@ import { LoginComponent } from '../login/login.component';
   styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent implements OnInit {
+
+  constructor(private auth:AuthService){}
+
   items: MenuItem[] | undefined;
 
   ngOnInit() {
+    this.auth.isLoggedIn$.subscribe(res=>{
+      this.Menu(res);
+    })
+  }
+
+  Menu(isLoggedIn:boolean){
     this.items = [
+      
       {
         label: 'Yourdle',
-        icon: 'pi pi-fw pi-user-plus',
         routerLink: '/'
       },
       {
         label: 'Egyjátékos',
-        icon: 'pi pi-fw pi-info',
         routerLink: '/egyjatekos'
       },
       {
         label: 'Toplista',
-        icon: 'pi pi-fw pi-envelope',
         routerLink: '/toplista'
       },
-      {
+      ...(isLoggedIn) ? [
+        {
+          label: 'Párbaj',
+          routerLink: '/parbaj'
+        },
+        {
+          label: 'Kategória készítő',
+          routerLink: '/kategoria'
+        },
+        {
+          icon: 'pi pi-user',
+          command: ()=> this.openProfileDialog()
+        }
+      ] : [      {
         label: 'Bejelentkezés',
-        icon: 'pi pi-fw pi-power-off',
         command: () => this.openLoginDialog()
-      }
+      }]
+
     ];
   }
 
@@ -43,5 +65,12 @@ export class NavbarComponent implements OnInit {
       LoginComponent.instance.showDialog();
     }
   }
+
+  openProfileDialog() {
+    if (ProfileComponent.instance) {
+      ProfileComponent.instance.showDialog();
+    } 
+  }
+  
 
 }

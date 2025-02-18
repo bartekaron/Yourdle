@@ -83,4 +83,8 @@ export class ApiService {
     return this.http.post('http://localhost:3000/' + name, data, this.tokenHeader());
   }
 
+  profileSave(data: object) {
+    return this.http.patch(this.server + '/users/profile', data, this.tokenHeader());
+  }
+
 }
