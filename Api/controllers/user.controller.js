@@ -38,7 +38,7 @@ register = async (req, res, next) => {
     }
 };
 
-const changePassword = async (req, res, next) => {
+changePassword = async (req, res, next) => {
     try {
         const { oldpasswd, passwd, confirm } = req.body;
         const userId  = req.params.id; 
