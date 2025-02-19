@@ -1,4 +1,4 @@
-const { loginUser, registerUser, updateUserProfile, getOneUser, deleteProfilePictureService} = require("../services/user.service.js");
+const { loginUser, registerUser, checkOldPassword, updatePassword, updateUserProfile, getOneUser, deleteProfilePictureService } = require("../services/user.service.js");
 const {decrypt} = require('../utils/decript.js');
 
 login = async (req, res, next) => {
@@ -35,6 +35,32 @@ register = async (req, res, next) => {
         res.status(201).json({ success: true, user });
     } catch (err) {
         next(err);
+    }
+};
+
+const changePassword = async (req, res, next) => {
+    try {
+        const { oldpasswd, passwd, confirm } = req.body;
+        const userId  = req.params.id; 
+
+
+        if (!oldpasswd || !passwd || !confirm) {
+            return res.status(400).json({ success: false, message: 'Hiányzó adatok!' });
+        }
+
+        if (passwd !== confirm) {
+            return res.status(400).json({ success: false, message: 'A jelszavak nem egyeznek!' });
+        }
+
+        await checkOldPassword(userId, oldpasswd);
+
+        await updatePassword(userId, passwd);
+
+        return res.status(200).json({ success: true, message: 'Jelszó sikeresen frissítve!' });
+
+    } catch (err) {
+        console.error('Hiba:', err.message);
+        res.status(400).json({ success: false, message: err.message });
     }
 };
 
@@ -100,4 +126,4 @@ const validateEmail = (email) => {
     return regex.test(email);
 };
 
-module.exports = {login, register, updateProfile, getUser, deleteProfilePicture}
+module.exports = {login, register, changePassword, updateProfile, getUser, deleteProfilePicture}

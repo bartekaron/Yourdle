@@ -24,3 +24,15 @@ Content-Type: application/json
     "password": "123456",
     "confirm": "123456"
 }
+
+### Change Password
+# @name change-password
+
+POST {{baseUrl}}/users/change-password/c8bb52ba-6243-409c-b8c9-33d707aa5714
+Content-Type: application/json
+
+{
+    "oldpasswd": "123456",
+    "passwd": "newpassword123",
+    "confirm": "newpassword123"
+}

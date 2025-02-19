@@ -15,5 +15,8 @@ router.get("/:id", authMiddleware, userController.getUser)
 
 router.delete("/deleteProfilePicture/:id", authMiddleware, userController.deleteProfilePicture);
 
+router.delete("/deleteProfilePicture/:id", authMiddleware, userController.deleteProfilePicture);
+
+router.post("/change-password/:id", authMiddleware, userController.changePassword)
 
 module.exports = router;
