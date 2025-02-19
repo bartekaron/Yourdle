@@ -2,6 +2,9 @@ const { pool } = require ("../config/database")
 const bcrypt = require('bcrypt');
 const { v4: uuidv4 } = require('uuid');
 const { generateToken } = require("../utils/token");
+const path = require('path');
+const fs = require("fs");
+const {decrypt} = require('../utils/decript');
 
 
 const loginUser = async (email, passwd) => {
@@ -91,4 +94,30 @@ const getOneUser = async (id)=>{
 
 }
 
-module.exports = {loginUser, registerUser, updateUserProfile, getOneUser}
+const deleteProfilePictureService = async (userId) => {
+    try {
+        // Lekérjük a felhasználót az adatbázisból
+        const user = await getOneUser(userId);
+        if (!user.profilePic) {
+            return { success: false, message: "Nincs profilkép, amit törölhetnél!" };
+        }
+
+        const imagePath = path.join(__dirname, "../uploads/", path.basename(decrypt(user.profilePic)));
+
+        // Ellenőrizzük, hogy a fájl létezik-e, és töröljük
+        if (fs.existsSync(imagePath)) {
+            fs.unlinkSync(imagePath);
+        }
+
+        // Frissítjük az adatbázist, hogy töröljük a profilképet
+        await pool.query("UPDATE users SET profilePic = NULL WHERE id = ?", [userId]);
+
+        return { success: true, message: "Profilkép sikeresen törölve!" };
+    } catch (err) {
+        console.error("Hiba történt a profilkép törlésénél:", err);
+        return { success: false, message: "Hiba történt a profilkép törlése közben!" };
+    }
+};
+
+
+module.exports = {loginUser, registerUser, updateUserProfile, getOneUser, deleteProfilePictureService}

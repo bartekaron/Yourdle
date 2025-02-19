@@ -1,4 +1,4 @@
-const { loginUser, registerUser, updateUserProfile, getOneUser} = require("../services/user.service.js");
+const { loginUser, registerUser, updateUserProfile, getOneUser, deleteProfilePictureService} = require("../services/user.service.js");
 const {decrypt} = require('../utils/decript.js');
 
 login = async (req, res, next) => {
@@ -73,10 +73,31 @@ getUser = async (req, res, next) => {
     }
 };
 
+deleteProfilePicture = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+
+        if (!id) {
+            return res.status(400).json({ success: false, message: "Hiányzó felhasználói azonosító!" });
+        }
+
+        // Meghívjuk a userService-t a profilkép törlésére
+        const result = await deleteProfilePictureService(id);
+
+        if (result.success) {
+            return res.status(200).json(result);
+        } else {
+            return res.status(400).json(result);
+        }
+    } catch (err) {
+        next(err);
+    }
+};
+
 
 const validateEmail = (email) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
 };
 
-module.exports = {login, register, updateProfile, getUser}
+module.exports = {login, register, updateProfile, getUser, deleteProfilePicture}

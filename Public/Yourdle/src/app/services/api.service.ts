@@ -89,4 +89,8 @@
       return this.http.patch(this.server + '/users/profile', data, this.tokenHeader());
     }
 
+    deleteProfilePicture(id: string) {
+      return this.http.delete(this.server + '/users/deleteProfilePicture/' + id, this.tokenHeader());
+    }
+
 }

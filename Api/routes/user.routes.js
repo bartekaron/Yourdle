@@ -13,5 +13,7 @@ router.patch("/profile", authMiddleware, userController.updateProfile)
 
 router.get("/:id", authMiddleware, userController.getUser)
 
+router.delete("/deleteProfilePicture/:id", authMiddleware, userController.deleteProfilePicture);
+
 
 module.exports = router;

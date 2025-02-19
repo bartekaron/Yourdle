@@ -7,6 +7,7 @@ const path = require('path');
 const router = require('./routes/main')
 const { pool } = require ("./config/database")
 const {encrypt} = require('./utils/decript');
+const { authMiddleware } = require('./middleware/AuthMiddleware');
 
 app.use(express.urlencoded({extended: true}));
 app.use(cors());
@@ -39,7 +40,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-app.post('/uploadProfilePicture', upload.single('profilePicture'), async (req, res) => {
+app.post('/uploadProfilePicture', authMiddleware, upload.single('profilePicture'), async (req, res) => {
     if (!req.file) return res.status(400).json({ error: "No file uploaded" });
 
     const imageUrl = `http://localhost:3000/uploads/${req.file.filename}`;

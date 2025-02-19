@@ -47,7 +47,6 @@ export class ProfileComponent implements OnInit {
         this.user.name = this.auth.loggedUser().data.name;
         this.user.email = this.auth.loggedUser().data.email;
         this.api.select('users', this.user.id).subscribe((res: any) => {
-          console.log(res.user.profilePic);
           if (res) {
             this.user.image = res.user.profilePic; 
           }
@@ -57,20 +56,43 @@ export class ProfileComponent implements OnInit {
   }
 
   onBasicUploadAuto(event: any){
-    if (!event.files[0]) {
-      this.messageService.add({ severity: 'error', summary: 'Hiba', detail: 'Nem választottál ki fájlt!' });
-      return;
+    if (this.user.image != "http://localhost:3000/uploads/placeholder.png") {
+      this.api.deleteProfilePicture(this.user.id).subscribe(res=>{
+        if (!event.files[0]) {
+          this.messageService.add({ severity: 'error', summary: 'Hiba', detail: 'Nem választottál ki fájlt!' });
+          return;
+        }
+        this.api.uploadFile(event.files[0], this.user.id).subscribe(res=>{
+          if (res) {
+            this.messageService.add({ severity: 'info', summary: 'Success', detail: 'Sikeres profilkép feltöltés' });
+            this.user.image = URL.createObjectURL(event.files[0]);
+          }
+          else{
+            this.messageService.add({ severity: 'error', summary: 'Hiba', detail: 'A kép feltöltése sikertelen.' });
+          }
+        })  
+      })
     }
-    this.api.uploadFile(event.files[0], this.user.id).subscribe(res=>{
-      if (res) {
-        this.messageService.add({ severity: 'info', summary: 'Success', detail: 'Sikeres profilkép feltöltés' });
-        this.user.image = URL.createObjectURL(event.files[0]);
+      
+    else{
+      if (!event.files[0]) {
+        this.messageService.add({ severity: 'error', summary: 'Hiba', detail: 'Nem választottál ki fájlt!' });
+        return;
       }
-      else{
-        this.messageService.add({ severity: 'error', summary: 'Hiba', detail: 'A kép feltöltése sikertelen.' });
-      }
-    })
-}
+      this.api.uploadFile(event.files[0], this.user.id).subscribe(res=>{
+        if (res) {
+          this.messageService.add({ severity: 'info', summary: 'Success', detail: 'Sikeres profilkép feltöltés' });
+          this.user.image = URL.createObjectURL(event.files[0]);
+        }
+        else{
+          this.messageService.add({ severity: 'error', summary: 'Hiba', detail: 'A kép feltöltése sikertelen.' });
+        }
+      })
+    }
+
+  }
+    
+
 
   confirmSave() {
     this.confirmationService.confirm({
@@ -97,6 +119,27 @@ export class ProfileComponent implements OnInit {
         }
     );
 }
+
+deleteProfilePicture() {
+  this.confirmationService.confirm({
+    message: 'Biztosan törölni szeretnéd a profilképed?',
+    header: 'Megerősítés',
+    icon: 'pi pi-exclamation-triangle',
+    acceptLabel: 'Igen',
+    rejectLabel: 'Mégse',
+    accept: () => {
+      this.api.deleteProfilePicture(this.user.id).subscribe((res: any) => {
+        if (res.success) {
+          this.user.image = "http://localhost:3000/uploads/placeholder.png"; // Visszaállítjuk az alapértelmezett képet
+          this.messageService.add({ severity: 'success', summary: 'Siker', detail: 'Profilkép sikeresen törölve!' });
+        } else {
+          this.messageService.add({ severity: 'error', summary: 'Hiba', detail: 'Nem sikerült törölni a profilképet.' });
+        }
+      });
+    }
+  });
+}
+
 
   Logout(){
     this.auth.logout();

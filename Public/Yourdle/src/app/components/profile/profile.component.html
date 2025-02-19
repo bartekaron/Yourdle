@@ -13,7 +13,7 @@
           <div class="card flex justify-center">
             <p-fileupload mode="basic" name="demo[]" chooseIcon="pi pi-upload" url="https://www.primefaces.org/cdn/api/upload.php" accept="image/*" (onUpload)="onBasicUploadAuto($event)" [auto]="true" chooseLabel="Profilkép változtatása" />
         </div>
-          <button pButton label="Kép törlése" class="profile-btn"></button>
+          <button pButton label="Kép törlése" class="profile-btn" (click)="deleteProfilePicture()"></button>
         </div>
       </div>
   
@@ -31,7 +31,7 @@
         <button pButton (click)="confirmSave()" label="Változások mentése" class="save-button"></button>
         <button pButton label="Jelszó változtatása" class="password-button"></button>
       </div>
-      <button pButton (click)="Logout()" label="Kilépés" class="password-button exit-button"></button>
+      <button pButton (click)="Logout()" label="Kijelentkezés" class="password-button exit-button"></button>
 
     </div>
   </p-dialog>
