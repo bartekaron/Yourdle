@@ -13,5 +13,6 @@ router.patch("/profile", authMiddleware, userController.updateProfile)
 
 router.get("/:id", authMiddleware, userController.getUser)
 
+router.post("/change-password/:id", authMiddleware, userController.changePassword)
 
 module.exports = router;

@@ -91,4 +91,29 @@ const getOneUser = async (id)=>{
 
 }
 
-module.exports = {loginUser, registerUser, updateUserProfile, getOneUser}
+
+const checkOldPassword = async (userId, oldpasswd) => {
+    const user = await getOneUser(userId)  
+
+    if (!user) { 
+        throw new Error('Felhasználó nem található!');
+    }
+
+    const match = await bcrypt.compare(oldpasswd, user.passwd);
+
+    if (!match) {
+        throw new Error('A régi jelszó helytelen!');
+    }
+
+    return true;
+};
+
+
+const updatePassword = async (userId, newPassword) => {
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    await pool.query('UPDATE users SET passwd = ? WHERE id = ?', [hashedPassword, userId]);
+};
+
+
+
+module.exports = {loginUser, registerUser, checkOldPassword, updatePassword, updateUserProfile, getOneUser}
