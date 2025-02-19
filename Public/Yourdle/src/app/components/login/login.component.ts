@@ -9,6 +9,7 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { RegisterComponent } from '../register/register.component';
+import { ForgottenPasswordComponent } from '../forgotten-password/forgotten-password.component';
 
 
 @Component({
@@ -74,6 +75,13 @@ export class LoginComponent {
     if (RegisterComponent.instance) {
       this.closeDialog();
       RegisterComponent.instance.showDialog();
+    }
+  }
+
+  openForgottenPasswordDialog() {
+    if (ForgottenPasswordComponent.instance) {
+      this.closeDialog();
+      ForgottenPasswordComponent.instance.showDialog();
     }
   }
   

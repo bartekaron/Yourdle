@@ -61,8 +61,8 @@
       return this.http.delete('http://localhost:3000/' +table +'/' + name, this.tokenHeader());
     }
 
-    sendMail(data:object){
-      return this.http.post(this.server + '/send', data);
+    forgottPassword(email:string){
+      return this.http.post(this.server + '/users/forgott-password', email);
     }
 
     updatePasswd(id:string,data:object){
