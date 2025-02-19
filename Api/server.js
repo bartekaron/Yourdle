@@ -6,6 +6,7 @@ const multer = require('multer');
 const path = require('path');
 const router = require('./routes/main')
 const { pool } = require ("./config/database")
+const {encrypt} = require('./utils/decript');
 
 app.use(express.urlencoded({extended: true}));
 app.use(cors());
@@ -41,14 +42,13 @@ const upload = multer({ storage: storage });
 app.post('/uploadProfilePicture', upload.single('profilePicture'), async (req, res) => {
     if (!req.file) return res.status(400).json({ error: "No file uploaded" });
 
-    const imageUrl = `http://localhost:3000/uploads/${req.file.filename}`; // Az URL, amit az adatbázisba mentünk
+    const imageUrl = `http://localhost:3000/uploads/${req.file.filename}`;
+    const encryptedUrl = encrypt(imageUrl); // Titkosítás
 
-    // Mentsd az adatbázisba az imageUrl-t
-    await pool.query('UPDATE users SET profilePic = ? WHERE id = ?', [imageUrl, req.body.id]);
+    await pool.query('UPDATE users SET profilePic = ? WHERE id = ?', [encryptedUrl, req.body.id]);
 
-    res.status(200).json({ imageUrl });
+    res.status(200).json({ success: true });
 });
-
 
 
 app.listen(process.env.PORT, () => {

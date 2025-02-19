@@ -154,7 +154,7 @@ CREATE TABLE `users` (
   `email` varchar(40) NOT NULL,
   `passwd` varchar(100) NOT NULL,
   `role` varchar(15) NOT NULL,
-  `profilePic` blob DEFAULT NULL
+  `profilePic` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
 --

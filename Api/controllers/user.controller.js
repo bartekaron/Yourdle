@@ -1,4 +1,5 @@
 const { loginUser, registerUser, updateUserProfile, getOneUser} = require("../services/user.service.js");
+const {decrypt} = require('../utils/decript.js');
 
 login = async (req, res, next) => {
     try {
@@ -52,18 +53,26 @@ updateProfile = async (req, res, next) => {
     }
 };
 
-getUser = async (req, res ,next)=>{
+getUser = async (req, res, next) => {
     try {
-        const id = req.params.id
-        if(!id){
-            return res.status(400).json({success:false, message:"Hiányzó adatok!"});
+        const id = req.params.id;
+        if (!id) {
+            return res.status(400).json({ success: false, message: "Hiányzó adatok!" });
         }
+
         const user = await getOneUser(id);
-        res.status(200).json({success:true, user})
+        if (!user.profilePic) {
+            user.profilePic = `http://localhost:3000/uploads/placeholder.png`;
+        } else {
+            user.profilePic = decrypt(user.profilePic); // Visszafejtés
+        }
+
+        res.status(200).json({ success: true, user });
     } catch (err) {
-        next(err)
+        next(err);
     }
-}
+};
+
 
 const validateEmail = (email) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
