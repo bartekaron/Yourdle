@@ -36,3 +36,12 @@ Content-Type: application/json
     "passwd": "newpassword123",
     "confirm": "newpassword123"
 }
+
+### Forgott password
+# @name forgott-password
+POST {{baseUrl}}/forgott-password
+Content-Type: application/json
+
+{
+    "email": "lifapo8068@bitflirt.com"
+}

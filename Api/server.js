@@ -4,7 +4,8 @@ const cors = require('cors');
 const app = express();
 const multer = require('multer');
 const path = require('path');
-const router = require('./routes/main')
+const router = require('./routes/main');
+const nodemailer = require('nodemailer');
 const { pool } = require ("./config/database")
 const {encrypt} = require('./utils/decript');
 const { authMiddleware } = require('./middleware/AuthMiddleware');
@@ -50,6 +51,46 @@ app.post('/uploadProfilePicture', authMiddleware, upload.single('profilePicture'
 
     res.status(200).json({ success: true });
 });
+
+// Email
+
+const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
+    auth: {
+      user: 'aronbartek@gmail.com',
+      pass: 'nper ztkn fnwf qsvv'
+    },
+});
+ 
+app.post('/api/forgott-password',  async (req, res) => {
+    let Email = "";
+    try{
+        const {email} = req.body;
+        Email = email;
+        // send mail
+        const info = await transporter.sendMail({
+        from: "smtp.gmail.com", // sender address
+        // list of receivers
+        to: `${Email}`, // list of receivers
+        subject: "Jelszó változtatás", // Subject line
+        text: `Erre a linkre kattintva átirányítunk weboldalounkra, ahol megadhatod új jelszavad! : link`, // plain text body
+        html: `<b>Erre a linkre kattintva átirányítunk weboldalounkra, ahol megadhatod új jelszavad! : link</b>`, // html body
+        });
+ 
+        res.status(200).json({ message: 'Email sent!', data: info });
+    }
+    catch(err){
+        console.error(err);
+        res.status(500).json({ message: 'Email not sent!', data: err });
+    }
+ 
+ 
+   
+   
+});
+
 
 
 app.listen(process.env.PORT, () => {

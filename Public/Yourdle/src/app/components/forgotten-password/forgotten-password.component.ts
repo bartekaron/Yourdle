@@ -28,7 +28,7 @@ export class ForgottenPasswordComponent {
  
 
   ForgottenPassword() {
-    this.api.forgottenPassword(this.email).subscribe({
+    this.api.forgottPassword(this.email).subscribe({
       next: (res: any) => {
         if (res.success) {
           this.messageService.add({
