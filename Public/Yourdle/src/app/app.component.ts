@@ -6,10 +6,11 @@ import { LoginComponent } from "./components/login/login.component";
 import { LandingComponent } from './components/landing/landing.component';
 import { ProfileComponent } from "./components/profile/profile.component";
 import { RegisterComponent } from "./components/register/register.component";
+import { ForgottenPasswordComponent } from './components/forgotten-password/forgotten-password.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, NavbarComponent, HeaderComponent, LoginComponent, LandingComponent, ProfileComponent, RegisterComponent],
+  imports: [RouterOutlet, NavbarComponent, HeaderComponent, LoginComponent, LandingComponent, ProfileComponent, RegisterComponent, ForgottenPasswordComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

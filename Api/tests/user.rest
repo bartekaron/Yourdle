@@ -43,5 +43,5 @@ POST {{baseUrl}}/forgott-password
 Content-Type: application/json
 
 {
-    "email": "lifapo8068@bitflirt.com"
+    "email": "yourdlehelp@gmail.com"
 }
