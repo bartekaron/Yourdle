@@ -37,7 +37,8 @@ export class ProfileComponent implements OnInit {
     id:"",
     name:"",
     email:"",
-    image:""
+    image:"",
+    role:""
   }
 
   ngOnInit(): void {
@@ -110,12 +111,15 @@ export class ProfileComponent implements OnInit {
   ProfileSave() {
     this.api.profileSave(this.user).subscribe((res:any) => {
             if (res) {
-                this.user.name = res.user.name
-                this.user.email = res.user.email
-                this.messageService.add({severity: 'success', summary: 'Sikeres mentés', detail: 'A profil frissítése sikerült.'});
-                return
+              this.user = res.user.user;
+              this.auth.logout();
+              this.auth.login(res.user.token)
+              this.messageService.add({severity: 'success', summary: 'Sikeres mentés', detail: 'A profil frissítése sikerült.'});
             }
-            this.messageService.add({severity: 'error', summary: 'Hiba', detail: 'A profil frissítése sikertelen volt.' });
+            else{
+              this.messageService.add({severity: 'error', summary: 'Hiba', detail: 'A profil frissítése sikertelen volt.' });
+
+            }
         }
     );
 }

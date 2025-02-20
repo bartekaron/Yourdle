@@ -3,7 +3,7 @@ const crypto = require('crypto');
 const algorithm = 'aes-256-cbc';
 const key = crypto.scryptSync(process.env.JWT_SECRET, 'salt', 32); // Titkosítási kulcs
 
-const encrypt = (text) => {
+export const encrypt = (text) => {
     const iv = crypto.randomBytes(16); // Véletlenszerű IV minden titkosításnál
     const cipher = crypto.createCipheriv(algorithm, key, iv);
     let encrypted = cipher.update(text, 'utf8', 'hex');
@@ -11,7 +11,7 @@ const encrypt = (text) => {
     return iv.toString('hex') + ':' + encrypted; // Az IV-t hozzáfűzzük az adathoz
 };
 
-const decrypt = (text) => {
+export const decrypt = (text) => {
     const parts = text.split(':'); // Az IV és az adat szétválasztása
     if (parts.length !== 2) {
         throw new Error("Invalid encrypted text format");
@@ -25,4 +25,4 @@ const decrypt = (text) => {
     return decrypted;
 };
 
-module.exports = { encrypt, decrypt }; // Helyes exportálás
+

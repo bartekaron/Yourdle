@@ -1,14 +1,16 @@
-require('dotenv');
-const express = require('express');
+import "dotenv/config";
+const express = require( "express");
 const cors = require('cors');
-const app = express();
 const multer = require('multer');
-const path = require('path');
-const router = require('./routes/main');
+import router from './routes/main';
 const nodemailer = require('nodemailer');
-const { pool } = require ("./config/database")
-const {encrypt} = require('./utils/decript');
-const { authMiddleware } = require('./middleware/AuthMiddleware');
+import { pool } from "./config/database"
+import { encrypt } from "./utils/decrypt";
+import { authMiddleware } from "./middleware/AuthMiddleware";
+import path = require("path");
+
+
+const app = express();
 
 app.use(express.urlencoded({extended: true}));
 app.use(cors());
@@ -22,7 +24,7 @@ app.use((err, req, res, next) => {
     res.status(statusCode).json({ message });
 });
 
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 
 // Konfiguráljuk a fájlok feltöltését

@@ -1,0 +1,47 @@
+@baseUrl = http://localhost:3000/api
+
+### login user
+# @name login
+
+POST {{baseUrl}}/users/login
+Content-Type: application/json
+
+{
+    "email": "tesztelek6@gmail.com",
+    "passwd": "123456"
+}
+
+
+### register user
+# @name register
+
+POST {{baseUrl}}/users/register
+Content-Type: application/json
+
+{
+    "name": "Teszt Elek",
+    "email": "tesztelek6@gmail.com",
+    "password": "123456",
+    "confirm": "123456"
+}
+
+### Change Password
+# @name change-password
+
+POST {{baseUrl}}/users/change-password/c8bb52ba-6243-409c-b8c9-33d707aa5714
+Content-Type: application/json
+
+{
+    "oldpasswd": "123456",
+    "passwd": "newpassword123",
+    "confirm": "newpassword123"
+}
+
+### Forgott password
+# @name forgott-password
+POST {{baseUrl}}/forgott-password
+Content-Type: application/json
+
+{
+    "email": "yourdlehelp@gmail.com"
+}

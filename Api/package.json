@@ -2,10 +2,11 @@
   "name": "api",
   "version": "1.0.0",
   "description": "Yourdle",
-  "main": "server.js",
+  "main": "server.ts",
   "scripts": {
-    "start": "node server",
-    "dev": "nodemon server"
+    "start": "node dist/server.js",
+    "dev": "nodemon src/server.ts",
+    "build": "tsc"
   },
   "author": "Kisbarátok",
   "license": "ISC",
@@ -22,6 +23,7 @@
     "nodemailer": "^6.10.0",
     "nodemon": "^3.1.9",
     "path": "^0.12.7",
+    "ts-node": "^10.9.2",
     "uuid": "^11.0.5"
   }
 }

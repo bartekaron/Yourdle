@@ -1,7 +1,9 @@
-const { loginUser, registerUser, checkOldPassword, updatePassword, updateUserProfile, getOneUser, deleteProfilePictureService } = require("../services/user.service.js");
-const {decrypt} = require('../utils/decript.js');
+import { checkOldPassword, deleteProfilePictureService, getOneUser, loginUser, registerUser, updatePassword, updateUserProfile } from "../services/user.service";
+import { decrypt } from "../utils/decrypt";
 
-login = async (req, res, next) => {
+
+
+export const login = async (req, res, next) => {
     try {
         const { email, passwd } = req.body;
         if (!email || !passwd) {
@@ -14,7 +16,7 @@ login = async (req, res, next) => {
     }
 }
 
-register = async (req, res, next) => {
+export const register = async (req, res, next) => {
     try {
         const { name, email, password, confirm } = req.body; 
         if (!name || !email || !password || !confirm) {
@@ -38,7 +40,7 @@ register = async (req, res, next) => {
     }
 };
 
-changePassword = async (req, res, next) => {
+export const changePassword = async (req, res, next) => {
     try {
         const { oldpasswd, passwd, confirm } = req.body;
         const userId  = req.params.id; 
@@ -64,7 +66,7 @@ changePassword = async (req, res, next) => {
     }
 };
 
-updateProfile = async (req, res, next) => {
+export const updateProfile = async (req, res, next) => {
     try {
         const { name, email, id } = req.body;
 
@@ -79,7 +81,7 @@ updateProfile = async (req, res, next) => {
     }
 };
 
-getUser = async (req, res, next) => {
+export const getUser = async (req, res, next) => {
     try {
         const id = req.params.id;
         if (!id) {
@@ -99,7 +101,7 @@ getUser = async (req, res, next) => {
     }
 };
 
-deleteProfilePicture = async (req, res, next) => {
+export const deleteProfilePicture = async (req, res, next) => {
     try {
         const { id } = req.params;
 
@@ -125,5 +127,3 @@ const validateEmail = (email) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
 };
-
-module.exports = {login, register, changePassword, updateProfile, getUser, deleteProfilePicture}

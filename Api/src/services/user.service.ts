@@ -1,18 +1,18 @@
+import { decrypt } from "../utils/decrypt";
 const { pool } = require ("../config/database")
 const bcrypt = require('bcrypt');
 const { v4: uuidv4 } = require('uuid');
 const { generateToken } = require("../utils/token");
 const path = require('path');
 const fs = require("fs");
-const {decrypt} = require('../utils/decript');
 
 
-const loginUser = async (email, passwd) => {
+export const loginUser = async (email, passwd) => {
     try {
-        const results = await new Promise((resolve, reject) => {
+        const results:any = await new Promise((resolve, reject) => {
             pool.query(`SELECT id, name, email, passwd, profilePic, role FROM users WHERE email=?`, [email], (err, results) => {
                 if (err) {
-                    const error = new Error('Hiba az adatbázis kapcsolatban');
+                    const error:any = new Error('Hiba az adatbázis kapcsolatban');
                     error.status = 500;
                     return reject(error);
                 }
@@ -21,7 +21,7 @@ const loginUser = async (email, passwd) => {
         });
         
         if (results.length === 0) {
-            const error = new Error('Nincs ilyen felhasználó');
+            const error:any = new Error('Nincs ilyen felhasználó');
             error.status = 404;
             throw error;
         }
@@ -29,7 +29,7 @@ const loginUser = async (email, passwd) => {
         const user = results[0];
         const isPasswordValid = await bcrypt.compare(passwd, user.passwd);
         if (!isPasswordValid) {
-            const error = new Error("Hibás jelszó!");
+            const error:any = new Error("Hibás jelszó!");
             error.status = 401;
             throw error;
         }
@@ -44,7 +44,7 @@ const loginUser = async (email, passwd) => {
 };
 
 
-const registerUser = async (name, email, password, role) => {
+export const registerUser = async (name, email, password, role) => {
     try {
         const id = uuidv4(); // UUID generálása
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -61,20 +61,25 @@ const registerUser = async (name, email, password, role) => {
     }
 };
 
-const updateUserProfile = async (id, name, email) => {
+export const updateUserProfile = async (id, name, email) => {
 
     const sql = `UPDATE users SET name = ?, email = ? WHERE id = ?`;
     const values = [name, email, id];
-
+    
     await pool.query(sql, values);
-    return { id, name, email };
+    
+    const updatedUser = await getOneUser(id);
+
+    const token = generateToken({ id: updatedUser.id, name: updatedUser.name, email: updatedUser.email, role: updatedUser.role, image: updatedUser.profilePic });
+
+    return { user: updatedUser, token };
 };
 
-const getOneUser = async (id)=>{
-    const results = await new Promise((resolve, reject) => {
+export const getOneUser = async (id)=>{
+    const results:any = await new Promise((resolve, reject) => {
         pool.query(`SELECT * FROM users WHERE id=?`, [id], (err, results) => {
             if (err) {
-                const error = new Error('Hiba az adatbázis kapcsolatban');
+                const error:any = new Error('Hiba az adatbázis kapcsolatban');
                 error.status = 500;
                 return reject(error);
             }
@@ -83,7 +88,7 @@ const getOneUser = async (id)=>{
     });
     
     if (results.length === 0) {
-        const error = new Error('Nincs ilyen felhasználó');
+        const error:any = new Error('Nincs ilyen felhasználó');
         error.status = 404;
         throw error;
     }
@@ -95,7 +100,7 @@ const getOneUser = async (id)=>{
 }
 
 
-const checkOldPassword = async (userId, oldpasswd) => {
+export const checkOldPassword = async (userId, oldpasswd) => {
     const user = await getOneUser(userId)  
 
     if (!user) { 
@@ -112,13 +117,13 @@ const checkOldPassword = async (userId, oldpasswd) => {
 };
 
 
-const updatePassword = async (userId, newPassword) => {
+export const updatePassword = async (userId, newPassword) => {
     const hashedPassword = await bcrypt.hash(newPassword, 10);
     await pool.query('UPDATE users SET passwd = ? WHERE id = ?', [hashedPassword, userId]);
 };
 
 
-const deleteProfilePictureService = async (userId) => {
+export const deleteProfilePictureService = async (userId) => {
     try {
         // Lekérjük a felhasználót az adatbázisból
         const user = await getOneUser(userId);
@@ -126,7 +131,8 @@ const deleteProfilePictureService = async (userId) => {
             return { success: false, message: "Nincs profilkép, amit törölhetnél!" };
         }
 
-        const imagePath = path.join(__dirname, "../uploads/", path.basename(decrypt(user.profilePic)));
+        const imagePath = path.join(__dirname, "../../uploads/", path.basename(decrypt(user.profilePic)));
+
 
         // Ellenőrizzük, hogy a fájl létezik-e, és töröljük
         if (fs.existsSync(imagePath)) {
@@ -143,5 +149,3 @@ const deleteProfilePictureService = async (userId) => {
     }
 };
 
-
-module.exports = {loginUser, registerUser, updateUserProfile, getOneUser, deleteProfilePictureService, checkOldPassword, updatePassword}

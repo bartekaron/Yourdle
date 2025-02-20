@@ -1,7 +1,6 @@
-const { Router } = require("express");
-const userController = require('../controllers/user.controller');
-const { authMiddleware } = require("../middleware/AuthMiddleware");
-
+import { Router } from "express";
+import { authMiddleware } from "../middleware/AuthMiddleware";
+import * as userController from "../controllers/user.controller";
 const router = Router();
 
 
@@ -15,10 +14,8 @@ router.get("/:id", authMiddleware, userController.getUser)
 
 router.delete("/deleteProfilePicture/:id", authMiddleware, userController.deleteProfilePicture);
 
-router.delete("/deleteProfilePicture/:id", authMiddleware, userController.deleteProfilePicture);
-
 router.post("/change-password/:id", authMiddleware, userController.changePassword)
 
 //router.post("/forgot-password", authMiddleware, userController.forgotPassword)
 
-module.exports = router;
+export default router;
