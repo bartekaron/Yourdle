@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { FileUploadModule } from 'primeng/fileupload';
+import { MatchHistoryComponent } from '../match-history/match-history.component';
 
 
 @Component({
@@ -149,6 +150,13 @@ deleteProfilePicture() {
     this.auth.logout();
     this.closeDialog();
     this.messageService.add({severity: 'success', summary: 'Kilépés', detail: 'Sikeres kijelentkezés.'});
+  }
+
+  MatchHistory(){
+    if (MatchHistoryComponent.instance) {
+      this.closeDialog();
+      MatchHistoryComponent.instance.showDialog();
+    } 
   }
 
   visible: boolean = false;

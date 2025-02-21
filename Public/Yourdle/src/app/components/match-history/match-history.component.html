@@ -1,0 +1,16 @@
+<p-dialog [(visible)]="visible" modal [closable]="true" [dismissableMask]="true" styleClass="profile-dialog">
+    <div class="profile-container">
+      <div class="profile-tabs">
+        <button (click)="Profile()" pButton label="Profilom" class="profile-btn"></button>
+        <button pButton label="Meccs előzmény" class="profile-btn"></button>
+      </div>
+  
+      <h2 class="profile-title">Meccs előzmény</h2>
+
+
+
+    </div>
+  </p-dialog>
+
+  <p-confirmDialog></p-confirmDialog>
+  <p-toast></p-toast>

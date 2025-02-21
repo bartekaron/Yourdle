@@ -169,3 +169,30 @@ export const deleteProfilePictureService = async (userId) => {
     }
 };
 
+export const getMatchHistory = async(id)=>{
+    try {
+        const results:any = await new Promise((resolve, reject) => {
+            pool.query(`SELECT * FROM games WHERE player1ID = ? or player2ID = ?`, [id], (err, results) => {
+                if (err) {
+                    const error:any = new Error('Hiba az adatbázis kapcsolatban');
+                    error.status = 500;
+                    return reject(error);
+                }
+                resolve(results);
+            });
+        });
+        
+        if (results.length === 0) {
+            const error:any = new Error('Nincs ilyen felhasználó');
+            error.status = 404;
+            throw error;
+        }
+
+        return results;
+
+
+    } catch (error) {
+        return {success: false, message:"Nem sikerült lekérni a meccs előzményeket"}
+    }
+}
+
