@@ -16,6 +16,8 @@ router.delete("/deleteProfilePicture/:id", authMiddleware, userController.delete
 
 router.post("/change-password/:id", authMiddleware, userController.changePassword)
 
-//router.post("/forgot-password", authMiddleware, userController.forgotPassword)
+router.get("/history/:id", authMiddleware, userController.matchHistory);
+
+
 
 export default router;

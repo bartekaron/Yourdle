@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Feb 12. 18:03
+-- Létrehozás ideje: 2025. Feb 21. 10:25
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -96,9 +96,9 @@ CREATE TABLE `emoji` (
 CREATE TABLE `games` (
   `id` varchar(40) NOT NULL,
   `categoryID` varchar(40) NOT NULL,
-  `player1UserName` varchar(255) NOT NULL,
-  `player2UserName` varchar(255) NOT NULL,
-  `winnerUserName` varchar(255) NOT NULL,
+  `player1ID` varchar(40) NOT NULL,
+  `player2ID` varchar(40) NOT NULL,
+  `winnerID` varchar(40) NOT NULL,
   `finishedAt` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
@@ -156,6 +156,13 @@ CREATE TABLE `users` (
   `role` varchar(15) NOT NULL,
   `profilePic` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
+
+--
+-- A tábla adatainak kiíratása `users`
+--
+
+INSERT INTO `users` (`id`, `name`, `email`, `passwd`, `role`, `profilePic`) VALUES
+('05d30dda-6021-47fc-b944-7f0508d3de43', 'Béla3', 'bela@gmail.com', '$2b$10$V7CBUXaQhKVtUuQuIOAtbO4Vi2.lxLdd3nm0ZgJOxWdCU/ktGX5dC', 'user', '58131a16bc1577e16ff0a780af678778:1b37e4457868b23913ff15bc4c5a99740e3ba52ea0eb7b4ed693ec5167911604309f5763822d675cd4b9248f0b38724a9b70a01f0d9be6f32a30076353d60f18');
 
 --
 -- Indexek a kiírt táblákhoz
