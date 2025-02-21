@@ -99,6 +99,26 @@ export const getOneUser = async (id)=>{
 
 }
 
+export const getAllUsersService = async () => {
+    const results:any = await new Promise((resolve, reject) =>
+        pool.query(`SELECT name, email, role, profilePic FROM users`, (err, results) => {
+            if (err) {
+                const error:any = new Error('Hiba az adatbázis kapcsolatban');
+                error.status = 500;
+                return reject(error);
+            }
+            resolve(results);
+        })
+    );
+
+    if (results.length === 0) {
+        const error:any = new Error('Hiba történt a felhasználók lekérdezése során');
+        error.status = 404;
+        throw error;
+    }
+
+    return results;
+}
 
 export const checkOldPassword = async (userId, oldpasswd) => {
     const user = await getOneUser(userId)  

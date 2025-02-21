@@ -1,0 +1,31 @@
+<p-table [value]="users" [paginator]="true" [rows]="10" [tableStyle]="{ 'min-width': '60rem' }">
+    <ng-template #caption>
+        <div class="flex items-center justify-between">
+            <span class="text-xl font-bold">Users</span>
+            <p-button icon="pi pi-refresh" rounded raised />
+        </div>
+    </ng-template>
+    <ng-template #header>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Profile Picture</th>
+        </tr>
+    </ng-template>
+    <ng-template #body let-user>
+        <tr>
+            <td>{{ user.name }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.role }}</td>
+            <td>
+                <img
+                    [src]="user.profilePic"
+                    [alt]="user.name"
+                    class="w-24 rounded"
+                />
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template #footer> In total there are {{ users ? users.length : 0 }} users. </ng-template>
+</p-table>

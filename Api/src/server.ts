@@ -88,9 +88,6 @@ app.post('/api/forgott-password',  async (req, res) => {
         res.status(500).json({ message: 'Email not sent!', data: err });
     }
  
- 
-   
-   
 });
 
 

@@ -1,4 +1,4 @@
-import { checkOldPassword, deleteProfilePictureService, getOneUser, loginUser, registerUser, updatePassword, updateUserProfile } from "../services/user.service";
+import { checkOldPassword, deleteProfilePictureService, getOneUser, loginUser, registerUser, updatePassword, updateUserProfile, getAllUsersService } from "../services/user.service";
 import { decrypt } from "../utils/decrypt";
 
 
@@ -96,6 +96,15 @@ export const getUser = async (req, res, next) => {
         }
 
         res.status(200).json({ success: true, user });
+    } catch (err) {
+        next(err);
+    }
+};
+
+export const getAllUsers = async (req, res, next) => {
+    try {
+        const users = await getAllUsersService();
+        res.status(200).json({ success: true, users });
     } catch (err) {
         next(err);
     }

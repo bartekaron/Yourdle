@@ -5,6 +5,8 @@ import { Menubar } from 'primeng/menubar';
 import { LoginComponent } from '../login/login.component';
 import { AuthService } from '../../services/auth.service';
 import { ProfileComponent } from '../profile/profile.component';
+import { RouterLink } from '@angular/router';
+import { routes } from '../../app.routes';
 
 @Component({
   selector: 'app-navbar',
@@ -22,11 +24,11 @@ export class NavbarComponent implements OnInit {
     this.auth.isLoggedIn$.subscribe(res=>{
       this.Menu(res);
     })
+    
   }
 
   Menu(isLoggedIn:boolean){
     this.items = [
-      
       {
         label: 'Yourdle',
         routerLink: '/'
@@ -40,18 +42,30 @@ export class NavbarComponent implements OnInit {
         routerLink: '/toplista'
       },
       ...(isLoggedIn) ? [
-        {
-          label: 'Párbaj',
-          routerLink: '/parbaj'
-        },
-        {
-          label: 'Kategória készítő',
-          routerLink: '/kategoria'
-        },
-        {
-          icon: 'pi pi-user',
-          command: ()=> this.openProfileDialog()
-        }
+        ...(this.auth.isAdmin()) ? [ 
+          {
+            label: 'Kategóriák',
+            routerLink: '/kategoriak'
+          },
+          {
+            label: 'Felhasználók',
+            routerLink: '/felhasznalok'
+          }
+        ] : [
+          {
+            label: 'Párbaj',
+            routerLink: '/parbaj'
+          },
+          {
+            label: 'Kategória készítő',
+            routerLink: '/kategoria'
+          },
+          {
+            icon: 'pi pi-user',
+            command: ()=> this.openProfileDialog()
+          }
+        ]
+       
       ] : [      {
         label: 'Bejelentkezés',
         command: () => this.openLoginDialog()
