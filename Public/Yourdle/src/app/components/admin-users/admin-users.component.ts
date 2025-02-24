@@ -4,6 +4,7 @@ import { ButtonModule } from 'primeng/button';
 import { RatingModule } from 'primeng/rating';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
+import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-admin-users',
@@ -12,5 +13,14 @@ import { TagModule } from 'primeng/tag';
   styleUrl: './admin-users.component.scss'
 })
 export class AdminUsersComponent {
+  users: any = [];
+
+  constructor(private api: ApiService) {
+    this.api.getAllUsers().subscribe((data: any) => {
+      this.users = data.users;  
+      console.log(data);
+    });
+  }
+
 
 }

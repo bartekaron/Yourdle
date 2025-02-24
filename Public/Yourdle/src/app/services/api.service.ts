@@ -69,6 +69,10 @@
       return this.http.patch(this.server + '/public/users/id/eq',+id, data);
     }
 
+    getAllUsers(){
+      return this.http.get(this.server + '/users/allUsers', this.tokenHeader());
+    }
+
     uploadFile(profilePicture:File, id:string){
       const formData = new FormData();
       formData.append('profilePicture', profilePicture);

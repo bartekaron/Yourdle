@@ -10,7 +10,7 @@ router.post("/register", userController.register)
 
 router.patch("/profile", authMiddleware, userController.updateProfile)
 
-router.get("/:id", authMiddleware, userController.getUser)
+router.get("/user/:id", authMiddleware, userController.getUser)
 
 router.delete("/deleteProfilePicture/:id", authMiddleware, userController.deleteProfilePicture);
 
@@ -18,6 +18,7 @@ router.post("/change-password/:id", authMiddleware, userController.changePasswor
 
 router.get("/history/:id", authMiddleware, userController.matchHistory);
 
+router.get("/allUsers", authMiddleware, userController.getAllUsers)
 
 
 export default router;

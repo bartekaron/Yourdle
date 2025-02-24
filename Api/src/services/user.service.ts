@@ -88,7 +88,7 @@ export const getOneUser = async (id)=>{
     });
     
     if (results.length === 0) {
-        const error:any = new Error('Nincs ilyen felhasználó');
+        const error:any = new Error('Nincs ilyen felhasználóasd');
         error.status = 404;
         throw error;
     }

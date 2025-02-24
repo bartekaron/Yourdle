@@ -28,30 +28,40 @@ export class NavbarComponent implements OnInit {
   }
 
   Menu(isLoggedIn:boolean){
-    this.items = [
-      {
-        label: 'Yourdle',
-        routerLink: '/'
-      },
-      {
-        label: 'Egyjátékos',
-        routerLink: '/egyjatekos'
-      },
-      {
-        label: 'Toplista',
-        routerLink: '/toplista'
-      },
-      ...(isLoggedIn) ? [
-        ...(this.auth.isAdmin()) ? [ 
+    if (isLoggedIn) {
+      if (this.auth.isAdmin()) {
+        this.items = [
+          {
+            label: 'Yourdle',
+            routerLink: '/'
+          },
           {
             label: 'Kategóriák',
             routerLink: '/kategoriak'
           },
           {
             label: 'Felhasználók',
-            routerLink: '/felhasznalok'
+            routerLink: '/admin-felhasznalok'
+          },
+          {
+            icon: 'pi pi-user',
+            command: ()=> this.openProfileDialog()
           }
-        ] : [
+        ];
+      } else {
+        this.items = [
+          {
+            label: 'Yourdle',
+            routerLink: '/'
+          },
+          {
+            label: 'Egyjátékos',
+            routerLink: '/egyjatekos'
+          },
+          {
+            label: 'Toplista',
+            routerLink: '/toplista'
+          },
           {
             label: 'Párbaj',
             routerLink: '/parbaj'
@@ -64,14 +74,28 @@ export class NavbarComponent implements OnInit {
             icon: 'pi pi-user',
             command: ()=> this.openProfileDialog()
           }
-        ]
-       
-      ] : [      {
-        label: 'Bejelentkezés',
-        command: () => this.openLoginDialog()
-      }]
-
-    ];
+        ];
+      }
+    } else {
+      this.items = [
+        {
+          label: 'Yourdle',
+          routerLink: '/'
+        },
+        {
+          label: 'Egyjátékos',
+          routerLink: '/egyjatekos'
+        },
+        {
+          label: 'Toplista',
+          routerLink: '/toplista'
+        },
+        {
+          label: 'Bejelentkezés',
+          command: () => this.openLoginDialog()
+        }
+      ];
+    }
   }
 
   openLoginDialog() {

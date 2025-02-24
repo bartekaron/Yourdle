@@ -81,7 +81,9 @@ export const updateProfile = async (req, res, next) => {
     }
 };
 
+
 export const getUser = async (req, res, next) => {
+    console.log("szopdkiafaszom")
     try {
         const id = req.params.id;
         if (!id) {
@@ -101,7 +103,9 @@ export const getUser = async (req, res, next) => {
     }
 };
 
-export const getAllUsers = async (req, res, next) => {
+
+export const getAllUsers = async (_req, res, next) => {
+    console.log('getAllUsers');
     try {
         const users = await getAllUsersService();
         res.status(200).json({ success: true, users });
@@ -109,6 +113,7 @@ export const getAllUsers = async (req, res, next) => {
         next(err);
     }
 };
+
 
 export const deleteProfilePicture = async (req, res, next) => {
     try {
@@ -130,6 +135,7 @@ export const deleteProfilePicture = async (req, res, next) => {
         next(err);
     }
 };
+
 
 export const matchHistory = async (req, res, next) =>{
     try {

@@ -48,7 +48,7 @@ export class ProfileComponent implements OnInit {
         this.user.id = this.auth.loggedUser().data.id;
         this.user.name = this.auth.loggedUser().data.name;
         this.user.email = this.auth.loggedUser().data.email;
-        this.api.select('users', this.user.id).subscribe((res: any) => {
+        this.api.select('users/user', this.user.id).subscribe((res: any) => {
           if (res) {
             this.user.image = res.user.profilePic; 
           }

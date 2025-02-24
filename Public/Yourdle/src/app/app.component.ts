@@ -9,6 +9,7 @@ import { RegisterComponent } from "./components/register/register.component";
 import { ForgottenPasswordComponent } from './components/forgotten-password/forgotten-password.component';
 import { MatchHistoryComponent } from "./components/match-history/match-history.component";
 
+
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet, NavbarComponent, HeaderComponent, LoginComponent, LandingComponent, ProfileComponent, RegisterComponent, ForgottenPasswordComponent, MatchHistoryComponent],
