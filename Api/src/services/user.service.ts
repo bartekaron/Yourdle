@@ -172,7 +172,7 @@ export const deleteProfilePictureService = async (userId) => {
 export const getMatchHistory = async(id)=>{
     try {
         const results:any = await new Promise((resolve, reject) => {
-            pool.query(`SELECT * FROM games WHERE player1ID = ? or player2ID = ?`, [id], (err, results) => {
+            pool.query(`SELECT * FROM games WHERE player1ID = ? or player2ID = ?`, [id, id], (err, results) => {
                 if (err) {
                     const error:any = new Error('Hiba az adatbázis kapcsolatban');
                     error.status = 500;
@@ -181,14 +181,12 @@ export const getMatchHistory = async(id)=>{
                 resolve(results);
             });
         });
-        
         if (results.length === 0) {
             const error:any = new Error('Nincs ilyen felhasználó');
             error.status = 404;
             throw error;
         }
-
-        return results;
+        return {results};
 
 
     } catch (error) {

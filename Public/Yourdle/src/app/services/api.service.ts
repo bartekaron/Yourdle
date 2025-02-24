@@ -92,5 +92,9 @@
     deleteProfilePicture(id: string) {
       return this.http.delete(this.server + '/users/deleteProfilePicture/' + id, this.tokenHeader());
     }
+    
+    MatchHistory(id: string) {
+      return this.http.get(this.server + '/users/history/' + id, this.tokenHeader());
+    }
 
 }

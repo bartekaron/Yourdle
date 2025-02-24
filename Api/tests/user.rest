@@ -1,4 +1,5 @@
 @baseUrl = http://localhost:3000/api
+@authToken = {{login.response.body.token}}
 
 ### login user
 # @name login
@@ -20,7 +21,7 @@ Content-Type: application/json
 
 {
     "name": "Teszt Elek",
-    "email": "tesztelek6@gmail.com",
+    "email": "tesztelek7@gmail.com",
     "password": "123456",
     "confirm": "123456"
 }
@@ -45,3 +46,9 @@ Content-Type: application/json
 {
     "email": "yourdlehelp@gmail.com"
 }
+
+### Match history
+
+GET {{baseUrl}}/users/history/e408f0ea-02b6-4118-8b22-905afd9a5648
+Content-Type: application/json
+Authorization: Bearer {{authToken}}

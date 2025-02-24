@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -9,6 +9,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ToastModule } from 'primeng/toast';
 import { AuthService } from '../../services/auth.service';
 import { ProfileComponent } from '../profile/profile.component';
+import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-match-history',
@@ -17,13 +18,20 @@ import { ProfileComponent } from '../profile/profile.component';
   styleUrl: './match-history.component.scss',
   providers: [ConfirmationService]
 })
-export class MatchHistoryComponent {
+export class MatchHistoryComponent{
   static instance: MatchHistoryComponent;
   visible: boolean = false;
 
-  constructor(private auth:AuthService, private messageService:MessageService){MatchHistoryComponent.instance = this}
+  constructor(private auth:AuthService, private messageService:MessageService, private api:ApiService){MatchHistoryComponent.instance = this}
+
+  user:any = "";
+
 
   showDialog() {
+    this.user = this.auth.loggedUser();
+    this.api.MatchHistory(this.user.data.id).subscribe(res=>{
+      
+    })
     this.visible = true;
   }
 

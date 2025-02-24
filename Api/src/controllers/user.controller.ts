@@ -134,7 +134,6 @@ export const deleteProfilePicture = async (req, res, next) => {
 export const matchHistory = async (req, res, next) =>{
     try {
         const {id} = req.params;
-        
         if (!id) {
             return res.status(400).json({ success: false, message: "Hiányzó felhasználói azonosító!" });
         }
