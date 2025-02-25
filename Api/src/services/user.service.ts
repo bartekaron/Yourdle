@@ -186,7 +186,7 @@ export const getMatchHistory = async(id)=>{
             error.status = 404;
             throw error;
         }
-        return {results};
+        return {success:true, results};
 
 
     } catch (error) {

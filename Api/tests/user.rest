@@ -8,8 +8,8 @@ POST {{baseUrl}}/users/login
 Content-Type: application/json
 
 {
-    "email": "aronbartek@gmail.com",
-    "passwd": "aronka2005"
+    "email": "tesztelek6@gmail.com",
+    "passwd": "123456"
 }
 
 
@@ -21,7 +21,7 @@ Content-Type: application/json
 
 {
     "name": "Teszt Elek",
-    "email": "tesztelek7@gmail.com",
+    "email": "tesztelek6@gmail.com",
     "password": "123456",
     "confirm": "123456"
 }
@@ -50,5 +50,10 @@ Content-Type: application/json
 ### Get all users
 # @name get-all-users
 GET {{baseUrl}}/users/allUsers
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###Get match history
+GET {{baseUrl}}/users/history/588dca61-fdcd-4dc5-8b82-34a35d7ed737
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
