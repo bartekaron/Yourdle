@@ -1,0 +1,14 @@
+<div class="container">
+    <h1 class="title">Egyjátékos</h1>
+
+    <div class="search-container">
+        <input type="text" class="search-input" placeholder="Keresés..." [(ngModel)]="search" />
+    </div>
+
+    <div class="card-container">
+        <p-card class="custom-card" *ngFor="let category of categories | filter:search">
+            <ng-template #title>
+                <span class="card-title">{{category.name}}</span>
+
+
+</div>

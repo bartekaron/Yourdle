@@ -110,4 +110,9 @@ import { User } from '../interfaces/user';
       return this.http.patch(this.server + '/users/change-password/' + id, data, this.tokenHeader());
    }
     
+   //Kategóriákhoz tartozó metódusok
+
+   getPublicCategories(){
+    return this.http.get(this.server + '/categories/allPublicCategories');
+   }
 }
