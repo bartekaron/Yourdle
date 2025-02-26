@@ -20,5 +20,10 @@ router.get("/history/:id", authMiddleware, userController.matchHistory);
 
 router.get("/allUsers", authMiddleware, userController.getAllUsers)
 
+// Admin routes
+
+// Delete by email
+router.delete("/delete/:email", authMiddleware, userController.deleteUser)
+
 
 export default router;

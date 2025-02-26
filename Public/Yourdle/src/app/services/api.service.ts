@@ -1,6 +1,7 @@
   import { HttpClient, HttpHeaders } from '@angular/common/http';
   import { Injectable } from '@angular/core';
   import { environment } from '../../environments/environment';
+import { User } from '../interfaces/user';
 
 
   @Injectable({
@@ -61,6 +62,10 @@
       return this.http.delete('http://localhost:3000/' +table +'/' + name, this.tokenHeader());
     }
 
+    deleteByEmail(email:string){
+      return this.http.delete(this.server + '/users/delete/' + email, this.tokenHeader());
+    }
+
     forgottPassword(email:string){
       return this.http.post(this.server + '/users/forgott-password', email);
     }
@@ -70,7 +75,7 @@
     }
 
     getAllUsers(){
-      return this.http.get(this.server + '/users/allUsers', this.tokenHeader());
+      return this.http.get<User[]>(this.server + '/users/allUsers', this.tokenHeader());
     }
 
     uploadFile(profilePicture:File, id:string){

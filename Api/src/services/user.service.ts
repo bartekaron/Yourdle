@@ -194,3 +194,25 @@ export const getMatchHistory = async(id)=>{
     }
 }
 
+//Admin
+
+//Delete user by email
+
+export const deleteUserByEmail = async (email) => {
+    try {
+        const results:any = await new Promise((resolve, reject) => {
+            pool.query(`DELETE FROM users WHERE email = ?`, [email], (err, results) => {
+                if (err) {
+                    const error:any = new Error('Hiba az adatbázis kapcsolatban');
+                    error.status = 500;
+                    return reject(error);
+                }
+                resolve(results);
+            });
+        });
+        return { success: true, message: "Felhasználó sikeresen törölve!" };
+    } catch (error) {
+        return { success: false, message: "Nem sikerült törölni a felhasználót" };
+    }
+}
+

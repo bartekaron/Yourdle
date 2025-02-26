@@ -1,4 +1,4 @@
-import { checkOldPassword, deleteProfilePictureService, getMatchHistory, getOneUser, loginUser, registerUser, updatePassword, updateUserProfile, getAllUsersService } from "../services/user.service";
+import { checkOldPassword, deleteProfilePictureService, getMatchHistory, getOneUser, loginUser, registerUser, updatePassword, updateUserProfile, getAllUsersService, deleteUserByEmail } from "../services/user.service";
 import { decrypt } from "../utils/decrypt";
 
 
@@ -155,7 +155,27 @@ export const matchHistory = async (req, res, next) =>{
     }
 }
 
+
+
 const validateEmail = (email) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
 };
+
+// Admin
+
+// Delete user by email
+
+export const deleteUser = async (req, res, next) => {
+    try {
+        const email = req.params.email;
+        if (!email) {
+            return res.status(400).json({ success: false, message: "Hiányzó adatok!" });
+        }
+
+        const user = await deleteUserByEmail(email);
+        res.status(200).json({ success: true, user });
+    } catch (err) {
+        next(err);
+    }
+}

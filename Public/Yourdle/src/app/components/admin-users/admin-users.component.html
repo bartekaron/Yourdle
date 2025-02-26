@@ -1,31 +1,50 @@
-<p-table [value]="users" [paginator]="true" [rows]="10" [tableStyle]="{ 'min-width': '60rem' }">
-    <ng-template #caption>
-        <div class="flex items-center justify-between">
-            <span class="text-xl font-bold">Users</span>
-            
-        </div>
-    </ng-template>
-    <ng-template #header>
-        <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th>Profile Picture</th>
-        </tr>
-    </ng-template>
-    <ng-template #body let-user>
-        <tr>
-            <td>{{ user.name }}</td>
-            <td>{{ user.email }}</td>
-            <td>{{ user.role }}</td>
-            <td>
-                <img
-                    [src]="user.profilePic"
-                    [alt]="user.name"
-                    class="w-24 rounded"
-                />
-            </td>
-        </tr>
-    </ng-template>
-    <ng-template #footer> In total there are {{ users ? users.length : 0 }} users. </ng-template>
-</p-table>
+<br>
+<br>
+<div class="card">
+    <p-toast />
+    <p-toolbar styleClass="mb-6">
+        <ng-template #start>
+            <p-button label="New" icon="pi pi-plus" class="mr-2"  />
+        </ng-template>
+    </p-toolbar>
+
+    <p-table [value]="users" [paginator]="true" [rows]="10" [tableStyle]="{ 'min-width': '60rem' }" [showCurrentPageReport]="true" [(selection)]="selectedUsers"  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[5, 10, 20] ">
+        <ng-template #caption>
+            <div class="flex items-center justify-between">
+                <span class="text-xl font-bold">Users</span>
+                
+            </div>
+        </ng-template>
+        <ng-template #header>
+            <tr>
+                <th  style="min-width:16rem">Profile Picture</th>
+                <th  style="min-width:16rem">Name</th>
+                <th  style="min-width:16rem">Email</th>
+                <th  style="min-width:16rem">Role</th>
+                <th style="min-width: 12rem"></th>
+            </tr>
+        </ng-template>
+        <ng-template #body let-user>
+            <tr>
+                <td>
+                    <img
+                        [src]="user.profilePic"
+                        [alt]="user.name"
+                        class="w-24 rounded"
+                    />
+                </td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.role }}</td>
+                <td> 
+                    <p-button icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true" (click)="editUser(user)" />
+                    <p-button icon="pi pi-trash" severity="danger" class="ml-2" [rounded]="true" [outlined]="true" (click)="deleteUser(user)"/>
+                </td>
+            </tr>
+        </ng-template>
+        
+        <ng-template #footer> </ng-template>
+    </p-table>
+    
+</div>
+

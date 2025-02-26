@@ -12,7 +12,7 @@ import { MatchHistoryComponent } from "./components/match-history/match-history.
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, NavbarComponent, HeaderComponent, LoginComponent, LandingComponent, ProfileComponent, RegisterComponent, ForgottenPasswordComponent, MatchHistoryComponent],
+  imports: [RouterOutlet, NavbarComponent, HeaderComponent, LoginComponent,  ProfileComponent, RegisterComponent, ForgottenPasswordComponent, MatchHistoryComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
