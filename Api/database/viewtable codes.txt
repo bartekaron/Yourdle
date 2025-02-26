@@ -1,0 +1,20 @@
+//games
+CREATE OR REPLACE VIEW games_vt AS
+SELECT 
+    g.id AS gameID,
+    c.id AS categoryID,
+    c.categoryName,
+    u1.id AS player1ID,
+    u1.name AS player1Name,
+    u1.profilePic AS player1ProfilePic,
+    u2.id AS player2ID,
+    u2.name AS player2Name,
+    u2.profilePic AS player2ProfilePic,
+    w.id AS winnerID,
+    w.name AS winnerName,
+    g.finishedAt
+FROM games g
+JOIN categories c ON g.categoryID = c.id
+JOIN users u1 ON g.player1ID = u1.id
+JOIN users u2 ON g.player2ID = u2.id
+JOIN users w ON g.winnerID = w.id;

@@ -6,6 +6,23 @@
       </div>
   
       <h2 class="profile-title">Meccs előzmény</h2>
+      <div class="match-history">
+        <table *ngIf="matches.length > 0; else noMatches">
+          <tr *ngFor="let match of matches" [ngClass]="getRowClass(match.result)">
+            <td>
+              <img [src]="match.opponentProfilePic" alt="{{ match.opponentName }}" class="profile-pic" />
+            </td>
+            <td class="opponent-name">{{ match.opponentName }}</td>
+            <td class="match-result">{{ getResultText(match.result) }}</td>
+          </tr>
+        </table>
+      
+        <!-- Ha nincs meccs, akkor ezt jelenítsd meg -->
+        <ng-template #noMatches>
+          <p class="no-matches-text">Még nincs lejátszott mérkőzés</p>
+        </ng-template>
+      </div>
+      
 
 
 
