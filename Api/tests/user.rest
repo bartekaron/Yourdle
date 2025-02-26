@@ -29,7 +29,8 @@ Content-Type: application/json
 ### Change Password
 # @name change-password
 
-POST {{baseUrl}}/users/change-password/c8bb52ba-6243-409c-b8c9-33d707aa5714
+PATCH  {{baseUrl}}/users/change-password/c8bb52ba-6243-409c-b8c9-33d707aa5714
+Authorization: Bearer {{authToken}}
 Content-Type: application/json
 
 {

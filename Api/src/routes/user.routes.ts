@@ -14,7 +14,7 @@ router.get("/user/:id", authMiddleware, userController.getUser)
 
 router.delete("/deleteProfilePicture/:id", authMiddleware, userController.deleteProfilePicture);
 
-router.post("/change-password/:id", authMiddleware, userController.changePassword)
+router.patch("/change-password/:id", authMiddleware, userController.changePassword)
 
 router.get("/history/:id", authMiddleware, userController.matchHistory);
 

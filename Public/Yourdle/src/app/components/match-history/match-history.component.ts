@@ -20,17 +20,16 @@ import { ApiService } from '../../services/api.service';
 })
 export class MatchHistoryComponent{
   static instance: MatchHistoryComponent;
-  visible: boolean = false;
 
   constructor(private auth:AuthService, private messageService:MessageService, private api:ApiService){MatchHistoryComponent.instance = this}
 
   user:any = "";
 
 
+  visible: boolean = false;
   showDialog() {
     this.user = this.auth.loggedUser();
     this.api.MatchHistory(this.user.data.id).subscribe(res=>{
-      
     })
     this.visible = true;
   }

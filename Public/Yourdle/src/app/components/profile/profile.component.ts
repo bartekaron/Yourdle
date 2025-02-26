@@ -11,6 +11,7 @@ import { ToastModule } from 'primeng/toast';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { FileUploadModule } from 'primeng/fileupload';
 import { MatchHistoryComponent } from '../match-history/match-history.component';
+import { ChangePasswordComponent } from '../change-password/change-password.component';
 
 
 @Component({
@@ -157,6 +158,13 @@ deleteProfilePicture() {
       this.closeDialog();
       MatchHistoryComponent.instance.showDialog();
     } 
+  }
+
+  ChangePassword(){
+    if(ChangePasswordComponent.instance){
+      this.closeDialog();
+      ChangePasswordComponent.instance.showDialog();
+    }
   }
 
   visible: boolean = false;
