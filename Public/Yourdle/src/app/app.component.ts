@@ -8,11 +8,12 @@ import { ProfileComponent } from "./components/profile/profile.component";
 import { RegisterComponent } from "./components/register/register.component";
 import { ForgottenPasswordComponent } from './components/forgotten-password/forgotten-password.component';
 import { MatchHistoryComponent } from "./components/match-history/match-history.component";
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
 
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, NavbarComponent, HeaderComponent, LoginComponent,  ProfileComponent, RegisterComponent, ForgottenPasswordComponent, MatchHistoryComponent],
+  imports: [RouterOutlet, NavbarComponent, HeaderComponent, LoginComponent, LandingComponent, ProfileComponent, RegisterComponent, ForgottenPasswordComponent, MatchHistoryComponent, ChangePasswordComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

@@ -105,5 +105,9 @@ import { User } from '../interfaces/user';
     MatchHistory(id: string) {
       return this.http.get(this.server + '/users/history/' + id, this.tokenHeader());
     }
-
+    
+    ChangePassword(id: string, data: object) {
+      return this.http.patch(this.server + '/users/change-password/' + id, data, this.tokenHeader());
+   }
+    
 }
