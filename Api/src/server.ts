@@ -8,9 +8,17 @@ import { pool } from "./config/database"
 import { encrypt } from "./utils/decrypt";
 import { authMiddleware } from "./middleware/AuthMiddleware";
 import path = require("path");
-
+import { createServer } from "http";
+import { Server } from "socket.io";
 
 const app = express();
+const server = createServer(app);
+const io = new Server(server, {
+    cors: {
+        origin: "*", // Ha kell, pontosítsd az engedélyezett domaineket
+    },
+});
+
 
 app.use(express.urlencoded({extended: true}));
 app.use(cors());
@@ -25,6 +33,61 @@ app.use((err, req, res, next) => {
 });
 
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+
+const rooms = new Map();
+
+io.on("connection", (socket) => {
+    console.log("Felhasználó csatlakozott:", socket.id);
+
+    socket.on("createRoom", ({ roomName, category, gameTypes, owner }) => {
+        if (!rooms.has(roomName)) {
+            rooms.set(roomName, { owner, category, gameTypes, members: [socket.id] });
+            socket.join(roomName);
+            
+            // Szoba létrehozása után értesítjük a frontend-et
+            io.emit("roomList", Array.from(rooms.entries()).map(([roomName, data]) => ({
+                roomName,
+                owner: data.owner,
+                category: data.category,
+                gameTypes: data.gameTypes,
+            })));
+    
+            // Értesítés a szoba létrehozásáról
+            socket.emit("roomCreated", roomName); // Üzenet a frontendnek a sikeres létrehozásról
+            console.log(`Szoba létrehozva: ${roomName}, Kategória: ${category}, Játék típusok: ${gameTypes.join(", ")}`);
+        }
+    });
+    
+
+    // Szoba listázása (amikor valaki belép)
+    socket.on("getRooms", () => {
+        const roomData = Array.from(rooms.entries()).map(([roomName, data]) => ({
+            roomName,
+            category: data.category,
+            gameTypes: data.gameTypes,
+        }));
+        socket.emit("roomList", roomData);
+    });
+
+    // Szoba elhagyása
+    socket.on("leaveRoom", ({ roomName }) => {
+        socket.leave(roomName);
+        console.log(`${socket.id} kilépett a szobából: ${roomName}`);
+
+        if (rooms.has(roomName)) {
+            const room = rooms.get(roomName);
+            room.members = room.members.filter(id => id !== socket.id);
+            if (room.members.length === 0) {
+                rooms.delete(roomName);
+                io.emit("roomList", Array.from(rooms.keys()));
+            }
+        }
+    });
+
+    socket.on("disconnect", () => {
+        console.log("Felhasználó lecsatlakozott:", socket.id);
+    });
+});
 
 
 // Konfiguráljuk a fájlok feltöltését
@@ -90,7 +153,9 @@ app.post('/api/forgott-password',  async (req, res) => {
  
 });
 
-
+server.listen(3001, () => {
+    console.log(`Server running on http://localhost:${3001}`);
+});
 
 app.listen(process.env.PORT, () => {
     console.log(`Server listening on http://localhost:${process.env.PORT}`);

@@ -151,6 +151,7 @@ deleteProfilePicture() {
     this.auth.logout();
     this.closeDialog();
     this.messageService.add({severity: 'success', summary: 'Kilépés', detail: 'Sikeres kijelentkezés.'});
+    this.router.navigateByUrl("/")
   }
 
   MatchHistory(){
