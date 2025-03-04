@@ -2,6 +2,7 @@
   import { Injectable } from '@angular/core';
   import { environment } from '../../environments/environment';
 import { User } from '../interfaces/user';
+import { Observable } from 'rxjs';
 
 
   @Injectable({
@@ -109,10 +110,16 @@ import { User } from '../interfaces/user';
     ChangePassword(id: string, data: object) {
       return this.http.patch(this.server + '/users/change-password/' + id, data, this.tokenHeader());
    }
+   
+   getUserById(userID: string): Observable<any> {
+    return this.http.get<any>(this.server + '/users/' + userID, this.tokenHeader());
+  }
+  
     
    //Kategóriákhoz tartozó metódusok
 
-   getPublicCategories(){
-    return this.http.get(this.server + '/categories/allPublicCategories');
-   }
+   getPublicCategories(): Observable<any[]> {
+    return this.http.get<any[]>(this.server + '/categories/allPublicCategories');
+}
+
 }
