@@ -1,0 +1,47 @@
+<h2>Párbaj</h2>
+
+<!-- Keresősáv -->
+<div class="search-container">
+    <input type="text" [(ngModel)]="searchTerm" (input)="filterRooms()" placeholder="Keresés kategóriában..." class="search-input"/>
+  </div>
+  
+  <!-- Szobák listázása kártyákban -->
+  <div class="room-container">
+    <p-card *ngFor="let room of filteredRooms" class="room-card">
+      <ng-template pTemplate="content">
+        <p><strong>Létrehozó:</strong> {{ room.owner }}</p>
+        <p><strong>Kategória:</strong> {{ room.category }}</p>
+        <p><strong>Játék típusok:</strong></p>
+        <ul>
+          <li *ngFor="let gameType of room.gameTypes">{{ gameType }}</li>
+        </ul>
+        <button pButton label="Csatlakozás" (click)="joinRoom(room.roomName)"></button>
+        <button pButton label="Kilépés" class="p-button-text" (click)="leaveRoom(room.roomName)"></button>
+      </ng-template>
+    </p-card>
+  </div>
+  
+
+<!-- Lebegő "+" gomb -->
+<button class="fab" (click)="displayCreateRoomDialog = true">
+  <i class="pi pi-plus"></i>
+</button>
+
+<!-- Popup ablak -->
+<p-dialog [(visible)]="displayCreateRoomDialog" header="Szoba létrehozása" [modal]="true">
+  <div class="dialog-content">
+    <label>Kategória kiválasztása</label>
+    <p-dropdown [(ngModel)]="selectedCategory" [options]="categories" 
+            optionLabel="label" optionValue="value" placeholder="Kategóriák">
+    </p-dropdown>
+
+
+    <label>Játék típusok hozzáadása</label>
+    <div *ngFor="let gameType of gameTypes">
+      <p-checkbox [(ngModel)]="gameType.checked" [binary]="true"></p-checkbox>
+      <label>{{ gameType.label }}</label>
+    </div>
+
+    <button pButton label="Létrehozás" (click)="createRoom()" class="create-btn"></button>
+  </div>
+</p-dialog>

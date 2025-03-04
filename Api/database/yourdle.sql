@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Feb 21. 10:25
+-- Létrehozás ideje: 2025. Feb 26. 18:37
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -40,6 +40,13 @@ CREATE TABLE `categories` (
   `desc` tinyint(1) NOT NULL,
   `public` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
+
+--
+-- A tábla adatainak kiíratása `categories`
+--
+
+INSERT INTO `categories` (`id`, `categoryName`, `userID`, `classic`, `quote`, `emoji`, `picture`, `desc`, `public`) VALUES
+('asf', 'fiu', '05d30dda-6021-47fc-b944-7f0508d3de43', 1, 1, 1, 0, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -102,6 +109,36 @@ CREATE TABLE `games` (
   `finishedAt` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
+--
+-- A tábla adatainak kiíratása `games`
+--
+
+INSERT INTO `games` (`id`, `categoryID`, `player1ID`, `player2ID`, `winnerID`, `finishedAt`) VALUES
+('faccsasc', 'asf', '1d9c9c5f-a535-4bc8-a8a3-a23d1617f779', '1fabc600-f55e-4348-9cfa-3c0b52227055', '', '2025-02-18'),
+('gafs', 'asf', '05d30dda-6021-47fc-b944-7f0508d3de43', '1fabc600-f55e-4348-9cfa-3c0b52227055', '05d30dda-6021-47fc-b944-7f0508d3de43', '2025-02-21'),
+('vcac', 'asf', '79dd2b70-259b-48dc-bf8e-49f872df6770', '1fabc600-f55e-4348-9cfa-3c0b52227055', '1fabc600-f55e-4348-9cfa-3c0b52227055', '2025-02-21');
+
+-- --------------------------------------------------------
+
+--
+-- A nézet helyettes szerkezete `games_vt`
+-- (Lásd alább az aktuális nézetet)
+--
+CREATE TABLE `games_vt` (
+`gameID` varchar(40)
+,`categoryID` varchar(40)
+,`categoryName` varchar(40)
+,`player1ID` varchar(40)
+,`player1Name` varchar(40)
+,`player1ProfilePic` text
+,`player2ID` varchar(40)
+,`player2Name` varchar(40)
+,`player2ProfilePic` text
+,`winnerID` varchar(40)
+,`winnerName` varchar(40)
+,`finishedAt` date
+);
+
 -- --------------------------------------------------------
 
 --
@@ -162,7 +199,19 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `passwd`, `role`, `profilePic`) VALUES
-('05d30dda-6021-47fc-b944-7f0508d3de43', 'Béla3', 'bela@gmail.com', '$2b$10$V7CBUXaQhKVtUuQuIOAtbO4Vi2.lxLdd3nm0ZgJOxWdCU/ktGX5dC', 'user', '58131a16bc1577e16ff0a780af678778:1b37e4457868b23913ff15bc4c5a99740e3ba52ea0eb7b4ed693ec5167911604309f5763822d675cd4b9248f0b38724a9b70a01f0d9be6f32a30076353d60f18');
+('05d30dda-6021-47fc-b944-7f0508d3de43', 'Béla3', 'bela@gmail.com', '$2b$10$V7CBUXaQhKVtUuQuIOAtbO4Vi2.lxLdd3nm0ZgJOxWdCU/ktGX5dC', 'user', NULL),
+('1d9c9c5f-a535-4bc8-a8a3-a23d1617f779', 'Teszt Elek', 'tesztelek8@gmail.com', '$2b$10$ZxsW6QVvX.yyT/AQ41BDue9IyrCsVCcylmL6FlFdgR6rp8YBsKEjy', 'user', NULL),
+('1fabc600-f55e-4348-9cfa-3c0b52227055', 'Teszt Elek', 'tesztelek6@gmail.com', '$2b$10$UHwwaNG21dhq1rqX3UHNYObgdMJ13QBm.kqNtBl9vViX5m/L0kbPi', 'user', NULL),
+('79dd2b70-259b-48dc-bf8e-49f872df6770', 'Teszt Erik', 'tesztelek7@gmail.com', '$2b$10$zUIG97njFyFgfL7eXerzqOJVlZ.1saSCBqBfiDZSC9YhJyKn5s0mO', 'user', 'f49b46dda59b2c9946661142eeae8f11:a20f5824552bb0186ce6ee4d0782599a973756eab627fedb117706719c27f950fe2f40115bf96e87404c446a500dabafa1ec993b570c151da4cd8705f78ee2ce');
+
+-- --------------------------------------------------------
+
+--
+-- Nézet szerkezete `games_vt`
+--
+DROP TABLE IF EXISTS `games_vt`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `games_vt`  AS SELECT `g`.`id` AS `gameID`, `c`.`id` AS `categoryID`, `c`.`categoryName` AS `categoryName`, `u1`.`id` AS `player1ID`, `u1`.`name` AS `player1Name`, `u1`.`profilePic` AS `player1ProfilePic`, `u2`.`id` AS `player2ID`, `u2`.`name` AS `player2Name`, `u2`.`profilePic` AS `player2ProfilePic`, `w`.`id` AS `winnerID`, coalesce(`w`.`name`,'Döntetlen') AS `winnerName`, `g`.`finishedAt` AS `finishedAt` FROM ((((`games` `g` join `categories` `c` on(`g`.`categoryID` = `c`.`id`)) join `users` `u1` on(`g`.`player1ID` = `u1`.`id`)) join `users` `u2` on(`g`.`player2ID` = `u2`.`id`)) left join `users` `w` on(`g`.`winnerID` = `w`.`id`)) ;
 
 --
 -- Indexek a kiírt táblákhoz

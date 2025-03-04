@@ -13,7 +13,7 @@ import { ChangePasswordComponent } from './components/change-password/change-pas
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, NavbarComponent, HeaderComponent, LoginComponent, LandingComponent, ProfileComponent, RegisterComponent, ForgottenPasswordComponent, MatchHistoryComponent, ChangePasswordComponent],
+  imports: [RouterOutlet, NavbarComponent, HeaderComponent, LoginComponent, ProfileComponent, RegisterComponent, ForgottenPasswordComponent, MatchHistoryComponent, ChangePasswordComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
