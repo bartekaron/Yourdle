@@ -1,0 +1,23 @@
+<div class="container">
+    <h1 class="title">Egyjátékos</h1>
+
+    <div class="search-container">
+        <input type="text" class="search-input" placeholder="Keresés..." [(ngModel)]="search" (input)="filterCategories()" />
+    </div>
+    
+    <div class="card-container">
+        <p-card class="sp-card" *ngFor="let category of filteredCategories">
+            <ng-template #title>
+                <span class="card-title">{{ category.categoryName }}</span>
+            </ng-template>
+            <ng-template #content>
+                <p><strong>Létrehozó:</strong> {{ usersMap.get(category.userID) || 'Betöltés...' }}</p>
+                <p><strong>Játékmódok:</strong></p>
+                <ul>
+                    <li *ngFor="let gameType of category.gameModes">{{ gameType }}</li>
+                </ul>
+                <button pButton label="Játék indítása" (click)="startGame(category)"></button>
+            </ng-template>
+        </p-card>
+    </div>
+</div>
