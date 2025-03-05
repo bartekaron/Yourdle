@@ -70,7 +70,7 @@ export class RestorepassComponent implements OnInit{
     // Log the data before sending it
     console.log('Sending data:', data);
   
-    this.api.updatePasswd(this.userID, data).subscribe(
+    this.api.updatePasswd('users', 'id', 'eq', this.userID, data).subscribe(
       res => {
         this.message.add({ severity: 'success', summary: 'Ok', detail: 'Jelszó módosítva!' });
         this.router.navigate(['/']);

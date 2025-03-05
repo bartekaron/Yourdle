@@ -41,6 +41,9 @@ import { Observable } from 'rxjs';
       return this.http.get(this.server + '/public/'+table+'/'+field+'/'+op+'/'+value);
     }
 
+    updatePasswd(table: string, field:string, op: string, value: string, data:object){
+      return this.http.patch(this.server + '/public/'+table+'/'+field+'/'+op+'/'+value, data);
+    }
     // token-el védett metódusok:
 
     select(table: string, field:string){
@@ -71,17 +74,15 @@ import { Observable } from 'rxjs';
       return this.http.delete(this.server + '/users/delete/' + email, this.tokenHeader());
     }
 
-    editUser(id: string){
-      return this.http.patch(this.server + '/users/edit/' + id, this.tokenHeader());
+    editUser(id: string, data: object) {
+      return this.http.patch(this.server + '/users/edit/' + id, data, this.tokenHeader());
     }
 
     forgottPassword(data:object){
       return this.http.post(this.server + '/forgott-password', data);
     }
 
-    updatePasswd(id:string,data:object){
-      return this.http.patch(this.server + '/public/users/id/eq',+id, data);
-    }
+    
 
     getAllUsers(){
       return this.http.get(this.server + '/users/allUsers', this.tokenHeader());
@@ -116,12 +117,12 @@ import { Observable } from 'rxjs';
     }
     
     ChangePassword(id: string, data: object) {
-      return this.http.patch(this.server + '/users/change-password/' + id, data, this.tokenHeader());
-   }
+        return this.http.patch(this.server + '/users/change-password/' + id, data, this.tokenHeader());
+    }
    
-   getUserById(userID: string): Observable<any> {
-    return this.http.get<any>(this.server + '/users/' + userID, this.tokenHeader());
-  }
+    getUserById(userID: string): Observable<any> {
+      return this.http.get<any>(this.server + '/users/' + userID, this.tokenHeader());
+    }
   
     
    //Kategóriákhoz tartozó metódusok
