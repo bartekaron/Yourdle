@@ -7,10 +7,8 @@ import { TagModule } from 'primeng/tag';
 import { ApiService } from '../../services/api.service';
 import { ToolbarModule } from 'primeng/toolbar';
 import { ToastModule } from 'primeng/toast';
-import { User } from '../../interfaces/user';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmPopup } from 'primeng/confirmpopup';
-import { ConfirmDialog } from 'primeng/confirmdialog';
 import { FormsModule } from '@angular/forms';
 import { FloatLabelModule } from 'primeng/floatlabel';
  
@@ -65,12 +63,24 @@ confirm(event: Event, user:any) {
   });
 }
  
-getUsers(){
-  this.api.getAllUsers().subscribe((res:any)=>{
+getUsers() {
+  this.api.getAllUsers().subscribe((res: any) => {
     this.users = res.users;
-    console.log(this.users);
-    console.log("res", res.users);
-  })
+    this.users.forEach((user: any) => {
+      this.api.select('users/user', user.id).subscribe({
+        next: (userRes: any) => {
+          if (userRes && userRes.user.profilePic) {
+            user.profilePic = userRes.user.profilePic;
+          } else {
+            user.profilePic = 'http://localhost:3000/uploads/placeholder.png';
+          }
+        },
+        error: () => {
+          user.profilePic = 'http://localhost:3000/uploads/placeholder.png';
+        }
+      });
+    });
+  });
 }
  
 onRowEditInit(user: any) {
@@ -80,7 +90,13 @@ onRowEditInit(user: any) {
 onRowEditSave(user: any) {
       delete this.clonedUsers[user.id as string];
       let id = user.id;
-      this.api.editUser(id).subscribe(res =>{
+      let data: any = {
+        name: user.name,
+        email: user.email,
+        role: user.role
+      }
+      console.log(data);
+      this.api.editUser(id, data).subscribe(res =>{
         this.messageService.add({ severity: 'success', summary: 'Success', detail: 'User is updated' });
       });
 }
