@@ -11,7 +11,7 @@ router.post("/register", userController.register)
 
 router.patch("/profile", authMiddleware, userController.updateProfile)
 
-router.get("/user/:id", /*authMiddleware,*/ userController.getUser)
+router.get("/user/:id", authMiddleware, userController.getUser)
 
 router.delete("/deleteProfilePicture/:id", authMiddleware, userController.deleteProfilePicture);
 

@@ -21,6 +21,25 @@ export const getAllPublicCategories = async () => {
     }
 }
 
+export const getCategoryByIDService = async (id) => {
+    try {
+        const results = await new Promise((resolve, reject) =>
+            pool.query(`SELECT * FROM categories WHERE id = ?`, [id], (err, results) => {
+                if (err) {
+                    const error:any = new Error('Hiba az adatbázis kapcsolatban');
+                    error.status = 500;
+                    return reject(error);
+                }
+                resolve(results);
+            })
+        );
+        return results;
+    } catch (error) {
+        console.error(error.message);
+        throw error;
+    }
+}
+
 export const createCategoryService = async (category) => {
     try {
         const results = await new Promise((resolve, reject) => {

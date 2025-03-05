@@ -1,0 +1,10 @@
+@baseUrl = http://localhost:3000/api/games
+
+### GET all classic by category ID
+GET {{baseUrl}}/allClassic/asd
+Content-Type: application/json
+
+
+### GET classic solution by category ID
+GET {{baseUrl}}/solutionClassic/asd
+Content-Type: application/json

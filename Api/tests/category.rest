@@ -4,6 +4,10 @@
 GET {{baseUrl}}/allPublicCategories
 Content-Type: application/json  
 
+### GET category by ID
+GET {{baseUrl}}/category/asf
+Content-Type: application/json
+
 ### Create category
 POST {{baseUrl}}/category
 Content-Type: application/json
@@ -18,3 +22,4 @@ Content-Type: application/json
     "desc": "1",
     "public": "1"
 }
+

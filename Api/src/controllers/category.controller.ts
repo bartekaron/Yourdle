@@ -1,4 +1,4 @@
-import { createCategoryService, createClassicService, createDescriptionService, createEmojiService, createPictureService, createQuoteService, getAllPublicCategories } from '../services/category.service';
+import { createCategoryService, createClassicService, createDescriptionService, createEmojiService, createPictureService, createQuoteService, getAllPublicCategories, getCategoryByIDService } from '../services/category.service';
 
 export const getPublicCategories = async (req, res) => {
     try {
@@ -8,6 +8,20 @@ export const getPublicCategories = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+export const getCategoryByID = async (req, res) => {
+    try {
+        const id = req.params.id;
+        if(!id) {
+            return res.status(400).json({ success: false, message: "Hiányzó kategória azonosító!" });
+        }
+        const category = await getCategoryByIDService(id);
+        res.status(200).json(category);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
 
 export const createCategory = async (req, res, next) => {
     try {
