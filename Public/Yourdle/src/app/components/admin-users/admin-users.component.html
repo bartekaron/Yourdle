@@ -1,50 +1,120 @@
-<br>
-<br>
 <div class="card">
-    <p-toast />
-    <p-toolbar styleClass="mb-6">
-        <ng-template #start>
-            <p-button label="New" icon="pi pi-plus" class="mr-2"  />
-        </ng-template>
-    </p-toolbar>
-
-    <p-table [value]="users" [paginator]="true" [rows]="10" [tableStyle]="{ 'min-width': '60rem' }" [showCurrentPageReport]="true" [(selection)]="selectedUsers"  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[5, 10, 20] ">
-        <ng-template #caption>
-            <div class="flex items-center justify-between">
-                <span class="text-xl font-bold">Users</span>
-                
-            </div>
-        </ng-template>
-        <ng-template #header>
+    <p-toast></p-toast>
+    <p-table [value]="users" dataKey="id" editMode="row" [tableStyle]="{'min-width': '50rem'}" [paginator]="true" [rows]="10" >
+        <ng-template pTemplate="header">
             <tr>
-                <th  style="min-width:16rem">Profile Picture</th>
-                <th  style="min-width:16rem">Name</th>
-                <th  style="min-width:16rem">Email</th>
-                <th  style="min-width:16rem">Role</th>
-                <th style="min-width: 12rem"></th>
+                <th style="width:20%">Name</th>
+                <th style="width:20%">Email</th>
+                <th style="width:20%">Role</th>
+                <th style="width:20%">Profilepicture</th>
+                <th style="width:20%">Actions</th>
             </tr>
         </ng-template>
-        <ng-template #body let-user>
-            <tr>
+        <ng-template pTemplate="body" let-user let-editing="editing" let-ri="rowIndex">
+            <tr [pEditableRow]="user">
                 <td>
-                    <img
-                        [src]="user.profilePic"
-                        [alt]="user.name"
-                        class="w-24 rounded"
-                    />
+                    <p-cellEditor>  
+                        <ng-template pTemplate="input">
+                            <input
+                                pInputText type="text"
+                                [(ngModel)]="user.name" />
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{user.name}}
+                        </ng-template>
+                    </p-cellEditor>
                 </td>
-                <td>{{ user.name }}</td>
-                <td>{{ user.email }}</td>
-                <td>{{ user.role }}</td>
-                <td> 
-                    <p-button icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true" (click)="editUser(user)" />
-                    <p-button icon="pi pi-trash" severity="danger" class="ml-2" [rounded]="true" [outlined]="true" (click)="deleteUser(user)"/>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input
+                                pInputText type="text"
+                                [(ngModel)]="user.email"
+                                required />
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{user.email}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <textarea pInputText type="text"
+                            [(ngModel)]="user.role"
+                            required ></textarea>
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{user.role}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input
+                                pInputText type="text"
+                                [(ngModel)]="user.profilePic" />
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{user.profilePic}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <div class="flex align-items-center justify-content-center gap-2">
+                        <button
+                            *ngIf="!editing"
+                            pButton
+                            pRipple
+                            type="button"
+                            pInitEditableRow
+                            icon="pi pi-pencil"
+                            (click)="onRowEditInit(user)"
+                            class="p-button-rounded p-button-text">
+                        </button>
+                        <button
+                            *ngIf="editing"
+                            pButton
+                            pRipple
+                            type="button"
+                            pSaveEditableRow
+                            icon="pi pi-check"
+                            (click)="onRowEditSave(user)"
+                            class="p-button-rounded p-button-text p-button-success mr-2">
+                        </button>
+                        <button
+                            *ngIf="editing"
+                            pButton pRipple
+                            type="button"
+                            pCancelEditableRow
+                            icon="pi pi-times"
+                            (click)="onRowEditCancel(user, ri)"
+                            class="p-button-rounded p-button-text p-button-danger">
+                        </button>
+                        <p-toast />
+                        <p-confirmPopup #confirmPopupRef>
+                            <ng-template pTemplate="headless" let-message let-test>
+                                <div class="border-round p-3">
+                                    <span>{{ message.message }}</span>
+                                    <div class="flex align-items-center gap-2 mt-3">
+                                        <p-button (onClick)="accept()" label="Delete" size="small" />
+                                        <p-button (onClick)="reject()" label="Cancel" [outlined]="true" size="small" />
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </p-confirmPopup>
+                    <button
+                        pButton
+                        pRipple
+                        type="button"
+                        icon="pi pi-trash"
+                        class="p-button-rounded p-button-text p-button-danger"
+                        (click)="confirm($event, user)">
+                    </button>
+                    </div>
                 </td>
             </tr>
         </ng-template>
-        
-        <ng-template #footer> </ng-template>
     </p-table>
-    
 </div>
-

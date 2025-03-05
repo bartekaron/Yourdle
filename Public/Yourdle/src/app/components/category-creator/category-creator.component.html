@@ -1,0 +1,54 @@
+<div class="category-creator p-4">
+    <h2>Kategória készítő</h2>
+    
+    <div class="p-field-category">
+      <label for="category-name" id="category_name">Kategória neve</label>
+      <input id="category-name" type="text" pInputText class="p-inputtext p-component w-full" [(ngModel)]="categoryName" />
+    </div>
+    
+    <div class="p-field-public">
+        <label for="public">Publikus-e</label>
+      <p-checkbox label="Publikus" binary="true" [(ngModel)]="isPublic"></p-checkbox>
+    </div>
+    
+    <div class="p-field-types">
+      <label for="game-types">Játék típusok</label>
+      <p-dropdown id="game-types" placeholder="Típusok" [options]="gameTypes" (onChange)="onGameTypeChange($event)"></p-dropdown>
+    </div>
+    
+    <div class="p-field-selected">
+      <label>Kiválasztott kategóriák</label>
+      <div class="selected-categories">
+        <ul>
+          <li *ngFor="let category of selectedCategories">{{ category }}</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div *ngIf="selectedCategories.includes('Kép')" class="p-field">
+      <label id="LBL">Kép feltöltése</label>
+      <p-fileUpload mode="basic" chooseLabel="Kép kiválasztása"></p-fileUpload>
+    </div>
+    
+    <div *ngIf="selectedCategories.includes('Idézet')" class="p-field">
+      <label id="LBL">Idézet feltöltése</label>
+      <p-button label="Személy idézete"></p-button>
+    </div>
+
+    <div *ngIf="selectedCategories.includes('Klasszikus')" class="p-field">
+        <label id="LBL">Klasszikus feltöltése</label>
+        <p-button label="Személy idézete"></p-button>
+    </div>
+
+    <div *ngIf="selectedCategories.includes('Emoji')" class="p-field">
+        <label id="LBL">Emoji feltöltése</label>
+        <p-button label="Személy idézete"></p-button>
+    </div>
+
+    <div *ngIf="selectedCategories.includes('Leírás')" class="p-field">
+        <label id="LBL">Leírás feltöltése</label>
+        <p-button label="Személy idézete"></p-button>
+    </div>
+    
+    <p-button label="Létrehozás" class="p-button-primary" (onClick)="createCategory()"></p-button>
+</div>

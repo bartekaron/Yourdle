@@ -37,6 +37,10 @@ import { Observable } from 'rxjs';
       return this.http.post(this.server + '/users/login', data);
     }
 
+    read(table: string, field:string, op: string, value: string){
+      return this.http.get(this.server + '/public/'+table+'/'+field+'/'+op+'/'+value);
+    }
+
     // token-el védett metódusok:
 
     select(table: string, field:string){
@@ -67,8 +71,12 @@ import { Observable } from 'rxjs';
       return this.http.delete(this.server + '/users/delete/' + email, this.tokenHeader());
     }
 
-    forgottPassword(email:string){
-      return this.http.post(this.server + '/users/forgott-password', email);
+    editUser(id: string){
+      return this.http.patch(this.server + '/users/edit/' + id, this.tokenHeader());
+    }
+
+    forgottPassword(data:object){
+      return this.http.post(this.server + '/forgott-password', data);
     }
 
     updatePasswd(id:string,data:object){
@@ -76,7 +84,7 @@ import { Observable } from 'rxjs';
     }
 
     getAllUsers(){
-      return this.http.get<User[]>(this.server + '/users/allUsers', this.tokenHeader());
+      return this.http.get(this.server + '/users/allUsers', this.tokenHeader());
     }
 
     uploadFile(profilePicture:File, id:string){
@@ -120,6 +128,14 @@ import { Observable } from 'rxjs';
 
    getPublicCategories(): Observable<any[]> {
     return this.http.get<any[]>(this.server + '/categories/allPublicCategories');
-}
+ }
+
+    getUser(id: string) {
+      return this.http.get(this.server + '/users/' + id, this.tokenHeader());
+    }
+
+    createCategory(data: object) {
+      return this.http.post(this.server + '/categories/category', data, this.tokenHeader());
+    }
 
 }

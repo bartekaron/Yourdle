@@ -20,3 +20,22 @@ export const getAllPublicCategories = async () => {
         throw error;
     }
 }
+
+export const createCategoryService = async (category) => {
+    try {
+        const results = await new Promise((resolve, reject) => {
+            pool.query(`INSERT INTO categories SET ?`, category, (err, results) => {
+                if (err) {
+                    const error:any = new Error('Hiba az adatbázis kapcsolatban');
+                    error.status = 500;
+                    return reject(error);
+                }
+                resolve(results);
+            });
+        });
+        return results;
+    } catch (error) {
+        console.error(error.message);
+        throw error;
+    }
+}

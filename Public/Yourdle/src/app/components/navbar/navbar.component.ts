@@ -68,7 +68,7 @@ export class NavbarComponent implements OnInit {
           },
           {
             label: 'Kategória készítő',
-            routerLink: '/kategoria'
+            routerLink: '/kategoria-keszito'
           },
           {
             icon: 'pi pi-user',

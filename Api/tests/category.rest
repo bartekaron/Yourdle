@@ -3,3 +3,18 @@
 ### GET all public categories
 GET {{baseUrl}}/allPublicCategories
 Content-Type: application/json  
+
+### Create category
+POST {{baseUrl}}/category
+Content-Type: application/json
+
+{
+    "categoryName": "Category 1",
+    "userID": "4a15d021-9564-48da-931f-45571c5aa1d0",
+    "classic": "1",
+    "quote": "1",
+    "emoji": "0",
+    "picture": "0",
+    "desc": "1",
+    "public": "1"
+}

@@ -5,4 +5,6 @@ const router = Router();
 
 router.get("/allPublicCategories", categoryController.getPublicCategories);
 
+router.post("/category", categoryController.createCategory);
+
 export default router;

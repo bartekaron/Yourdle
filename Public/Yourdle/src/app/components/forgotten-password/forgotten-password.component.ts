@@ -26,39 +26,71 @@ export class ForgottenPasswordComponent {
     ForgottenPasswordComponent.instance = this;
   }
  
+  
 
   ForgottenPassword() {
-    this.api.forgottPassword(this.email).subscribe({
-      next: (res: any) => {
-        if (res.success) {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Sikeres jelszó emlékeztető kérés',
-            detail: res.message
-          });
-          this.closeDialog();
-          this.openLoginDialog();
+    if (!this.validateEmail(this.email)) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Hiba',
+        detail: 'Rossz email cím!'
+      });
+      return;
+    }
+    this.api.read('users', 'email', 'eq', this.email).subscribe((res: any) => {
+      if (res.length == 0) {
 
-        }
-        else{
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Hiba',
-            detail: res.message
-          });
-        }
-        
-      },
-      error: (err) => {
-        const errorMsg = err.error?.message || "Ismeretlen hiba történt.";
         this.messageService.add({
           severity: 'error',
           summary: 'Hiba',
-          detail: errorMsg
+          detail: 'Nincs ilyen email cím az adatbázisban!'
         });
+        return;
       }
-      
-    });
+      let data = {
+        email: this.email,
+        content: "http://localhost:4200/restorepass/"+res[0].id//+"/"+res[0].secret
+        
+      }
+      this.api.forgottPassword(data).subscribe({
+        next: (res: any) => {
+          if (res.success) {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Sikeres jelszó emlékeztető kérés',
+              detail: res.message
+            });
+            this.closeDialog();
+            this.openLoginDialog();
+  
+          }
+          else{
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Hiba',
+              detail: res.message
+            });
+          }
+          
+        },
+        error: (err) => {
+          const errorMsg = err.error?.message || "Ismeretlen hiba történt.";
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Hiba',
+            detail: errorMsg
+          });
+        }
+        
+      });
+    }
+    );
+    
+  }
+
+  validateEmail(email: string): boolean {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
   }
 
   showDialog(){

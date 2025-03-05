@@ -124,34 +124,107 @@ const transporter = nodemailer.createTransport({
     port: 465,
     secure: true,
     auth: {
-      user: 'yourdlehelp@gmail.com',
-      pass: 'jlii yqlq lepz zqhc'
+      user: 'yourdlehelpdesk@gmail.com',
+      pass: 'rgji kerg hivt iius'
     },
 });
  
 app.post('/api/forgott-password',  async (req, res) => {
     let Email = "";
     try{
-        const {email} = req.body;
+        const { email,  content } = req.body;
         Email = email;
         // send mail
         const info = await transporter.sendMail({
-        from: "smtp.gmail.com", // sender address
+        from: process.env.SMTP_USER, // sender address
         // list of receivers
         to: `${Email}`, // list of receivers
-        subject: "Jelszó változtatás", // Subject line
+        subject: "Elfelejtett jelszó visszaállítás", // Subject line
         text: `Erre a linkre kattintva átirányítunk weboldalounkra, ahol megadhatod új jelszavad! : link`, // plain text body
-        html: `<b>Erre a linkre kattintva átirányítunk weboldalounkra, ahol megadhatod új jelszavad! : link</b>`, // html body
+        html: `<b>Erre a linkre kattintva átirányítunk weboldalunkra, ahol megadhatod új jelszavad! : ${content}</b>`, // html body
         });
  
-        res.status(200).json({ message: 'Email sent!', data: info });
+        res.status(200).json({ message: 'Email sent!', data: info , success: true});
     }
     catch(err){
         console.error(err);
-        res.status(500).json({ message: 'Email not sent!', data: err });
+        res.status(500).json({ message: 'Email not sent!', data: err, success: false});
     }
  
 });
+
+app.get('/api/public/:table/:field/:op/:value', (req, res)=>{
+    let table = req.params.table;
+
+    const public_tables = process.env.PUBLIC_TABLES.split(',');
+
+    if (!public_tables.includes(table)){
+        sendResults(res, '', {message: 'Nincs jogosultság hozzá!'});
+        return
+    }
+
+    let field = req.params.field;
+    let value = req.params.value;
+    let op = getOP(req.params.op);
+    if (req.params.op == 'lk'){
+        value = `%${value}%`;
+    }
+
+    pool.query(`SELECT * FROM ${table} WHERE ${field}${op}'${value}'`,  (err, results)=>{
+        sendResults(res, err, results);
+    });
+});
+
+app.patch('/api/public/:table/:field/:op/:value', (req, res)=>{
+    let table = req.params.table;
+
+    const public_tables = process.env.PUBLIC_TABLES.split(',');
+
+    if (!public_tables.includes(table)){
+        sendResults(res, '', {message: 'Nincs jogosultság hozzá!'});
+        return
+    }
+
+    let field = req.params.field;
+    let value = req.params.value;
+    let op = getOP(req.params.op);
+    if (req.params.op == 'lk'){
+        value = `%${value}%`;
+    } 
+    let fields = Object.keys(req.body);
+    let values = Object.values(req.body);
+    let updates = [];
+    for (let i = 0; i < fields.length; i++) {
+        updates.push(`${fields[i]}='${values[i]}'`);
+    }
+    let str = updates.join(',');    
+    pool.query(`UPDATE ${table} SET ${str} WHERE ${field}${op}'${value}'`, (err, results)=>{
+        sendResults(res, err, results,);
+    });
+});
+
+function getOP(op){
+    switch(op){
+      case 'eq' : { op = '='; break }
+      case 'lt' : { op = '<'; break }
+      case 'gt' : { op = '>'; break }
+      case 'lte': { op = '<='; break }
+      case 'gte': { op = '>='; break }
+      case 'not': { op = '!='; break }
+      case 'lk' : { op = ' like '; break }
+    }
+    return op;
+}
+
+function sendResults(res, err, results){
+    if (err){
+        res.status(500).send(err);
+        return
+    }
+    res.status(200).send(results);
+}
+
+
 
 server.listen(3001, () => {
     console.log(`Server running on http://localhost:${3001}`);

@@ -1,4 +1,4 @@
-import { getAllPublicCategories } from '../services/category.service';
+import { createCategoryService, getAllPublicCategories } from '../services/category.service';
 
 export const getPublicCategories = async (req, res) => {
     try {
@@ -8,3 +8,14 @@ export const getPublicCategories = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+export const createCategory = async (req, res, next) => {
+    try {
+        const category = req.body;
+        const result = await createCategoryService(category);
+        res.status(200).json({result, success: true});
+    } catch (error) {
+        next(error);
+    }
+
+}

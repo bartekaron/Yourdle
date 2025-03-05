@@ -45,7 +45,7 @@ POST {{baseUrl}}/forgott-password
 Content-Type: application/json
 
 {
-    "email": "yourdlehelp@gmail.com"
+    "email": "aronbartek@gmail.com"
 }
 
 ### Get all users
@@ -58,3 +58,15 @@ Authorization: Bearer {{authToken}}
 GET {{baseUrl}}/users/history/588dca61-fdcd-4dc5-8b82-34a35d7ed737
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
+
+###Edit user by id
+PATCH {{baseUrl}}/users/edit/192b5d8c-6b3a-4ca2-b492-9ce0c1a71810
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+    "name": "Teszt Elek",
+    "email": "teszt@gmail.com",
+    "role": "admin",
+    "profilePic": ""
+}

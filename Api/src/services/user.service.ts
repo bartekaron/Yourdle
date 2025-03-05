@@ -101,7 +101,7 @@ export const getOneUser = async (id)=>{
 
 export const getAllUsersService = async () => {
     const results:any = await new Promise((resolve, reject) =>
-        pool.query(`SELECT name, email, role, profilePic FROM users`, (err, results) => {
+        pool.query(`SELECT id, name, email, role, profilePic FROM users`, (err, results) => {
             if (err) {
                 const error:any = new Error('Hiba az adatbázis kapcsolatban');
                 error.status = 500;
@@ -216,3 +216,22 @@ export const deleteUserByEmail = async (email) => {
     }
 }
 
+// Edit user by id
+ 
+export const editUserService = async (id, name, email, role) => {
+    try {
+        const results:any = await new Promise((resolve, reject) => {
+            pool.query(`UPDATE users SET name = ?, email = ?, role = ? WHERE id = ?`, [name, email, role, id], (err, results) => {
+                if (err) {
+                    const error:any = new Error('Hiba az adatbázis kapcsolatban');
+                    error.status = 500;
+                    return reject(error);
+                }
+                resolve(results);
+            });
+        });
+        return { success: true, message: "Felhasználó sikeresen módosítva!" };
+    } catch (error) {
+        return { success: false, message: "Nem sikerült módosítani a felhasználót" };
+    }
+}

@@ -3,6 +3,7 @@ import { authMiddleware } from "../middleware/AuthMiddleware";
 import * as userController from "../controllers/user.controller";
 const router = Router();
 
+// User routes
 
 router.post("/login", userController.login)
 
@@ -25,5 +26,7 @@ router.get("/allUsers", authMiddleware, userController.getAllUsers)
 // Delete by email
 router.delete("/delete/:email", authMiddleware, userController.deleteUser)
 
+// Edit user
+router.patch("/edit/:id", authMiddleware, userController.editUser)
 
 export default router;

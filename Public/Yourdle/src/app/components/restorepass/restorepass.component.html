@@ -1,0 +1,31 @@
+<div class="col-md-8 col-lg-6 col-xl-4 offset-md-2 offset-lg-3 offset-xl-4">
+    <h3 class="mt-4 mb-4">Elfelejtett jelszó visszaállítása</h3>
+  
+    <!-- ha egyeznek a secret-ek, akkor mehet a jelszócsere -->
+    <div *ngIf="changeable">
+      <p>
+        Add meg az új jelszavad:
+      </p>
+  
+      <div class="form-floating mb-3">
+        <input type="password" class="form-control" id="newpass" placeholder="" [(ngModel)]="newpass">
+        <label for="newpass">Új jelszó</label>
+      </div>
+  
+      <div class="form-floating mb-3">
+        <input type="password" class="form-control" id="newpassconfirm" placeholder="" [(ngModel)]="newpassconfirm">
+        <label for="newpassconfirm">Új jelszó megerősítése</label>
+      </div>
+  
+      <button class="btn btn-primary mb-3" (click)="save()">Mentés</button>
+    </div>
+  
+    <!-- ha nem egyeznek a secret-ek, akkor lejárt a link -->
+    <div *ngIf="!changeable">
+      <h4>Hiba!</h4>
+      <p>Ez a hivatkozás már lejárt, kérjen új jelszó visszaállítást!</p>
+      <a routerLink="/lostpass">Elfelejtettem a jelszavamat...</a>
+    </div>
+  
+  </div>
+  

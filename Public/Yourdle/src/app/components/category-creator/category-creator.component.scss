@@ -1,0 +1,54 @@
+.category-creator{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+}
+
+.p-field-category{
+    margin: 20px 0;
+    font-size: large;
+    display: flex;
+    flex-direction: column;
+}
+
+.p-field-public{
+    margin: 20px 0;
+    font-size: large;
+    display: flex;
+    flex-direction: row;
+}
+
+p-checkbox{
+    margin-left: 10px;
+}
+
+#category_name{
+    margin-bottom: 5px;
+}
+
+.p-field-types{
+    margin: 20px 0;
+    font-size: large;
+    display: flex;
+    flex-direction: row;
+}
+
+#game-types{
+    margin-left: 10px;
+}
+
+.p-field{
+    margin: 20px 0;
+    font-size: large;
+    display: flex;
+    flex-direction: row;
+    background: black;
+    border: 2px solid white;
+    border-radius: 5px;
+    
+}
+
+#LBL{
+    margin-right: 10px;
+}

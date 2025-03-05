@@ -1,4 +1,4 @@
-import { checkOldPassword, deleteProfilePictureService, getMatchHistory, getOneUser, loginUser, registerUser, updatePassword, updateUserProfile, getAllUsersService, deleteUserByEmail } from "../services/user.service";
+import { checkOldPassword, deleteProfilePictureService, getMatchHistory, getOneUser, loginUser, registerUser, updatePassword, updateUserProfile, getAllUsersService, deleteUserByEmail, editUserService } from "../services/user.service";
 import { decrypt } from "../utils/decrypt";
 
 
@@ -174,6 +174,23 @@ export const deleteUser = async (req, res, next) => {
         }
 
         const user = await deleteUserByEmail(email);
+        res.status(200).json({ success: true, user });
+    } catch (err) {
+        next(err);
+    }
+}
+
+// Edit user by id
+ 
+export const editUser = async (req, res, next) => {
+    try {
+        const id = req.params.id;
+        const  { name, email, role } = req.body;
+        if (!id || !name || !email || !role) {
+            return res.status(400).json({ success: false, message: "Hiányzó adatok!" });
+        }
+ 
+        const user = await editUserService(id, name, email, role);
         res.status(200).json({ success: true, user });
     } catch (err) {
         next(err);
