@@ -37,46 +37,53 @@ app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 const rooms = new Map();
 
 io.on("connection", (socket) => {
-    console.log("Felhasználó csatlakozott:", socket.id);
 
     socket.on("createRoom", ({ roomName, category, gameTypes, owner }) => {
         if (!rooms.has(roomName)) {
-            rooms.set(roomName, { owner, category, gameTypes, members: [socket.id] });
+            rooms.set(roomName, { 
+                owner, 
+                category, 
+                gameTypes, 
+                members: [{ id: socket.id, name: owner }] // itt tároljuk a játékos nevét is
+            });
             socket.join(roomName);
             
-            // Szoba létrehozása után értesítjük a frontend-et
             io.emit("roomList", Array.from(rooms.entries()).map(([roomName, data]) => ({
                 roomName,
                 owner: data.owner,
                 category: data.category,
                 gameTypes: data.gameTypes,
             })));
+
+            io.to(roomName).emit("playerList", rooms.get(roomName).members);
+            socket.emit("roomCreated", { roomName, owner, redirect: true });
+        }
+    });
+
+    socket.on("joinRoom", ({ roomName, name }) => {
+        if (rooms.has(roomName)) {
+            const room = rooms.get(roomName);
+            if (!room.members.some(member => member.id === socket.id)) {
+                room.members.push({ id: socket.id, name: name });
+                socket.join(roomName);
+            }
+            // Küldjük az adatokat a kliensnek
+            io.to(roomName).emit("playerList", room.members);
     
-            // Értesítés a szoba létrehozásáról
-            socket.emit("roomCreated", roomName); // Üzenet a frontendnek a sikeres létrehozásról
-            console.log(`Szoba létrehozva: ${roomName}, Kategória: ${category}, Játék típusok: ${gameTypes.join(", ")}`);
+         
+            
         }
     });
     
+    
 
-    // Szoba listázása (amikor valaki belép)
-    socket.on("getRooms", () => {
-        const roomData = Array.from(rooms.entries()).map(([roomName, data]) => ({
-            roomName,
-            category: data.category,
-            gameTypes: data.gameTypes,
-        }));
-        socket.emit("roomList", roomData);
-    });
-
-    // Szoba elhagyása
     socket.on("leaveRoom", ({ roomName }) => {
-        socket.leave(roomName);
-        console.log(`${socket.id} kilépett a szobából: ${roomName}`);
-
         if (rooms.has(roomName)) {
             const room = rooms.get(roomName);
-            room.members = room.members.filter(id => id !== socket.id);
+            room.members = room.members.filter(member => member.id !== socket.id);
+            socket.leave(roomName);
+            io.to(roomName).emit("playerList", room.members);
+
             if (room.members.length === 0) {
                 rooms.delete(roomName);
                 io.emit("roomList", Array.from(rooms.keys()));
@@ -85,7 +92,14 @@ io.on("connection", (socket) => {
     });
 
     socket.on("disconnect", () => {
-        console.log("Felhasználó lecsatlakozott:", socket.id);
+        rooms.forEach((room, roomName) => {
+            room.members = room.members.filter(member => member.id !== socket.id);
+            io.to(roomName).emit("playerList", room.members);
+            if (room.members.length === 0) {
+                rooms.delete(roomName);
+                io.emit("roomList", Array.from(rooms.keys()));
+            }
+        });
     });
 });
 
@@ -225,11 +239,6 @@ function sendResults(res, err, results){
 }
 
 
-
-server.listen(3001, () => {
-    console.log(`Server running on http://localhost:${3001}`);
-});
-
-app.listen(process.env.PORT, () => {
+server.listen(process.env.PORT, () => {
     console.log(`Server listening on http://localhost:${process.env.PORT}`);
 });

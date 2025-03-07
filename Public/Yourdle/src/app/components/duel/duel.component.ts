@@ -9,6 +9,7 @@ import { AuthService } from '../../services/auth.service';
 import { CheckboxModule } from 'primeng/checkbox';
 import { DropdownModule } from 'primeng/dropdown';
 import { ApiService } from '../../services/api.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-duel',
@@ -33,8 +34,8 @@ export class DuelComponent implements OnInit {
   ];
   displayCreateRoomDialog: boolean = false;
 
-  constructor(private auth:AuthService, private api:ApiService) {
-    this.socket = io("http://localhost:3001");
+  constructor(private auth:AuthService, private api:ApiService, private router:Router) {
+    this.socket = io("http://localhost:3000");
   }
 
   ngOnInit() {
@@ -80,10 +81,12 @@ export class DuelComponent implements OnInit {
       });
   
       // Csatlakozás a létrehozott szobához
-      this.socket.on("roomCreated", (roomName: string) => {
-          this.socket.emit("joinRoom", { roomName });
-          console.log(`Sikeresen csatlakoztál a ${roomName} szobához!`);
+      this.socket.on("roomCreated", (data: any) => {
+        if (data.redirect) {
+          this.router.navigate([`/lobby/${data.roomName}`]); // Várószoba oldalra navigálás
+        }
       });
+      
   
       // Alapállapotba visszaállítás
       this.selectedCategory = '';
@@ -93,7 +96,9 @@ export class DuelComponent implements OnInit {
   }
 
   joinRoom(roomName: string) {
-    this.socket.emit("joinRoom", { roomName });
+    let name = this.user.name;
+    this.socket.emit("joinRoom", { roomName, name });
+    this.router.navigate([`/lobby/${roomName}`]);
   }
 
   leaveRoom(roomName: string) {

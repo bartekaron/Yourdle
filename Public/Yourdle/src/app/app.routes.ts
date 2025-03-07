@@ -7,6 +7,7 @@ import { UserAuthGuard } from './guards/user-auth.guard';
 import { AdminAuthGuard } from './guards/admin-auth.guard';
 import { RestorepassComponent } from './components/restorepass/restorepass.component';
 import { CategoryCreatorComponent } from './components/category-creator/category-creator.component';
+import { LobbyComponent } from './components/lobby/lobby.component';
 
 export const routes: Routes = [
     {
@@ -32,5 +33,8 @@ export const routes: Routes = [
     },
     {
         path:"kategoria-keszito", component: CategoryCreatorComponent, canActivate:[UserAuthGuard]
+    },
+    {
+        path:"lobby/:roomname", component:LobbyComponent, canActivate:[UserAuthGuard]
     }
 ];

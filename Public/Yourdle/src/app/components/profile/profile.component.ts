@@ -150,7 +150,7 @@ deleteProfilePicture() {
   Logout(){
     this.auth.logout();
     this.closeDialog();
-    this.messageService.add({severity: 'success', summary: 'Kilépés', detail: 'Sikeres kijelentkezés.'});
+    this.messageService.add({severity: 'success', summary: 'Kilépés', detail: 'Sikeres kijelentkezés.', life: 2000});
     this.router.navigateByUrl("/")
   }
 
