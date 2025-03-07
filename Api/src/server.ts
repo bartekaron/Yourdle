@@ -226,10 +226,6 @@ function sendResults(res, err, results){
 
 
 
-server.listen(3001, () => {
-    console.log(`Server running on http://localhost:${3001}`);
-});
-
-app.listen(process.env.PORT, () => {
+server.listen(process.env.PORT, () => {
     console.log(`Server listening on http://localhost:${process.env.PORT}`);
 });
