@@ -238,7 +238,6 @@ function sendResults(res, err, results){
     res.status(200).send(results);
 }
 
-
 server.listen(process.env.PORT, () => {
     console.log(`Server listening on http://localhost:${process.env.PORT}`);
 });

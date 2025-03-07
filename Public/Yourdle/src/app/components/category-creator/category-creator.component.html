@@ -1,54 +1,84 @@
 <div class="category-creator p-4">
-    <h2>Kategória készítő</h2>
-    
-    <div class="p-field-category">
-      <label for="category-name" id="category_name">Kategória neve</label>
-      <input id="category-name" type="text" pInputText class="p-inputtext p-component w-full" [(ngModel)]="categoryName" />
+  <h2>Kategória készítő</h2>
+  
+  <div class="p-field-category">
+    <label for="category-name" id="category_name">Kategória neve</label>
+    <input id="category-name" type="text" pInputText class="p-inputtext p-component w-full" [(ngModel)]="categoryName" />
+  </div>
+  
+  <div class="p-field-public">
+    <label for="public">Publikus-e</label>
+    <p-checkbox label="Publikus" binary="true" [(ngModel)]="isPublic"></p-checkbox>
+  </div>
+  
+  <div class="p-field-types">
+    <label for="game-types">Játék típusok</label>
+    <p-dropdown id="game-types" placeholder="Típusok" [options]="gameTypes" (onChange)="onGameTypeChange($event)"></p-dropdown>
+  </div>
+  
+  <div *ngFor="let category of selectedCategories">
+    <div class="p-field-number">
+      <label for="form-count-{{category}}">Lehetőségek száma ({{category}})</label>
+      <input id="form-count-{{category}}" type="number" min="1" [(ngModel)]="formCounts[category]" (change)="generateForms(category)" />
     </div>
     
-    <div class="p-field-public">
-        <label for="public">Publikus-e</label>
-      <p-checkbox label="Publikus" binary="true" [(ngModel)]="isPublic"></p-checkbox>
-    </div>
-    
-    <div class="p-field-types">
-      <label for="game-types">Játék típusok</label>
-      <p-dropdown id="game-types" placeholder="Típusok" [options]="gameTypes" (onChange)="onGameTypeChange($event)"></p-dropdown>
-    </div>
-    
-    <div class="p-field-selected">
-      <label>Kiválasztott kategóriák</label>
-      <div class="selected-categories">
-        <ul>
-          <li *ngFor="let category of selectedCategories">{{ category }}</li>
-        </ul>
+    <div id="formsContainer">
+      <div *ngFor="let form of forms[category]; let i = index">
+        <h3>Form {{i + 1}} ({{category}})</h3>
+        <div *ngIf="category === 'Klasszikus'" class="p-field">
+          <label>Answer</label>
+          <input type="text" [(ngModel)]="form.answer" />
+          <label>Gender</label>
+          <input type="text" [(ngModel)]="form.gender" />
+          <label>Height</label>
+          <input type="number" [(ngModel)]="form.height" />
+          <label>Weight</label>
+          <input type="number" [(ngModel)]="form.weight" />
+          <label>Hair Color</label>
+          <input type="text" [(ngModel)]="form.hairColor" />
+          <label>Address</label>
+          <input type="text" [(ngModel)]="form.address" />
+          <label>Birth Date</label>
+          <input type="date" [(ngModel)]="form.birthDate" />
+        </div>
+        <div *ngIf="category === 'Kép'" class="p-field">
+          <label>Answer</label>
+          <input type="text" [(ngModel)]="form.answer" />
+          <label>Picture</label>
+          <p-fileUpload mode="basic" chooseLabel="Kép kiválasztása" [(ngModel)]="form.picture"></p-fileUpload>
+        </div>
+        <div *ngIf="category === 'Idézet'" class="p-field">
+          <label>Answer</label>
+          <input type="text" [(ngModel)]="form.answer" />
+          <label>Quote</label>
+          <input type="text" [(ngModel)]="form.quote" />
+        </div>
+        <div *ngIf="category === 'Emoji'" class="p-field">
+          <label>Answer</label>
+          <input type="text" [(ngModel)]="form.answer" />
+          <label>First Emoji</label>
+          <ngx-emoji [(ngModel)]="form.firstEmoji"></ngx-emoji>
+          <label>Second Emoji</label>
+          <ngx-emoji [(ngModel)]="form.secondEmoji"></ngx-emoji>
+          <label>Third Emoji</label>
+          <ngx-emoji [(ngModel)]="form.thirdEmoji"></ngx-emoji>
+        </div>
+
+        <div *ngIf="category === 'Leírás'" class="p-field">
+          <label>Answer</label>
+          <input type="text" [(ngModel)]="form.answer" />
+          <label>Description</label>
+          <input type="text" [(ngModel)]="form.description" />
+        </div>
+
       </div>
     </div>
-    
-    <div *ngIf="selectedCategories.includes('Kép')" class="p-field">
-      <label id="LBL">Kép feltöltése</label>
-      <p-fileUpload mode="basic" chooseLabel="Kép kiválasztása"></p-fileUpload>
-    </div>
-    
-    <div *ngIf="selectedCategories.includes('Idézet')" class="p-field">
-      <label id="LBL">Idézet feltöltése</label>
-      <p-button label="Személy idézete"></p-button>
-    </div>
+  </div>
+  
+  
 
-    <div *ngIf="selectedCategories.includes('Klasszikus')" class="p-field">
-        <label id="LBL">Klasszikus feltöltése</label>
-        <p-button label="Személy idézete"></p-button>
-    </div>
+  <p-button label="Létrehozás" class="p-button-primary" (onClick)="createCategory()"></p-button>
 
-    <div *ngIf="selectedCategories.includes('Emoji')" class="p-field">
-        <label id="LBL">Emoji feltöltése</label>
-        <p-button label="Személy idézete"></p-button>
-    </div>
-
-    <div *ngIf="selectedCategories.includes('Leírás')" class="p-field">
-        <label id="LBL">Leírás feltöltése</label>
-        <p-button label="Személy idézete"></p-button>
-    </div>
-    
-    <p-button label="Létrehozás" class="p-button-primary" (onClick)="createCategory()"></p-button>
 </div>
+
+    

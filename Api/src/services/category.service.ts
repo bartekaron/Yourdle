@@ -59,10 +59,10 @@ export const createCategoryService = async (category) => {
     }
 }
 
-export const createClassicService = async (classic) => {
+export const createClassicService = async (answer, gender, height, weight, hairColor, adress, birthDate ) => {
     try {
         const results = await new Promise((resolve, reject) => {
-            pool.query(`INSERT INTO classic SET ?`, classic, (err, results) => {
+            pool.query(`INSERT INTO classic SET ?`, answer, gender, height, weight, hairColor, adress, birthDate, (err, results) => {
                 if (err) {
                     const error:any = new Error('Hiba az adatbázis kapcsolatban');
                     error.status = 500;
@@ -78,10 +78,10 @@ export const createClassicService = async (classic) => {
     }
 }
 
-export const createDescriptionService = async (description) => {
+export const createDescriptionService = async (answer, desc) => {
     try {
         const results = await new Promise((resolve, reject) => {
-            pool.query(`INSERT INTO description SET ?`, description, (err, results) => {
+            pool.query(`INSERT INTO description SET ?`, answer, desc, (err, results) => {
                 if (err) {
                     const error:any = new Error('Hiba az adatbázis kapcsolatban');
                     error.status = 500;
@@ -97,10 +97,10 @@ export const createDescriptionService = async (description) => {
     }
 }
 
-export const createEmojiService = async (emoji) => {
+export const createEmojiService = async (answer, firstEmoji, secondEmoji, thirdEmoji) => {
     try {
         const results = await new Promise((resolve, reject) => {
-            pool.query(`INSERT INTO emoji SET ?`, emoji, (err, results) => {
+            pool.query(`INSERT INTO emoji SET ?`, answer, firstEmoji, secondEmoji, thirdEmoji, (err, results) => {
                 if (err) {
                     const error:any = new Error('Hiba az adatbázis kapcsolatban');
                     error.status = 500;
@@ -116,10 +116,10 @@ export const createEmojiService = async (emoji) => {
     }
 }
 
-export const createQuoteService = async (quote) => {
+export const createQuoteService = async (answer, quote) => {
     try {
         const results = await new Promise((resolve, reject) => {
-            pool.query(`INSERT INTO quote SET ?`, quote, (err, results) => {
+            pool.query(`INSERT INTO quote SET ?`, answer, quote, (err, results) => {
                 if (err) {
                     const error:any = new Error('Hiba az adatbázis kapcsolatban');
                     error.status = 500;
@@ -135,10 +135,10 @@ export const createQuoteService = async (quote) => {
     }
 }
 
-export const createPictureService = async (picture) => {
+export const createPictureService = async (answer, picture) => {
     try {
         const results = await new Promise((resolve, reject) => {
-            pool.query(`INSERT INTO picture SET ?`, picture, (err, results) => {
+            pool.query(`INSERT INTO picture SET ?`, answer, picture, (err, results) => {
                 if (err) {
                     const error:any = new Error('Hiba az adatbázis kapcsolatban');
                     error.status = 500;

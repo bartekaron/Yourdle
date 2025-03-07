@@ -34,6 +34,8 @@ export class CategoryCreatorComponent {
   selectedCategories: string[] = [];
   categoryName: string = '';
   isPublic: boolean = false;
+  formCounts: { [key: string]: number } = {};
+  forms: { [key: string]: any[] } = {};
 
 
   constructor(private api: ApiService, private message: MessageService, private auth: AuthService){}
@@ -42,14 +44,16 @@ export class CategoryCreatorComponent {
     const selectedType = event.value;
     if (!this.selectedCategories.includes(selectedType)) {
       this.selectedCategories.push(selectedType);
-      this.setCategoryVariable(selectedType, 1);
+      this.formCounts[selectedType] = 1;
+      this.generateForms(selectedType);
     } else {
       this.selectedCategories = this.selectedCategories.filter(category => category !== selectedType);
-      this.setCategoryVariable(selectedType, 0);
+      delete this.formCounts[selectedType];
+      delete this.forms[selectedType];
     }
   }
 
-  setCategoryVariable(category: string, value: number) {
+  /*setCategoryVariable(category: string, value: number) {
     switch (category) {
       case 'Klasszikus':
         this.classic = value;
@@ -67,6 +71,19 @@ export class CategoryCreatorComponent {
         this.emoji = value;
         break;
     }
+  }*/
+
+  generateForms(category: string) {
+    const count = this.formCounts[category];
+    this.forms[category] = Array.from({ length: count }, () => ({
+      answer: '',
+      gender: '',
+      height: '',
+      weight: '',
+      hairColor: '',
+      address: '',
+      birthDate: ''
+    }));
   }
 
   createCategory() {
@@ -84,6 +101,7 @@ export class CategoryCreatorComponent {
       public: this.public
     };
 
+    
     this.api.createCategory(categoryData).subscribe(
       response => {
         this.message.add({severity: 'success', summary: 'Siker', detail: 'Kategória sikeresen létrehozva!'});
