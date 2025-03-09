@@ -12,11 +12,8 @@
         <p><strong>Létrehozó:</strong> {{ room.owner }}</p>
         <p><strong>Kategória:</strong> {{ room.category }}</p>
         <p><strong>Játék típusok:</strong></p>
-        <ul>
-          <li *ngFor="let gameType of room.gameTypes">{{ gameType }}</li>
-        </ul>
-        <button pButton label="Csatlakozás" (click)="joinRoom(room.roomName)"></button>
-        <button pButton label="Kilépés" class="p-button-text" (click)="leaveRoom(room.roomName)"></button>
+          <p *ngFor="let gameType of room.gameTypes">{{ gameType }}</p>
+        <button pButton label="Párbaj" (click)="joinRoom(room.roomName)"></button>
       </ng-template>
     </p-card>
   </div>
@@ -45,3 +42,5 @@
     <button pButton label="Létrehozás" (click)="createRoom()" class="create-btn"></button>
   </div>
 </p-dialog>
+
+<p-toast />

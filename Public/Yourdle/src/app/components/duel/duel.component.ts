@@ -10,12 +10,15 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { DropdownModule } from 'primeng/dropdown';
 import { ApiService } from '../../services/api.service';
 import { Router } from '@angular/router';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-duel',
-  imports: [CommonModule, FormsModule, DialogModule, CardModule, ButtonModule, CheckboxModule, DropdownModule],
+  imports: [CommonModule, FormsModule, DialogModule, CardModule, ButtonModule, CheckboxModule, DropdownModule, ToastModule],
   templateUrl: './duel.component.html',
-  styleUrl: './duel.component.scss'
+  styleUrl: './duel.component.scss',
+  providers: [MessageService]
 })
 export class DuelComponent implements OnInit {
   socket: any;
@@ -34,28 +37,30 @@ export class DuelComponent implements OnInit {
   ];
   displayCreateRoomDialog: boolean = false;
 
-  constructor(private auth:AuthService, private api:ApiService, private router:Router) {
+  constructor(private auth:AuthService, private api:ApiService, private router:Router, private messageService: MessageService,) {
     this.socket = io("http://localhost:3000");
   }
 
   ngOnInit() {
     this.socket.emit("getRooms");
     this.user = this.auth.loggedUser().data;
-    this.api.select("categories", "allPublicCategories").subscribe((res:any)=>{
-      if (res) {  
-        this.categories = res.map((category:any) => ({
-          label: category.categoryName,  
-          value: category.categoryName   
-        }))
-      }
+    
+    this.api.select("categories", "allPublicCategories").subscribe((res: any) => {
+        if (res) {  
+            this.categories = res.map((category: any) => ({
+                label: category.categoryName,  
+                value: category.categoryName   
+            }));
+        }
     });
-
 
     this.socket.on("roomList", (rooms: string[]) => {
-      this.rooms = rooms;
-      this.filterRooms();
+        this.rooms = rooms;
+        this.filterRooms();
     });
-  }
+}
+
+
   // Szűrési logika
   filterRooms() {
     if (this.searchTerm) {
@@ -68,16 +73,17 @@ export class DuelComponent implements OnInit {
   }
 
   createRoom() {
-    if (this.selectedCategory) {
+    // Ellenőrizzük, hogy van-e kiválasztott kategória és legalább egy játék típus be van-e jelölve
+    if (this.selectedCategory && this.gameTypes.some(gt => gt.checked)) {
       const selectedGameTypes = this.gameTypes
-          .filter(gt => gt.checked)
-          .map(gt => gt.value);
+        .filter(gt => gt.checked)
+        .map(gt => gt.value);
   
       this.socket.emit("createRoom", {
-          roomName: this.user.id,  
-          category: this.selectedCategory,
-          gameTypes: selectedGameTypes,
-          owner: this.user.name
+        roomName: this.user.name,  
+        category: this.selectedCategory,
+        gameTypes: selectedGameTypes,
+        owner: this.user.name
       });
   
       // Csatlakozás a létrehozott szobához
@@ -86,14 +92,22 @@ export class DuelComponent implements OnInit {
           this.router.navigate([`/lobby/${data.roomName}`]); // Várószoba oldalra navigálás
         }
       });
-      
   
       // Alapállapotba visszaállítás
       this.selectedCategory = '';
       this.gameTypes.forEach(gt => gt.checked = false);
       this.displayCreateRoomDialog = false;
+    } else {
+      // Ha nincs kategória vagy nincs játék típus kiválasztva, figyelmeztetés
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Hiba',
+        detail: 'Kérlek válassz kategóriát és legalább egy játék típust!',
+        life: 2000 // Az üzenet 2 másodpercig jelenik meg
+      });
     }
   }
+  
 
   joinRoom(roomName: string) {
     let name = this.user.name;
@@ -101,7 +115,4 @@ export class DuelComponent implements OnInit {
     this.router.navigate([`/lobby/${roomName}`]);
   }
 
-  leaveRoom(roomName: string) {
-    this.socket.emit("leaveRoom", { roomName });
-  }
 }

@@ -23,15 +23,16 @@ export class LobbyComponent implements OnInit {
 
   ngOnInit() {
     this.roomName = this.route.snapshot.paramMap.get('roomName') || '';
-    console.log('Szoba neve:', this.roomName);  // Ellenőrizd, hogy mi jön vissza itt!
 
     if (this.roomName) {
-        this.socket.emit("joinRoom", { roomName: this.roomName, user: this.auth.loggedUser().data });
+        this.socket.emit("joinRoom", { roomName: this.roomName, name: this.auth.loggedUser().data.name });
     }
 
     this.socket.on("playerList", (members: any) => {
-        this.players = members;
+      const uniqueMembers = Array.from(new Map(members.map((item:any) => [item.name, item])).values());
+      this.players = uniqueMembers;
     });
+
 }
 
   startGame() {

@@ -35,6 +35,6 @@ export const routes: Routes = [
         path:"kategoria-keszito", component: CategoryCreatorComponent, canActivate:[UserAuthGuard]
     },
     {
-        path:"lobby/:roomname", component:LobbyComponent, canActivate:[UserAuthGuard]
+        path:"lobby/:roomName", component:LobbyComponent, canActivate:[UserAuthGuard]
     }
 ];

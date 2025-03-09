@@ -15,7 +15,7 @@ const app = express();
 const server = createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: "*", // Ha kell, pontosítsd az engedélyezett domaineket
+        origin: "http://localhost:4200", // Ha kell, pontosítsd az engedélyezett domaineket
     },
 });
 
@@ -44,10 +44,11 @@ io.on("connection", (socket) => {
                 owner, 
                 category, 
                 gameTypes, 
-                members: [{ id: socket.id, name: owner }] // itt tároljuk a játékos nevét is
+                members: [{ id: socket.id, name: owner }] // Az új szoba létrehozásakor itt csak a tulajdonos kerül bele
             });
             socket.join(roomName);
-            
+
+            // Az új szoba hozzáadását követően értesítjük az összes klienst a szobák listájával
             io.emit("roomList", Array.from(rooms.entries()).map(([roomName, data]) => ({
                 roomName,
                 owner: data.owner,
@@ -55,27 +56,65 @@ io.on("connection", (socket) => {
                 gameTypes: data.gameTypes,
             })));
 
+            // A létrehozott szoba játékosainak listája
             io.to(roomName).emit("playerList", rooms.get(roomName).members);
+
+            // A szoba létrehozója visszajelzést kap a sikeres létrehozásról
             socket.emit("roomCreated", { roomName, owner, redirect: true });
+        } else {
+            // Ha a szoba már létezik, akkor jelezni kell, hogy nem lehet létrehozni
+            socket.emit("roomCreated", { success: false, message: "Ez a szoba már létezik!" });
         }
     });
 
-    socket.on("joinRoom", ({ roomName, name }) => {
+
+   /* Most 2x tesz bele minden player-t ebbe itt lent csak 1x viszont úgy buggos a megjelenítés frontenden nagyon durván 
+   socket.on("joinRoom", ({ roomName, name }) => {
         if (rooms.has(roomName)) {
             const room = rooms.get(roomName);
+            // Ellenőrizzük, hogy a játékos még nincs-e a szobában
             if (!room.members.some(member => member.id === socket.id)) {
                 room.members.push({ id: socket.id, name: name });
                 socket.join(roomName);
             }
-            // Küldjük az adatokat a kliensnek
+            // Küldjük az adatokat a kliensnek, hogy frissüljön a játékos lista
             io.to(roomName).emit("playerList", room.members);
-    
-         
+        }
+    });*/
+
+    socket.on("joinRoom", ({ roomName, name }) => {
+        if (rooms.has(roomName)) {
+            const room = rooms.get(roomName);
+            // Ellenőrizzük, hogy a játékos már nincs-e a szobában
+            const isAlreadyInRoom = room.members.some(member => member.id === socket.id);
             
+            if (!isAlreadyInRoom) {
+                room.members.push({ id: socket.id, name: name });
+                socket.join(roomName);
+            }
+    
+            // Küldjük az adatokat a kliensnek, hogy frissüljön a játékos lista
+            io.to(roomName).emit("playerList", room.members);
         }
     });
     
-    
+    socket.on("startGame", ({ roomName }) => {
+        const room = rooms.get(roomName);
+        
+        // Ellenőrizzük, hogy a szoba létezik és hogy a játékot csak a tulajdonos indíthatja el
+        if (room) {
+            const playerCount = room.members.length;
+            if (playerCount >= 2) {
+                
+                io.to(roomName).emit("gameStarted", { success: true, message: "Játék elindítva!" });
+                // Ide majd talán, hogyan menjen a játék
+            } else {
+                io.to(roomName).emit("gameStarted", { success: false, message: "Legalább két játékosnak kell lenni a játék indításához." });
+            }
+        } 
+    });
+
+
 
     socket.on("leaveRoom", ({ roomName }) => {
         if (rooms.has(roomName)) {
@@ -93,14 +132,14 @@ io.on("connection", (socket) => {
 
     socket.on("disconnect", () => {
         rooms.forEach((room, roomName) => {
-            room.members = room.members.filter(member => member.id !== socket.id);
-            io.to(roomName).emit("playerList", room.members);
-            if (room.members.length === 0) {
-                rooms.delete(roomName);
-                io.emit("roomList", Array.from(rooms.keys()));
-            }
+          room.members = room.members.filter(member => member.id !== socket.id);  // Töröljük a kilépett játékost
+          io.to(roomName).emit("playerList", room.members);  // Frissítjük a játékoslistát minden szobában
+          if (room.members.length === 0) {
+            rooms.delete(roomName);  // Ha üres a szoba, töröljük
+            io.emit("roomList", Array.from(rooms.keys()));  // Frissítjük a szobák listáját
+          }
         });
-    });
+      });      
 });
 
 
