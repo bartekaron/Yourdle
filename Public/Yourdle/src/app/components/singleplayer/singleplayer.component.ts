@@ -5,11 +5,12 @@ import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { ApiService } from '../../services/api.service';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-singleplayer',
   standalone: true,
-  imports: [CommonModule, FormsModule, CardModule, ButtonModule, InputTextModule],
+  imports: [CommonModule, FormsModule, CardModule, ButtonModule, InputTextModule, RouterModule],
   templateUrl: './singleplayer.component.html',
   styleUrl: './singleplayer.component.scss'
 })
@@ -19,7 +20,7 @@ export class SingleplayerComponent implements OnInit {
   filteredCategories: any[] = [];
   usersMap: Map<string, string> = new Map(); // ID -> Név párosítások
 
-  constructor(private api: ApiService) {}
+  constructor(private api: ApiService, private router: Router) {}
 
   ngOnInit() {
     this.loadCategories();
@@ -27,16 +28,21 @@ export class SingleplayerComponent implements OnInit {
 
   loadCategories() {
     this.api.getPublicCategories().subscribe((data: any[]) => {
-      this.categories = data.map(category => ({
-        ...category,
-        gameModes: [
-          category.classic ? 'Klasszikus' : null,
-          category.quote ? 'Idézet' : null,
-          category.emoji ? 'Emoji' : null,
-          category.picture ? 'Kép' : null,
-          category.desc ? 'Leírás' : null
-        ].filter(Boolean) 
-      }));
+
+      const modeOrder = ['Klasszikus', 'Idézet', 'Emoji', 'Kép', 'Leírás'];
+
+      this.categories = data.map(category => {
+        const gameModes = modeOrder.filter(mode => {
+          return (mode === 'Klasszikus' && category.classic) ||
+                 (mode === 'Idézet' && category.quote) ||
+                 (mode === 'Emoji' && category.emoji) ||
+                 (mode === 'Kép' && category.picture) ||
+                 (mode === 'Leírás' && category.desc);
+        });
+      
+        return { ...category, gameModes };
+      });
+      
 
       this.filteredCategories = [...this.categories];
 
@@ -70,7 +76,35 @@ export class SingleplayerComponent implements OnInit {
     );
   }
 
-  startGame(category: any) {
-    console.log(`Játék indítása: ${category.categoryName}`);
+startGame(category: any) {
+  if (category.gameModes.length > 0) {
+    this.startMode(category, 0);
+  } else {
+    console.log('Nincs elérhető játékmód ebben a kategóriában.');
   }
+}
+
+startMode(category: any, modeIndex: number) {
+  const mode = category.gameModes[modeIndex];
+
+  if (!mode) {
+    console.log('Nincs több játékmód.');
+    return;
+  }
+
+  console.log(`Játék indítása: ${mode} (${category.categoryName})`);
+  
+  if (mode === 'Klasszikus') {
+    this.router.navigate(['/classic-game', category.id, modeIndex]);
+  } else if (mode === 'Idézet') {
+    this.router.navigate(['/quote-game', category.id, modeIndex]);
+  } else if (mode === 'Emoji') {
+    this.router.navigate(['/emoji-game', category.id, modeIndex]);
+  } else if (mode === 'Kép') {
+    this.router.navigate(['/picture-game', category.id, modeIndex]);
+  } else if (mode === 'Leírás') {
+    this.router.navigate(['/description-game', category.id, modeIndex]);
+  }
+}
+
 }

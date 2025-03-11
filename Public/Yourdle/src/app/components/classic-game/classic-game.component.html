@@ -1,0 +1,24 @@
+<h2 class="title">Klasszikus</h2>
+
+<p-dropdown 
+  [options]="names" 
+  [(ngModel)]="selectedName" 
+  placeholder="Nevek" 
+  (onChange)="onSelectName()">
+</p-dropdown>
+
+<div class="properties">
+    <p-panel *ngFor="let prop of properties" class="property-box">
+      <ng-template pTemplate="header">
+        {{ prop.name }}
+      </ng-template>
+      <ng-template pTemplate="content">
+        <div class="value-box">
+          <span>{{ prop.value }}</span>
+          <span *ngIf="prop.hint === 'higher'">⬆️</span>
+          <span *ngIf="prop.hint === 'lower'">⬇️</span>
+        </div>
+      </ng-template>
+    </p-panel>
+  </div>
+  
