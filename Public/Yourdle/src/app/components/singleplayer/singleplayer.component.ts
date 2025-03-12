@@ -88,11 +88,8 @@ startMode(category: any, modeIndex: number) {
   const mode = category.gameModes[modeIndex];
 
   if (!mode) {
-    console.log('Nincs több játékmód.');
     return;
   }
-
-  console.log(`Játék indítása: ${mode} (${category.categoryName})`);
   
   if (mode === 'Klasszikus') {
     this.router.navigate(['/classic-game', category.id, modeIndex]);

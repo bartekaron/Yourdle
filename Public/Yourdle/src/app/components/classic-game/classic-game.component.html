@@ -1,24 +1,33 @@
-<h2 class="title">Klasszikus</h2>
+<h3 class="title">Klasszikus</h3>
+<div class="game-container">
+  <!-- Autocomplete mező a karakter kiválasztásához -->
+  <p-autoComplete 
+    [(ngModel)]="selectedCharacter" 
+    [suggestions]="filteredCharacters" 
+    (completeMethod)="filterCharacters($event)" 
+    placeholder="Írd be a karakter nevét"
+    (keyup.enter)="submitCharacter()">  <!-- Enter billentyű kezelése -->
+  </p-autoComplete>
 
-<p-dropdown 
-  [options]="names" 
-  [(ngModel)]="selectedName" 
-  placeholder="Nevek" 
-  (onChange)="onSelectName()">
-</p-dropdown>
+  <!-- Küldés gomb -->
+  <button (click)="submitCharacter()">Küldés</button>
 
-<div class="properties">
-    <p-panel *ngFor="let prop of properties" class="property-box">
-      <ng-template pTemplate="header">
-        {{ prop.name }}
-      </ng-template>
-      <ng-template pTemplate="content">
-        <div class="value-box">
-          <span>{{ prop.value }}</span>
-          <span *ngIf="prop.hint === 'higher'">⬆️</span>
-          <span *ngIf="prop.hint === 'lower'">⬇️</span>
-        </div>
-      </ng-template>
-    </p-panel>
+  <!-- Korábbi tippek megjelenítése -->
+  <div *ngFor="let guess of previousGuesses" class="guess">
+    <div *ngFor="let detail of characterProperties" class="property">
+      <span class="label">{{ detail.label }}:</span>
+      <span 
+        class="value"
+        [ngClass]="{
+          'correct': isPropertyCorrect(detail.key, guess),
+          'incorrect': !isPropertyCorrect(detail.key, guess)
+        }">
+        <!-- Dátum formázása -->
+        {{ detail.key === 'birthDate' ? (guess[detail.key] | date: 'yyyy-MM-dd') : guess[detail.key] }}
+      </span>
+      <span *ngIf="showPropertyHint(detail.key, guess)" class="hint-arrow">
+        {{ getPropertyHint(detail.key, guess) }}
+      </span>
+    </div>
   </div>
-  
+</div>

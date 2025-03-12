@@ -142,11 +142,11 @@ import { Observable } from 'rxjs';
   //Játékokhoz tartozó metódusok
 
   getAllClassic(id: string) {
-    return this.http.get(this.server + '/game/allClassic/' + id, this.tokenHeader());
+    return this.http.get(this.server + '/games/allClassic/' + id, this.tokenHeader());
   }
 
   getSolutionClassic(id: string) {
-    return this.http.get(this.server + '/game/solutionClassic/' + id, this.tokenHeader());
+    return this.http.get(this.server + '/games/solutionClassic/' + id, this.tokenHeader());
   }
   
 

@@ -1,5 +1,69 @@
 .title {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: white;
-  }
+  font-size: 4rem;
+  font-weight: bold;
+  font-family: Do Hyeon;
+  color: white;
+  text-align: center;
+}
+/* Alap stílusok */
+body {
+  background-color: #1e1e1e;  /* Sötét háttér */
+  color: white;  /* Fehér szöveg */
+}
+
+button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.previous-guesses {
+  margin-top: 20px;
+}
+
+.guess {
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #444;
+  border-radius: 4px;
+  background-color: #2a2a2a;  /* Sötét háttér a tippekhez */
+}
+
+.property {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.label {
+  font-weight: bold;
+  color: white;  /* Fehér szöveg */
+}
+
+.value {
+  padding: 5px;
+  border-radius: 4px;
+  color: white;  /* Fehér szöveg */
+}
+
+.correct {
+  background-color: green;
+}
+
+.incorrect {
+  background-color: red;
+}
+
+.hint-arrow {
+  font-size: 14px;
+  color: white;  /* Fehér szöveg */
+}
