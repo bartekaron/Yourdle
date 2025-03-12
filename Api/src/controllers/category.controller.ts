@@ -36,70 +36,65 @@ export const createCategory = async (req, res, next) => {
 
 export const createClassic = async (req, res, next) => {
     try {
-        const {answer, gender, height, weight, hairColor, adress, birthDate } = req.body;
-        if (!answer || !gender || !height || !weight || !hairColor || !adress || !birthDate) {
+        const { answer, gender, height, weight, hairColor, address, birthDate, categoryID } = req.body;
+        if (!answer || !gender || !height || !weight || !hairColor || !address || !birthDate || !categoryID) {
             return res.status(400).json({ success: false, message: "Hiányzó adatok!" });
         }
-        const result = await createClassicService(answer, gender, height, weight, hairColor, adress, birthDate);
-        res.status(200).json({result, success: true});
+        const result = await createClassicService({ answer, gender, height, weight, hairColor, address, birthDate, categoryID });
+        res.status(200).json({ result, success: true });
     } catch (error) {
         next(error);
     }
-
-}
+};
 
 export const createDescription = async (req, res, next) => {
     try {
-        const {answer, desc} = req.body;
-        if (!answer || !desc) {
+        const { answer, desc, categoryID } = req.body;
+        if (!answer || !desc || !categoryID) {
             return res.status(400).json({ success: false, message: "Hiányzó adatok!" });
         }
-        const result = await createDescriptionService(answer, desc);
-        res.status(200).json({result, success: true});
+        const result = await createDescriptionService({ answer, desc, categoryID });
+        res.status(200).json({ result, success: true });
     } catch (error) {
         next(error);
     }
-
-}
+};
 
 export const createEmoji = async (req, res, next) => {
     try {
-        const {answer, firstEmoji, secondEmoji, thirdEmoji} = req.body;
-        if (!answer || !firstEmoji || !secondEmoji || !thirdEmoji) {
+        const { answer, firstEmoji, secondEmoji, thirdEmoji, categoryID } = req.body;
+        if (!answer || !firstEmoji || !secondEmoji || !thirdEmoji || !categoryID) {
             return res.status(400).json({ success: false, message: "Hiányzó adatok!" });
         }
-        const result = await createEmojiService(answer, firstEmoji, secondEmoji, thirdEmoji);
-        res.status(200).json({result, success: true});
+        const result = await createEmojiService({ answer, firstEmoji, secondEmoji, thirdEmoji, categoryID });
+        res.status(200).json({ result, success: true });
     } catch (error) {
         next(error);
     }
-
-}
+};
 
 export const createQuote = async (req, res, next) => {
     try {
-        const {answer, quote} = req.body;
-        if (!answer || !quote) {
+        const { answer, quote, categoryID } = req.body;
+        if (!answer || !quote || !categoryID) {
             return res.status(400).json({ success: false, message: "Hiányzó adatok!" });
         }
-        const result = await createQuoteService(answer, quote);
-        res.status(200).json({result, success: true});
+        const result = await createQuoteService({ answer, quote, categoryID });
+        res.status(200).json({ result, success: true });
     } catch (error) {
         next(error);
     }
-
-}
+};
 
 export const createPicture = async (req, res, next) => {
     try {
-        const {answer, picture} = req.body;
-        if (!answer || !picture) {
+        const { answer, picture, categoryID } = req.body;
+        if (!answer || !picture || !categoryID) {
             return res.status(400).json({ success: false, message: "Hiányzó adatok!" });
         }
-        const result = await createPictureService(answer, picture);
-        res.status(200).json({result, success: true});
+        const result = await createPictureService({ answer, picture, categoryID });
+        res.status(200).json({ result, success: true });
     } catch (error) {
         next(error);
     }
-
-}
+};

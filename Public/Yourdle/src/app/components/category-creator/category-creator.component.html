@@ -45,7 +45,7 @@
           <label>Answer</label>
           <input type="text" [(ngModel)]="form.answer" />
           <label>Picture</label>
-          <p-fileUpload mode="basic" chooseLabel="Kép kiválasztása" [(ngModel)]="form.picture"></p-fileUpload>
+          <p-fileUpload mode="basic" name="picture" chooseLabel="Kép kiválasztása" accept="image/*" (onUpload)="onPictureUpload($event, form)" [auto]="true"></p-fileUpload>
         </div>
         <div *ngIf="category === 'Idézet'" class="p-field">
           <label>Answer</label>
@@ -68,7 +68,7 @@
           <label>Answer</label>
           <input type="text" [(ngModel)]="form.answer" />
           <label>Description</label>
-          <input type="text" [(ngModel)]="form.description" />
+          <input type="text" [(ngModel)]="form.desc" />
         </div>
 
       </div>

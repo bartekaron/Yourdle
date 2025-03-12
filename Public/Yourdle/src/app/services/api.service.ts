@@ -117,7 +117,7 @@ import { Observable } from 'rxjs';
     }
     
     ChangePassword(id: string, data: object) {
-        return this.http.patch(this.server + '/users/change-password/' + id, data, this.tokenHeader());
+      return this.http.patch(this.server + '/users/change-password/' + id, data, this.tokenHeader());
     }
    
     getUserById(userID: string): Observable<any> {
@@ -137,6 +137,33 @@ import { Observable } from 'rxjs';
 
     createCategory(data: object) {
       return this.http.post(this.server + '/categories/category', data, this.tokenHeader());
+    }
+
+    createClassic(data: object): Observable<any> {
+      return this.http.post(this.server + '/categories/classic', data, this.tokenHeader());
+    }
+  
+    createDescription(data: object): Observable<any> {
+      return this.http.post(this.server + '/categories/description', data, this.tokenHeader());
+    }
+  
+    createQuote(data: object): Observable<any> {
+      return this.http.post(this.server + '/categories/quote', data, this.tokenHeader());
+    }
+  
+    createPicture(data: object): Observable<any> {
+      return this.http.post(this.server + '/categories/picture', data, this.tokenHeader());
+    }
+  
+    createEmoji(data: object): Observable<any> {
+      return this.http.post(this.server + '/categories/emoji', data, this.tokenHeader());
+    }
+
+    uploadProfilePicture(profilePicture: File, id: string) {
+      const formData = new FormData();
+      formData.append('profilePicture', profilePicture);
+      formData.append('id', id);
+      return this.http.post(this.server + '/uploadProfilePicture', formData, this.tokenHeader());
     }
 
 }
