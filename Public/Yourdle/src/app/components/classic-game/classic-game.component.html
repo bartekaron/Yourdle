@@ -1,0 +1,33 @@
+<h3 class="title">Klasszikus</h3>
+<div class="game-container">
+  <!-- Autocomplete mező a karakter kiválasztásához -->
+  <p-autoComplete 
+    [(ngModel)]="selectedCharacter" 
+    [suggestions]="filteredCharacters" 
+    (completeMethod)="filterCharacters($event)" 
+    placeholder="Írd be a karakter nevét"
+    (keyup.enter)="submitCharacter()">  <!-- Enter billentyű kezelése -->
+  </p-autoComplete>
+
+  <!-- Küldés gomb -->
+  <button (click)="submitCharacter()">Küldés</button>
+
+  <!-- Korábbi tippek megjelenítése -->
+  <div *ngFor="let guess of previousGuesses" class="guess">
+    <div *ngFor="let detail of characterProperties" class="property">
+      <span class="label">{{ detail.label }}:</span>
+      <span 
+        class="value"
+        [ngClass]="{
+          'correct': isPropertyCorrect(detail.key, guess),
+          'incorrect': !isPropertyCorrect(detail.key, guess)
+        }">
+        <!-- Dátum formázása -->
+        {{ detail.key === 'birthDate' ? (guess[detail.key] | date: 'yyyy-MM-dd') : guess[detail.key] }}
+      </span>
+      <span *ngIf="showPropertyHint(detail.key, guess)" class="hint-arrow">
+        {{ getPropertyHint(detail.key, guess) }}
+      </span>
+    </div>
+  </div>
+</div>

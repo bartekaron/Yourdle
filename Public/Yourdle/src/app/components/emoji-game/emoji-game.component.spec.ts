@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ChangePasswrodComponent } from './change-passwrod.component';
+import { EmojiGameComponent } from './emoji-game.component';
 
-describe('ChangePasswrodComponent', () => {
-  let component: ChangePasswrodComponent;
-  let fixture: ComponentFixture<ChangePasswrodComponent>;
+describe('EmojiGameComponent', () => {
+  let component: EmojiGameComponent;
+  let fixture: ComponentFixture<EmojiGameComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ChangePasswrodComponent]
+      imports: [EmojiGameComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ChangePasswrodComponent);
+    fixture = TestBed.createComponent(EmojiGameComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

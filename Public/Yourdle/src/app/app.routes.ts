@@ -8,6 +8,11 @@ import { AdminAuthGuard } from './guards/admin-auth.guard';
 import { RestorepassComponent } from './components/restorepass/restorepass.component';
 import { CategoryCreatorComponent } from './components/category-creator/category-creator.component';
 import { LobbyComponent } from './components/lobby/lobby.component';
+import { ClassicGameComponent } from './components/classic-game/classic-game.component';
+import { QuoteGameComponent } from './components/quote-game/quote-game.component';
+import { EmojiGameComponent } from './components/emoji-game/emoji-game.component';
+import { PictureGameComponent } from './components/picture-game/picture-game.component';
+import { DescriptionGameComponent } from './components/description-game/description-game.component';
 
 export const routes: Routes = [
     {
@@ -36,5 +41,11 @@ export const routes: Routes = [
     },
     {
         path:"lobby/:roomName", component:LobbyComponent, canActivate:[UserAuthGuard]
-    }
+    },
+    //Játékmódok:
+    { path: 'classic-game/:id/:modeIndex', component: ClassicGameComponent },
+    { path: 'quote-game/:id/:modeIndex', component: QuoteGameComponent },
+    { path: 'emoji-game/:id/:modeIndex', component: EmojiGameComponent },
+    { path: 'picture-game/:id/:modeIndex', component: PictureGameComponent },
+    { path: 'description-game/:id/:modeIndex', component: DescriptionGameComponent },
 ];

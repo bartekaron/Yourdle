@@ -127,9 +127,9 @@ import { Observable } from 'rxjs';
     
    //Kategóriákhoz tartozó metódusok
 
-   getPublicCategories(): Observable<any[]> {
+    getPublicCategories(): Observable<any[]> {
     return this.http.get<any[]>(this.server + '/categories/allPublicCategories');
- }
+    }
 
     getUser(id: string) {
       return this.http.get(this.server + '/users/' + id, this.tokenHeader());
@@ -165,5 +165,14 @@ import { Observable } from 'rxjs';
       formData.append('id', id);
       return this.http.post(this.server + '/uploadProfilePicture', formData, this.tokenHeader());
     }
+    
+  //Játékokhoz tartozó metódusok
 
+   getAllClassic(id: string) {
+    return this.http.get(this.server + '/games/allClassic/' + id, this.tokenHeader());
+   }
+
+  getSolutionClassic(id: string) {
+    return this.http.get(this.server + '/games/solutionClassic/' + id, this.tokenHeader());
+  }
 }
