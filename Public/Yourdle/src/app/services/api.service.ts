@@ -169,10 +169,18 @@ import { Observable } from 'rxjs';
   //Játékokhoz tartozó metódusok
 
    getAllClassic(id: string) {
-    return this.http.get(this.server + '/games/allClassic/' + id, this.tokenHeader());
+    return this.http.get(this.server + '/games/allClassic/' + id);
    }
 
   getSolutionClassic(id: string) {
-    return this.http.get(this.server + '/games/solutionClassic/' + id, this.tokenHeader());
+    return this.http.get(this.server + '/games/solutionClassic/' + id);
+  }
+
+  getAllEmoji(id: string) {
+    return this.http.get(this.server + '/games/allEmoji/' + id);
+   }
+
+  getSolutionEmoji(id: string) {
+    return this.http.get(this.server + '/games/solutionEmoji/' + id);
   }
 }
