@@ -1,1 +1,29 @@
-<p>emoji-game works!</p>
+<h3 class="title">Emoji</h3>
+<div class="game-container">
+
+
+
+
+
+  <!-- Korábbi tippek megjelenítése -->
+  <div class="emoji-container">
+    <span *ngFor="let emoji of revealedEmojis" class="emoji">{{ emoji }}</span>
+  </div>
+
+  <div class="guesses-container">
+    <p *ngFor="let guess of previousGuesses" class="guess">{{ guess }}</p>
+  </div>
+
+  <!-- Autocomplete mező a karakter kiválasztásához -->
+  <p-autoComplete 
+  [(ngModel)]="selectedCharacter" 
+  [suggestions]="filteredCharacters" 
+  (completeMethod)="filterCharacters($event)" 
+  placeholder="Írd be a karakter nevét"
+  (keyup.enter)="submitCharacter()">  <!-- Enter billentyű kezelése -->
+</p-autoComplete>
+
+  <!-- Küldés gomb -->
+  <button (click)="submitCharacter()">Küldés</button>
+
+</div>

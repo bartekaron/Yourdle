@@ -40,9 +40,9 @@
                 <td>
                     <p-cellEditor>
                         <ng-template pTemplate="input">
-                            <textarea pInputText type="text"
+                            <input pInputText type="text"
                             [(ngModel)]="user.role"
-                            required ></textarea>
+                            required >
                         </ng-template>
                         <ng-template pTemplate="output">
                             {{user.role}}
