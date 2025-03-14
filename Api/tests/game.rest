@@ -8,3 +8,13 @@ Content-Type: application/json
 ### GET classic solution by category ID
 GET {{baseUrl}}/solutionClassic/asd
 Content-Type: application/json
+
+
+### GET all emoji by category ID
+GET {{baseUrl}}/allEmoji/bkgldnblkdf
+Content-Type: application/json
+
+
+### GET emoji solution by category ID
+GET {{baseUrl}}/solutionEmoji/bkgldnblkdf
+Content-Type: application/json
