@@ -2,28 +2,34 @@
 <div class="game-container">
 
 
-
-
-
   <!-- Korábbi tippek megjelenítése -->
   <div class="emoji-container">
-    <span *ngFor="let emoji of revealedEmojis" class="emoji">{{ emoji }}</span>
+    <span *ngFor="let emoji of allEmojis; let i = index" class="emoji">
+      {{ i < revealedEmojis.length ? revealedEmojis[i] : '?' }}
+    </span>
   </div>
+  
 
   <div class="guesses-container">
-    <p *ngFor="let guess of previousGuesses" class="guess">{{ guess }}</p>
+    <p *ngFor="let guess of previousGuesses" 
+       [ngClass]="{'correct-guess': guess === targetCharacter?.answer, 'incorrect-guess': guess !== targetCharacter?.answer}" 
+       class="guess">
+      {{ guess }}
+    </p>
   </div>
 
-  <!-- Autocomplete mező a karakter kiválasztásához -->
-  <p-autoComplete 
-  [(ngModel)]="selectedCharacter" 
-  [suggestions]="filteredCharacters" 
-  (completeMethod)="filterCharacters($event)" 
-  placeholder="Írd be a karakter nevét"
-  (keyup.enter)="submitCharacter()">  <!-- Enter billentyű kezelése -->
-</p-autoComplete>
 
-  <!-- Küldés gomb -->
+  <!-- Autocomplete mező a karakter kiválasztásához -->
+<div class="input-container">
+  <p-autoComplete 
+    [(ngModel)]="selectedCharacter" 
+    [suggestions]="filteredCharacters" 
+    (completeMethod)="filterCharacters($event)" 
+    placeholder="Írd be a karakter nevét"
+    (keyup.enter)="submitCharacter()">  
+  </p-autoComplete>
+  
   <button (click)="submitCharacter()">Küldés</button>
+</div>
 
 </div>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Feb 26. 18:37
+-- Létrehozás ideje: 2025. Már 16. 18:12
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -46,7 +46,8 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`id`, `categoryName`, `userID`, `classic`, `quote`, `emoji`, `picture`, `desc`, `public`) VALUES
-('asf', 'fiu', '05d30dda-6021-47fc-b944-7f0508d3de43', 1, 1, 1, 0, 0, 1);
+('asf', 'fiu', '05d30dda-6021-47fc-b944-7f0508d3de43', 1, 1, 1, 0, 0, 1),
+('safafcsacsadas', 'emoji', '79dd2b70-259b-48dc-bf8e-49f872df6770', 0, 0, 1, 0, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -89,10 +90,20 @@ CREATE TABLE `emoji` (
   `id` varchar(40) NOT NULL,
   `categoryID` varchar(40) NOT NULL,
   `answer` varchar(40) NOT NULL,
-  `firstEmoji` varchar(255) NOT NULL,
-  `secondEmoji` varchar(255) NOT NULL,
-  `thirdEmoji` varchar(255) NOT NULL
+  `firstEmoji` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `secondEmoji` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `thirdEmoji` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
+
+--
+-- A tábla adatainak kiíratása `emoji`
+--
+
+INSERT INTO `emoji` (`id`, `categoryID`, `answer`, `firstEmoji`, `secondEmoji`, `thirdEmoji`) VALUES
+('123213asdsad', 'safafcsacsadas', 'Balázs', '👮‍♂️', '🏋️‍♂️', '🙌'),
+('123321', 'safafcsacsadas', 'Dudás', '👩', '👩‍🦱', '👳‍♂️'),
+('kjhkjhk', 'safafcsacsadas', 'Áron', '🏃‍♀️', '🚶‍♂️', '🖖'),
+('ljlkjhmhhmg', 'safafcsacsadas', 'Csoki', '💁‍♂️', '🤛', '🤜');
 
 -- --------------------------------------------------------
 
@@ -202,7 +213,7 @@ INSERT INTO `users` (`id`, `name`, `email`, `passwd`, `role`, `profilePic`) VALU
 ('05d30dda-6021-47fc-b944-7f0508d3de43', 'Béla3', 'bela@gmail.com', '$2b$10$V7CBUXaQhKVtUuQuIOAtbO4Vi2.lxLdd3nm0ZgJOxWdCU/ktGX5dC', 'user', NULL),
 ('1d9c9c5f-a535-4bc8-a8a3-a23d1617f779', 'Teszt Elek', 'tesztelek8@gmail.com', '$2b$10$ZxsW6QVvX.yyT/AQ41BDue9IyrCsVCcylmL6FlFdgR6rp8YBsKEjy', 'user', NULL),
 ('1fabc600-f55e-4348-9cfa-3c0b52227055', 'Teszt Elek', 'tesztelek6@gmail.com', '$2b$10$UHwwaNG21dhq1rqX3UHNYObgdMJ13QBm.kqNtBl9vViX5m/L0kbPi', 'user', NULL),
-('79dd2b70-259b-48dc-bf8e-49f872df6770', 'Teszt Erik', 'tesztelek7@gmail.com', '$2b$10$zUIG97njFyFgfL7eXerzqOJVlZ.1saSCBqBfiDZSC9YhJyKn5s0mO', 'user', 'f49b46dda59b2c9946661142eeae8f11:a20f5824552bb0186ce6ee4d0782599a973756eab627fedb117706719c27f950fe2f40115bf96e87404c446a500dabafa1ec993b570c151da4cd8705f78ee2ce');
+('79dd2b70-259b-48dc-bf8e-49f872df6770', 'admin', 'admin@gmail.com', '$2b$10$zUIG97njFyFgfL7eXerzqOJVlZ.1saSCBqBfiDZSC9YhJyKn5s0mO', 'admin', NULL);
 
 -- --------------------------------------------------------
 

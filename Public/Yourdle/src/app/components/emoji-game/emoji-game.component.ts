@@ -62,30 +62,33 @@ export class EmojiGameComponent {
   }
 
   // Karakter beküldése
-  submitCharacter() {
-  
-    if (this.selectedCharacter) {
-      this.api.getAllEmoji(this.categoryId).subscribe((data: any) => {
-        if (data.data && Array.isArray(data.data)) {
-          this.selectedCharacter = this.filteredCharacters[0];
-          const character = data.data.find((char: any) => char.answer === this.selectedCharacter);
-          if (character) {
-            if (this.selectedCharacter === this.targetCharacter.answer) {
-              alert("Helyes válasz!");
-            } else {
-              if (this.revealedEmojis.length < this.allEmojis.length) {
+    submitCharacter() {
+      if (this.selectedCharacter) {
+        this.api.getAllEmoji(this.categoryId).subscribe((data: any) => {
+          if (data.data && Array.isArray(data.data)) {
+            this.selectedCharacter = this.filteredCharacters[0];
+            const character = data.data.find((char: any) => char.answer === this.selectedCharacter);
+            if (character && !this.previousGuesses.includes(character.answer)) {
+              this.previousGuesses.unshift(character.answer);
+              
+              if (this.selectedCharacter === this.targetCharacter.answer) {
+                alert("Helyes válasz!");
+                this.revealedEmojis = [...this.allEmojis];
+              } else if (this.revealedEmojis.length < this.allEmojis.length) {
                 this.revealedEmojis.push(this.allEmojis[this.revealedEmojis.length]);
               }
+    
+              // Tippelt karakter eltávolítása az autocomplete listából
+              this.names = this.names.filter(name => name !== character.answer);
+              this.filteredCharacters = [...this.names];
+    
+              this.selectedCharacter = '';
             }
-        
-            this.previousGuesses.unshift(character.answer);
-            this.selectedCharacter = '';
           }
-        }
-      });
+        });
+      }
     }
-  }
-  
+    
 
   // Tulajdonság helyességének ellenőrzése
   isPropertyCorrect(key: string, character: any): boolean {
