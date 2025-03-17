@@ -11,4 +11,8 @@ router.get("/allEmoji/:id", gameController.getAllEmoji);
 
 router.get("/solutionEmoji/:id", gameController.getSolutionEmoji);
 
+router.get("/allDescription/:id", gameController.getAllDescription);
+
+router.get("/solutionDescription/:id", gameController.getSolutionDescription);
+
 export default router;

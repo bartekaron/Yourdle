@@ -18,3 +18,11 @@ Content-Type: application/json
 ### GET emoji solution by category ID
 GET {{baseUrl}}/solutionEmoji/bkgldnblkdf
 Content-Type: application/json
+
+### GET all description by category ID
+GET {{baseUrl}}/allDescription/asf
+Content-Type: application/json
+
+###GET description solution  by category ID
+GET {{baseUrl}}/solutionDescription/asf
+Content-Type: application/json

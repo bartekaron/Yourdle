@@ -83,3 +83,43 @@ export const getSolutionEmojiService = async (id) => {
     }
 }
 
+export const getAllDescriptionService = async (id) => {
+    try {
+        const result = await new Promise((resolve, reject) => {
+            pool.query(`SELECT * FROM description WHERE categoryID = ?`, [id], (err, results) => {
+                if (err) {
+                    return reject(new Error('Hiba az adatbázis kapcsolatban'));
+                }
+                resolve(results);
+            });
+        });
+
+        return { success: true, data: result };
+    } catch (error) {
+        return { success: false, message: "Nem sikerült lekérni az emoji karaktereket" };
+    }
+}
+
+export const getSolutionDescriptionService = async (id) => {
+    try {
+        const result = await new Promise((resolve, reject) => {
+            pool.query(`SELECT * FROM description WHERE categoryID = ? ORDER BY RAND() LIMIT 1`, [id], (err, results) => {
+                if (err) {
+                    return reject(new Error('Hiba az adatbázis kapcsolatban'));
+                }
+                if (results.length === 0) {
+                    return resolve(null);
+                }
+                resolve(results[0]);
+            });
+        });
+
+        if (!result) {
+            return { success: false, message: "Nem található karakter ebben a kategóriában." };
+        }
+
+        return { success: true, data: result }; 
+    } catch (error) {
+        return { success: false, message: "Nem sikerült karaktert lekérni" };
+    }
+}
