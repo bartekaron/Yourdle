@@ -131,6 +131,10 @@ import { Observable } from 'rxjs';
     return this.http.get<any[]>(this.server + '/categories/allPublicCategories');
     }
 
+    getCategoryByID(id: string): Observable<any> {
+      return this.http.get(this.server + '/categories/category/' + id);
+    }
+
     getUser(id: string) {
       return this.http.get(this.server + '/users/' + id, this.tokenHeader());
     }
@@ -182,5 +186,13 @@ import { Observable } from 'rxjs';
 
   getSolutionEmoji(id: string) {
     return this.http.get(this.server + '/games/solutionEmoji/' + id);
+  }
+
+  getAllDescription(id: string) {
+    return this.http.get(this.server + '/games/allDescription/' + id);
+   }
+
+  getSolutionDescription(id: string) {
+    return this.http.get(this.server + '/games/solutionDescription/' + id);
   }
 }

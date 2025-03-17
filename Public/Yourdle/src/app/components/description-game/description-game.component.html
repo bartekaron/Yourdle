@@ -1,1 +1,29 @@
-<p>description-game works!</p>
+<h3 class="title">Leírás</h3>
+<div class="game-container">
+  <div class="descprion-container">
+    <h3 class="category-name">Melyik {{ categoryName }} karakterre illik a leírás</h3>
+    <h4 class="description">{{ targetCharacter?.desc }}</h4>
+  </div>
+
+  <div class="guesses-container">
+    <p *ngFor="let guess of previousGuesses" 
+       [ngClass]="{'correct-guess': guess.answer=== targetCharacter?.answer, 'incorrect-guess': guess.answer !== targetCharacter?.answer}" 
+       class="guess">
+      {{ guess.answer }}
+    </p>
+  </div>
+
+  
+  <!-- Autocomplete mező a karakter kiválasztásához -->
+  <div class="autocomplete-wrapper">
+    <p-autoComplete [(ngModel)]="selectedCharacter"
+                    (keyup.enter)="submitCharacter()"
+                    [suggestions]="filteredCharacters"
+                    (completeMethod)="filterCharacters($event)"
+                    placeholder="Írd be a hős nevét ...">
+    </p-autoComplete>
+    <button (click)="submitCharacter()" class="submit-button">
+      <span class="arrow-icon">▶</span>
+    </button>
+  </div>
+</div>

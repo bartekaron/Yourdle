@@ -6,8 +6,7 @@
                     (keyup.enter)="submitCharacter()"
                     [suggestions]="filteredCharacters"
                     (completeMethod)="filterCharacters($event)"
-                    placeholder="Írd be a hős nevét ..."
-                    [dropdown]="true">
+                    placeholder="Írd be a hős nevét ...">
     </p-autoComplete>
     <button (click)="submitCharacter()" class="submit-button">
       <span class="arrow-icon">▶</span>

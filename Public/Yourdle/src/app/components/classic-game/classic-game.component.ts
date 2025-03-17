@@ -76,13 +76,6 @@ export class ClassicGameComponent implements OnInit {
     }
   }
 
-  handleEnter(event: KeyboardEvent) {
-    if (event.key === 'Enter' && this.filteredCharacters.length > 0) {
-      this.selectedCharacter = this.filteredCharacters[0]; // Legfelső találat kiválasztása
-      this.submitCharacter(); // Automatikus beküldés
-    }
-  }
-
   // Tulajdonság helyességének ellenőrzése
   isPropertyCorrect(key: string, character: any): boolean {
     return character[key] === this.targetCharacter[key];
