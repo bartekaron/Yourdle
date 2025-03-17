@@ -62,13 +62,24 @@ export class ClassicGameComponent implements OnInit {
     if (this.selectedCharacter) {
       this.api.getAllClassic(this.categoryId).subscribe((data: any) => {
         if (data.data && Array.isArray(data.data)) {
+          this.selectedCharacter = this.filteredCharacters[0]; // Legfelső találat kiválasztása
           const character = data.data.find((char: any) => char.answer === this.selectedCharacter);
           if (character) {
             this.previousGuesses.unshift(character);  // Új tipp hozzáadása a lista elejére
+
+            this.names = this.names.filter(name => name !== character.answer);
+            this.filteredCharacters = [...this.names];
             this.selectedCharacter = '';  // Mező törlése
           }
         }
       });
+    }
+  }
+
+  handleEnter(event: KeyboardEvent) {
+    if (event.key === 'Enter' && this.filteredCharacters.length > 0) {
+      this.selectedCharacter = this.filteredCharacters[0]; // Legfelső találat kiválasztása
+      this.submitCharacter(); // Automatikus beküldés
     }
   }
 
