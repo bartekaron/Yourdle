@@ -15,4 +15,8 @@ router.get("/allDescription/:id", gameController.getAllDescription);
 
 router.get("/solutionDescription/:id", gameController.getSolutionDescription);
 
+router.get("/allQuote/:id", gameController.getAllQuote);
+
+router.get("/solutionQuote/:id", gameController.getSolutionQuote);
+
 export default router;

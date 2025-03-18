@@ -3,7 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   import { environment } from '../../environments/environment';
 import { User } from '../interfaces/user';
 import { Observable } from 'rxjs';
-
+import { catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 
   @Injectable({
     providedIn: 'root'
@@ -196,4 +197,18 @@ import { Observable } from 'rxjs';
   getSolutionDescription(id: string) {
     return this.http.get(this.server + '/games/solutionDescription/' + id);
   }
+
+  getAllQuote(id: string) {
+    return this.http.get(this.server + '/games/allQuote/' + id);
+  }
+
+  getSolutionQuote(id: string): Observable<any> {
+    return this.http.get<any>(this.server + '/games/solutionQuote/' + id).pipe(
+      catchError((error: any) => {
+        console.error('Error in getSolutionQuote:', error);
+        return throwError(error);
+      })
+    );
+  }
+
 }

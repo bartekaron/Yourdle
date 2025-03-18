@@ -1,1 +1,27 @@
-<p>quote-game works!</p>
+<h3 class="title">Idézet</h3>
+<div class="game-container">
+  <div class="quote-container">
+    <h3 class="category-name">Melyik {{ categoryName }} karakter mondta az idézetet?</h3>
+    <h4 class="quote">{{ targetCharacter?.quote }}</h4>
+  </div>
+
+  <div class="guesses-container">
+    <p *ngFor="let guess of previousGuesses" 
+       [ngClass]="{'correct-guess': guess.answer === targetCharacter?.answer, 'incorrect-guess': guess.answer !== targetCharacter?.answer}" 
+       class="guess">
+      {{ guess.answer }}
+    </p>
+  </div>
+
+  <div class="autocomplete-wrapper">
+    <p-autoComplete [(ngModel)]="selectedCharacter"
+                    (keyup.enter)="submitCharacter()"
+                    [suggestions]="filteredCharacters"
+                    (completeMethod)="filterCharacters($event)"
+                    placeholder="Írd be a hős nevét ...">
+    </p-autoComplete>
+    <button (click)="submitCharacter()" class="submit-button">
+      <span class="arrow-icon">▶</span>
+    </button>
+  </div>
+</div>

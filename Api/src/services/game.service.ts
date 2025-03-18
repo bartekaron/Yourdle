@@ -123,3 +123,45 @@ export const getSolutionDescriptionService = async (id) => {
         return { success: false, message: "Nem sikerült karaktert lekérni" };
     }
 }
+
+
+export const getAllQuoteService = async (id) => {
+    try {
+        const result = await new Promise((resolve, reject) => {
+            pool.query(`SELECT * FROM quote WHERE categoryID = ?`, [id], (err, results) => {
+                if (err) {
+                    return reject(new Error('Hiba az adatbázis kapcsolatban'));
+                }
+                resolve(results);
+            });
+        });
+
+        return { success: true, data: result };
+    } catch (error) {
+        return { success: false, message: "Nem sikerült lekérni az idézeteket" };
+    }
+}
+
+export const getSolutionQuoteService = async (id) => {
+    try {
+        const result = await new Promise((resolve, reject) =>
+            pool.query(`SELECT * FROM quote WHERE categoryID = ? ORDER BY RAND() LIMIT 1`, [id], (err, results) => {
+                if (err) {
+                    return reject(new Error('Hiba az adatbázis kapcsolatban'));
+                }
+                if (results.length === 0) {
+                    return resolve(null);
+                }
+                resolve(results[0]);
+            })
+        );
+
+        if (!result) {
+            return { success: false, message: "Nem található idézet ebben a kategóriában." };
+        }
+
+        return { success: true, data: result }; 
+    } catch (error) {
+        return { success: false, message: "Nem sikerült idézetet lekérni" };
+    }
+}

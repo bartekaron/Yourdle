@@ -1,0 +1,153 @@
+.title {
+    font-size: 4rem;
+    font-weight: bold;
+    font-family: Do Hyeon;
+    color: white;
+    text-align: center;
+  }
+  
+  /* Alap stílusok */
+  body {
+    background-color: #1e1e1e;  /* Sötét háttér */
+    color: white;  /* Fehér szöveg */
+  }
+  
+  .submit-button {
+    padding: 8px 12px; /* Kicsit kisebb gomb */
+    background-color: #00A6ED;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+  }
+  
+  .previous-guesses {
+    margin-top: 20px;
+  }
+  
+  .property {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .label {
+    font-weight: bold;
+    color: white;  /* Fehér szöveg */
+  }
+  
+  .value {
+    padding: 5px;
+    border-radius: 4px;
+    color: white;  /* Fehér szöveg */
+  }
+  
+  .correct {
+    background-color: green;
+  }
+  
+  .incorrect {
+    background-color: red;
+  }
+  
+  .hint-arrow {
+    font-size: 14px;
+    color: white;  /* Fehér szöveg */
+  }
+  
+  .emoji-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    font-size: 3rem;
+    margin-bottom: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 20px;
+    border-radius: 10px;
+    min-width: 300px;
+  }
+  
+  .emoji {
+    width: 100px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    background: transparent;
+    padding: 10px;
+    border-radius: 10px;
+  }
+  
+  .guesses-container {
+    margin-top: 20px;
+    text-align: center;
+    min-width: 200px;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  
+  .guess {
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 4px;
+    background-color: #2a2a2a;
+    color: white;
+    text-align: center;
+    width: 50%;
+  }
+  
+  .correct-guess {
+    background-color: #43D403;
+    color: black;
+    width: 100%;
+  }
+  
+  .incorrect-guess {
+    background-color: #E84057;
+    color: black;
+    width: 100%;
+  }
+  
+  .game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 40vh;
+  }
+  
+  .input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+  }
+  
+  /* Új stílus a kategória névhez */
+  .category-name {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  
+  /* Új stílus a leíráshoz */
+  .description {
+    font-size: 2.5rem;
+    font-weight: normal;
+    color: white;
+    text-align: center;
+    margin-top: 10px;
+    background: rgba(255, 255, 255, 0.2); /* Átlátszó háttér */
+    padding: 20px;
+    border-radius: 10px;
+  }
+
+  h4{
+    color: white;
+    text-align: center;
+  }
