@@ -10,6 +10,7 @@ import { authMiddleware } from "./middleware/AuthMiddleware";
 import path = require("path");
 import { createServer } from "http";
 import { Server } from "socket.io";
+import { v4 as uuidv4 } from 'uuid';
 
 const app = express();
 const server = createServer(app);
@@ -168,6 +169,28 @@ app.post('/uploadProfilePicture', authMiddleware, upload.single('profilePicture'
     await pool.query('UPDATE users SET profilePic = ? WHERE id = ?', [encryptedUrl, req.body.id]);
 
     res.status(200).json({ success: true });
+});
+
+app.post('/uploadCategoryPicture', authMiddleware, upload.single('picture'), async (req, res, next) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({ error: "No file uploaded" });
+        }
+
+        const { answer, categoryID } = req.body;
+        if (!answer || !categoryID) {
+            return res.status(400).json({ success: false, message: "Hiányzó adatok!" });
+        }
+
+        // Encrypt image URL for storage
+        const imageUrl = `http://localhost:3000/uploads/${req.file.filename}`;
+        const encryptedUrl = encrypt(imageUrl); // Encrypt the image URL before saving
+
+        // Return the success response
+        res.status(200).json({ success: true, imageUrl: encryptedUrl });
+    } catch (error) {
+        next(error);
+    }
 });
 
 // Email

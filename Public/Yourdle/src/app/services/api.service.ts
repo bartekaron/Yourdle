@@ -1,4 +1,4 @@
-  import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
   import { Injectable } from '@angular/core';
   import { environment } from '../../environments/environment';
 import { User } from '../interfaces/user';
@@ -163,11 +163,12 @@ import { Observable } from 'rxjs';
       return this.http.post(this.server + '/categories/emoji', data, this.tokenHeader());
     }
 
-    uploadProfilePicture(profilePicture: File, id: string) {
+    uploadCategoryPicture(picture: File, answer: string, categoryID: string): Observable<any> {
       const formData = new FormData();
-      formData.append('profilePicture', profilePicture);
-      formData.append('id', id);
-      return this.http.post(this.server + '/uploadProfilePicture', formData, this.tokenHeader());
+      formData.append('picture', picture);
+      formData.append('answer', answer);
+      formData.append('categoryID', categoryID);
+      return this.http.post('http://localhost:3000/'+'uploadCategoryPicture', formData, this.tokenHeader());
     }
     
   //Játékokhoz tartozó metódusok

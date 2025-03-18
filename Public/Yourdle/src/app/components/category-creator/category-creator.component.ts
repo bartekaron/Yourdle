@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, model } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { MessageService } from 'primeng/api';
 import { DropdownModule } from 'primeng/dropdown';
@@ -9,10 +9,13 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import * as uuid from 'uuid';
+import { EmojiPickerComponent, EmojiSelectedEvent } from '@chit-chat/ngx-emoji-picker/lib/components/emoji-picker';
+import { TextBoxComponent } from '@chit-chat/ngx-emoji-picker/lib/components/text-box';
 
 @Component({
   selector: 'app-category-creator',
-  imports: [DropdownModule, CheckboxModule, ButtonModule, FileUpload, CommonModule, FormsModule, ReactiveFormsModule],
+  standalone: true,
+  imports: [DropdownModule, CheckboxModule, ButtonModule, CommonModule, FormsModule, ReactiveFormsModule, EmojiPickerComponent, TextBoxComponent],
   templateUrl: './category-creator.component.html',
   styleUrl: './category-creator.component.scss'
 })
@@ -86,8 +89,11 @@ export class CategoryCreatorComponent {
       picture: '',
       quote: '',
       firstEmoji: '',
+      firstEmojiSelected: false,
       secondEmoji: '',
+      secondEmojiSelected: false,
       thirdEmoji: '',
+      thirdEmojiSelected: false,
       desc: ''
     }));
   }
@@ -119,19 +125,14 @@ export class CategoryCreatorComponent {
     );
   }
 
-  onPictureUpload(event: any, form: any) {
-    if (!event.files[0]) {
-      this.message.add({ severity: 'error', summary: 'Hiba', detail: 'Nem választottál ki fájlt!' });
-      return;
-    }
-    this.api.uploadFile(event.files[0], form.categoryID).subscribe(res => {
-      if (res) {
-        this.message.add({ severity: 'info', summary: 'Success', detail: 'Sikeres kép feltöltés' });
-        //form.picture = res.filePath; // Update the form with the file path from the response
-      } else {
-        this.message.add({ severity: 'error', summary: 'Hiba', detail: 'A kép feltöltése sikertelen.' });
-      }
-    });
+  onImageSelected(event: any, form: any) {
+    const file = event.target.files[0];
+    form.pictureFile = file; // Store the file object
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      form.picture = e.target.result;
+    };
+    reader.readAsDataURL(file);
   }
 
   uploadForms(categoryID: string) {
@@ -142,35 +143,80 @@ export class CategoryCreatorComponent {
         switch (category) {
           case 'Klasszikus':
             if (formData.answer && formData.gender && formData.height && formData.weight && formData.hairColor && formData.address && formData.birthDate) {
-              this.api.createClassic(formData).subscribe();
+              this.api.createClassic(formData).subscribe(
+                response => {
+                  console.log('Klasszikus form successfully uploaded', response);
+                },
+                error => {
+                  console.error('Error uploading Klasszikus form', error);
+                }
+              );
             } else {
               console.error('Hiányzó adatok a Klasszikus formában');
             }
             break;
           case 'Kép':
-            if (formData.answer && formData.picture) {
-              this.api.createPicture(formData).subscribe();
+            if (formData.answer && formData.pictureFile) {
+              console.log('Kép form data', formData);
+              this.api.uploadCategoryPicture(formData.pictureFile, formData.answer, categoryID).subscribe(
+                response => {
+                  formData.picture = response.imageUrl; // Store the picture URL
+                  this.api.createPicture(formData).subscribe(
+                    res => {
+                      console.log('Kép form successfully uploaded', res);
+                    },
+                    err => {
+                      console.error('Error uploading Kép form', err);
+                    }
+                  );
+                },
+                error => {
+                  console.error('Error uploading Kép form', error);
+                }
+              );
             } else {
               console.error('Hiányzó adatok a Kép formában');
             }
             break;
           case 'Leírás':
             if (formData.answer && formData.desc) {
-              this.api.createDescription(formData).subscribe();
+              this.api.createDescription(formData).subscribe(
+                response => {
+                  console.log('Leírás form successfully uploaded', response);
+                },
+                error => {
+                  console.error('Error uploading Leírás form', error);
+                }
+              );
             } else {
               console.error('Hiányzó adatok a Leírás formában');
             }
             break;
           case 'Idézet':
             if (formData.answer && formData.quote) {
-              this.api.createQuote(formData).subscribe();
+              this.api.createQuote(formData).subscribe(
+                response => {
+                  console.log('Idézet form successfully uploaded', response);
+                },
+                error => {
+                  console.error('Error uploading Idézet form', error);
+                }
+              );
             } else {
               console.error('Hiányzó adatok az Idézet formában');
             }
             break;
           case 'Emoji':
             if (formData.answer && formData.firstEmoji && formData.secondEmoji && formData.thirdEmoji) {
-              this.api.createEmoji(formData).subscribe();
+              console.log('Emoji form data', formData);
+              this.api.createEmoji(formData).subscribe(
+                response => {
+                  console.log('Emoji form successfully uploaded', response);
+                },
+                error => {
+                  console.error('Error uploading Emoji form', error);
+                }
+              );
             } else {
               console.error('Hiányzó adatok az Emoji formában');
             }
@@ -178,5 +224,12 @@ export class CategoryCreatorComponent {
         }
       }
     }
+  }
+
+  inputValue = model<string>('');
+
+  handleEmojiSelected(evt: EmojiSelectedEvent, field: string, form: any) {
+    form[field] = evt.emoji.value;
+    form[`${field}Selected`] = true;
   }
 }

@@ -68,6 +68,29 @@ p-checkbox{
       font-size: 1.2rem;
       color: white;
     }
+    .showcase-container {
+        padding-block: 2em;
+        display: flex;
+        row-gap: 1.5em;
+    }
+    
+    .row-showcase {
+        display: flex;
+        column-gap: 1em;
+    }
+    
+    .justify-center {
+        justify-content: center;
+    }
+    
+    .flex-column {
+        flex-direction: column;
+    }
+    
+    .emoji-picker-container {
+        padding: 5px 3px 4px;
+        background-color: var(--ch-emoji-picker-background);
+    }
   
     .p-field {
       display: flex;
