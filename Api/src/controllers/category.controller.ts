@@ -1,4 +1,4 @@
-import { createCategoryService, createClassicService, createDescriptionService, createEmojiService, createPictureService, createQuoteService, getAllPublicCategories, getCategoryByIDService } from '../services/category.service';
+import { createCategoryService, createClassicService, createDescriptionService, createEmojiService, createPictureService, createQuoteService, getAllCategoriesService, getAllPublicCategories, getCategoryByIDService, getCategoryDataService } from '../services/category.service';
 
 export const getPublicCategories = async (req, res) => {
     try {
@@ -94,6 +94,41 @@ export const createPicture = async (req, res, next) => {
         }
         const result = await createPictureService({ answer, picture, categoryID });
         res.status(200).json({ result, success: true });
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const getAllCategories = async (req, res, next) => {
+    try {
+        const result = await getAllCategoriesService();
+
+        if (result.success) {
+            return res.status(200).json(result);
+        } else {
+            return res.status(400).json(result);
+        }
+    } catch (error) {
+        next(error);
+    }
+};
+
+
+
+export const getCategoryData = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        if (!id) {
+            return res.status(400).json({ success: false, message: "Hiányzó kategória azonosító!" });
+        }
+
+        const result = await getCategoryDataService(id);
+
+        if (result.success) {
+            return res.status(200).json(result);
+        } else {
+            return res.status(400).json(result);
+        }
     } catch (error) {
         next(error);
     }

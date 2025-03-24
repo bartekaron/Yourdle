@@ -31,7 +31,7 @@ export class CategoryCreatorComponent {
   quote: number = 0;
   emoji: number = 0;
   picture: number = 0;
-  desc: number = 0;
+  description: number = 0;
   public: number = 0;
   selectedCategories: string[] = [];
   categoryName: string = '';
@@ -65,7 +65,7 @@ export class CategoryCreatorComponent {
         this.picture = value;
         break;
       case 'Leírás':
-        this.desc = value;
+        this.description = value;
         break;
       case 'Idézet':
         this.quote = value;
@@ -94,7 +94,7 @@ export class CategoryCreatorComponent {
       secondEmojiSelected: false,
       thirdEmoji: '',
       thirdEmojiSelected: false,
-      desc: ''
+      description: ''
     }));
   }
 
@@ -109,7 +109,7 @@ export class CategoryCreatorComponent {
       quote: this.quote,
       emoji: this.emoji,
       picture: this.picture,
-      desc: this.desc,
+      description: this.description,
       public: this.public
     };
 
@@ -179,7 +179,7 @@ export class CategoryCreatorComponent {
             }
             break;
           case 'Leírás':
-            if (formData.answer && formData.desc) {
+            if (formData.answer && formData.description) {
               this.api.createDescription(formData).subscribe(
                 response => {
                   console.log('Leírás form successfully uploaded', response);

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Már 16. 18:12
+-- Létrehozás ideje: 2025. Már 24. 15:32
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -37,7 +37,7 @@ CREATE TABLE `categories` (
   `quote` tinyint(1) NOT NULL,
   `emoji` tinyint(1) NOT NULL,
   `picture` tinyint(1) NOT NULL,
-  `desc` tinyint(1) NOT NULL,
+  `description` tinyint(1) NOT NULL,
   `public` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
@@ -45,7 +45,7 @@ CREATE TABLE `categories` (
 -- A tábla adatainak kiíratása `categories`
 --
 
-INSERT INTO `categories` (`id`, `categoryName`, `userID`, `classic`, `quote`, `emoji`, `picture`, `desc`, `public`) VALUES
+INSERT INTO `categories` (`id`, `categoryName`, `userID`, `classic`, `quote`, `emoji`, `picture`, `description`, `public`) VALUES
 ('asf', 'fiu', '05d30dda-6021-47fc-b944-7f0508d3de43', 1, 1, 1, 0, 0, 1),
 ('safafcsacsadas', 'emoji', '79dd2b70-259b-48dc-bf8e-49f872df6770', 0, 0, 1, 0, 0, 1);
 

@@ -19,6 +19,8 @@ router.post("/picture", categoryController.createPicture);
 
 router.post("/emoji", categoryController.createEmoji);
 
+router.get("/allCategory", categoryController.getAllCategories)
 
+router.get("/data/:id", categoryController.getCategoryData)
 
 export default router;

@@ -23,3 +23,11 @@ Content-Type: application/json
     "public": "1"
 }
 
+
+### GET all category
+GET {{baseUrl}}/allCategory
+Content-Type: application/json
+
+### Get all data for category
+GET {{baseUrl}}/data/asf
+Content-Type: application/json

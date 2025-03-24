@@ -157,3 +157,143 @@ export const createPictureService = async ({answer, picture, categoryID}) => {
         throw error;
     }
 }
+
+export const getAllCategoriesService = async () => {
+    try {
+        const result = await new Promise((resolve, reject) => {
+            pool.query(`SELECT * FROM categories`, (err, results) => {
+                if (err) {
+                    return reject(new Error('Hiba az adatbázis kapcsolatban'));
+                }
+                resolve(results);
+            });
+        });
+
+        return { success: true, data: result };
+    } catch (error) {
+        return { success: false, message: "Nem sikerült lekérni a kategóriákat" };
+    }
+};
+
+
+
+export const getCategoryDataService = async (id) => {
+    try {
+        // Első lépésben lekérdezzük a kategória mezőit
+        const categoryData:any = await new Promise((resolve, reject) => {
+            pool.query(
+                `SELECT classic, quote, emoji, picture, description FROM categories WHERE id = ?`,
+                [id],
+                (err, results) => {
+                    if (err) {
+                        console.log(err)
+                        return reject(new Error('Hiba az adatbázis kapcsolatban'));
+                    }
+                    if (results.length === 0) {
+                        return reject(new Error('Nincs ilyen kategória'));
+                    }
+                    resolve(results[0]);
+                }
+            );
+        });
+
+
+        // Kategória mezők, amik alapján szűrünk
+        const { classic, quote, description, picture, emoji } = categoryData;
+
+        // Eredmények tárolása
+        let result = [];
+
+        // Lekérdezés és eredmények hozzáadása
+        if (classic === 1) {
+            const classicData:any = await new Promise((resolve, reject) => {
+                pool.query(
+                    `SELECT * FROM classic WHERE categoryID = ?`,
+                    [id],
+                    (err, results) => {
+                        if (err) {
+                            return reject(new Error('Hiba az adatbázis kapcsolatban'));
+                        }
+                        resolve(results);
+                    }
+                );
+            });
+            result = [...result, ...classicData];
+        }
+
+        if (quote === 1) {
+            const quoteData:any = await new Promise((resolve, reject) => {
+                pool.query(
+                    `SELECT * FROM quote WHERE categoryID = ?`,
+                    [id],
+                    (err, results) => {
+                        if (err) {
+                            return reject(new Error('Hiba az adatbázis kapcsolatban'));
+                        }
+                        resolve(results);
+                    }
+                );
+            });
+            result = [...result, ...quoteData];
+        }
+
+        if (description === 1) {
+            const descriptionData:any = await new Promise((resolve, reject) => {
+                pool.query(
+                    `SELECT * FROM description WHERE categoryID = ?`,
+                    [id],
+                    (err, results) => {
+                        if (err) {
+                            return reject(new Error('Hiba az adatbázis kapcsolatban'));
+                        }
+                        resolve(results);
+                    }
+                );
+            });
+            result = [...result, ...descriptionData];
+        }
+
+        if (picture === 1) {
+            const pictureData:any = await new Promise((resolve, reject) => {
+                pool.query(
+                    `SELECT * FROM picture WHERE categoryID = ?`,
+                    [id],
+                    (err, results) => {
+                        if (err) {
+                            return reject(new Error('Hiba az adatbázis kapcsolatban'));
+                        }
+                        resolve(results);
+                    }
+                );
+            });
+            result = [...result, ...pictureData];
+        }
+
+        if (emoji === 1) {
+            const emojiData:any = await new Promise((resolve, reject) => {
+                pool.query(
+                    `SELECT * FROM emoji WHERE categoryID = ?`,
+                    [id],
+                    (err, results) => {
+                        if (err) {
+                            return reject(new Error('Hiba az adatbázis kapcsolatban'));
+                        }
+                        resolve(results);
+                    }
+                );
+            });
+            result = [...result, ...emojiData];
+        }
+
+        // Ha nincs találat
+        if (result.length === 0) {
+            return { success: false, message: "Nincs elérhető adat a megadott kategóriában." };
+        }
+
+        return { success: true, data: result };
+    } catch (error) {
+        return { success: false, message: "Nem sikerült lekérni az adott kategória adatait" };
+    }
+};
+
+
