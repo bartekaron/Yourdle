@@ -211,6 +211,14 @@ import { throwError } from 'rxjs';
     );
   }
 
+  getAllPicture(id: string) {
+    return this.http.get(this.server + '/games/allPicture/' + id);
+  }
+
+  getSolutionPicture(id: string) {
+    return this.http.get(this.server + '/games/solutionPicture/' + id);
+  }
+
   getAllCategory(){
     return this.http.get(this.server + "/categories/allCategory", this.tokenHeader());
   }

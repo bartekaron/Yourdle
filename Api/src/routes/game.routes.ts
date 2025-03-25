@@ -19,4 +19,8 @@ router.get("/allQuote/:id", gameController.getAllQuote);
 
 router.get("/solutionQuote/:id", gameController.getSolutionQuote);
 
+router.get("/allPicture/:id", gameController.getAllPicture);
+
+router.get("/solutionPicture/:id", gameController.getSolutionPicture);
+
 export default router;
