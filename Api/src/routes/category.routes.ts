@@ -19,8 +19,10 @@ router.post("/picture", categoryController.createPicture);
 
 router.post("/emoji", categoryController.createEmoji);
 
-router.get("/allCategory", categoryController.getAllCategories)
+router.get("/allCategory", authMiddleware, categoryController.getAllCategories)
 
-router.get("/data/:id", categoryController.getCategoryData)
+router.get("/data/:id", authMiddleware,categoryController.getCategoryData)
+
+router.delete("/:id", authMiddleware, categoryController.deleteCategory)
 
 export default router;

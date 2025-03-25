@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Már 24. 15:32
--- Kiszolgáló verziója: 10.4.32-MariaDB
--- PHP verzió: 8.2.12
+-- Létrehozás ideje: 2025. Már 25. 11:14
+-- Kiszolgáló verziója: 10.4.28-MariaDB
+-- PHP verzió: 8.1.17
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -46,6 +46,7 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`id`, `categoryName`, `userID`, `classic`, `quote`, `emoji`, `picture`, `description`, `public`) VALUES
+('2', 'fiam', '79dd2b70-259b-48dc-bf8e-49f872df6770', 1, 1, 1, 1, 1, 1),
 ('asf', 'fiu', '05d30dda-6021-47fc-b944-7f0508d3de43', 1, 1, 1, 0, 0, 1),
 ('safafcsacsadas', 'emoji', '79dd2b70-259b-48dc-bf8e-49f872df6770', 0, 0, 1, 0, 0, 1);
 
@@ -67,6 +68,14 @@ CREATE TABLE `classic` (
   `birthDate` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
+--
+-- A tábla adatainak kiíratása `classic`
+--
+
+INSERT INTO `classic` (`id`, `categoryID`, `answer`, `gender`, `height`, `weight`, `hairColor`, `address`, `birthDate`) VALUES
+('ad', 'asf', 'faf', 'f', 2, 2, '3', '3', '2025-03-04'),
+('affaf', '2', 'f', '2', 2, 2, '2', '2', '2025-03-11');
+
 -- --------------------------------------------------------
 
 --
@@ -79,6 +88,13 @@ CREATE TABLE `description` (
   `answer` varchar(40) NOT NULL,
   `desc` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
+
+--
+-- A tábla adatainak kiíratása `description`
+--
+
+INSERT INTO `description` (`id`, `categoryID`, `answer`, `desc`) VALUES
+('4', '2', '2', 'adad');
 
 -- --------------------------------------------------------
 
@@ -102,6 +118,7 @@ CREATE TABLE `emoji` (
 INSERT INTO `emoji` (`id`, `categoryID`, `answer`, `firstEmoji`, `secondEmoji`, `thirdEmoji`) VALUES
 ('123213asdsad', 'safafcsacsadas', 'Balázs', '👮‍♂️', '🏋️‍♂️', '🙌'),
 ('123321', 'safafcsacsadas', 'Dudás', '👩', '👩‍🦱', '👳‍♂️'),
+('4', '2', 'afasf', '👍', '🤳', '😢'),
 ('kjhkjhk', 'safafcsacsadas', 'Áron', '🏃‍♀️', '🚶‍♂️', '🖖'),
 ('ljlkjhmhhmg', 'safafcsacsadas', 'Csoki', '💁‍♂️', '🤛', '🤜');
 
@@ -174,8 +191,15 @@ CREATE TABLE `picture` (
   `id` varchar(40) NOT NULL,
   `categoryID` varchar(40) NOT NULL,
   `answer` varchar(40) NOT NULL,
-  `picture` blob NOT NULL
+  `picture` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
+
+--
+-- A tábla adatainak kiíratása `picture`
+--
+
+INSERT INTO `picture` (`id`, `categoryID`, `answer`, `picture`) VALUES
+('2', '2', 'affa', 'afsafafsa');
 
 -- --------------------------------------------------------
 
@@ -189,6 +213,14 @@ CREATE TABLE `quote` (
   `answer` varchar(40) NOT NULL,
   `quote` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
+
+--
+-- A tábla adatainak kiíratása `quote`
+--
+
+INSERT INTO `quote` (`id`, `categoryID`, `answer`, `quote`) VALUES
+('2', '2', '2', '2'),
+('2124', 'asf', 'ads', 'adda');
 
 -- --------------------------------------------------------
 
@@ -212,7 +244,7 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `name`, `email`, `passwd`, `role`, `profilePic`) VALUES
 ('05d30dda-6021-47fc-b944-7f0508d3de43', 'Béla3', 'bela@gmail.com', '$2b$10$V7CBUXaQhKVtUuQuIOAtbO4Vi2.lxLdd3nm0ZgJOxWdCU/ktGX5dC', 'user', NULL),
 ('1d9c9c5f-a535-4bc8-a8a3-a23d1617f779', 'Teszt Elek', 'tesztelek8@gmail.com', '$2b$10$ZxsW6QVvX.yyT/AQ41BDue9IyrCsVCcylmL6FlFdgR6rp8YBsKEjy', 'user', NULL),
-('1fabc600-f55e-4348-9cfa-3c0b52227055', 'Teszt Elek', 'tesztelek6@gmail.com', '$2b$10$UHwwaNG21dhq1rqX3UHNYObgdMJ13QBm.kqNtBl9vViX5m/L0kbPi', 'user', NULL),
+('1fabc600-f55e-4348-9cfa-3c0b52227055', 'Teszt Elek', 'tesztelek6@gmail.com', '$2b$10$UHwwaNG21dhq1rqX3UHNYObgdMJ13QBm.kqNtBl9vViX5m/L0kbPi', 'admin', NULL),
 ('79dd2b70-259b-48dc-bf8e-49f872df6770', 'admin', 'admin@gmail.com', '$2b$10$zUIG97njFyFgfL7eXerzqOJVlZ.1saSCBqBfiDZSC9YhJyKn5s0mO', 'admin', NULL);
 
 -- --------------------------------------------------------
@@ -312,25 +344,25 @@ ALTER TABLE `categories`
 -- Megkötések a táblához `classic`
 --
 ALTER TABLE `classic`
-  ADD CONSTRAINT `Classic_fk1` FOREIGN KEY (`categoryID`) REFERENCES `categories` (`id`);
+  ADD CONSTRAINT `classic_ibfk_1` FOREIGN KEY (`categoryID`) REFERENCES `categories` (`id`) ON DELETE CASCADE;
 
 --
 -- Megkötések a táblához `description`
 --
 ALTER TABLE `description`
-  ADD CONSTRAINT `Description_fk1` FOREIGN KEY (`categoryID`) REFERENCES `categories` (`id`);
+  ADD CONSTRAINT `description_ibfk_1` FOREIGN KEY (`categoryID`) REFERENCES `categories` (`id`) ON DELETE CASCADE;
 
 --
 -- Megkötések a táblához `emoji`
 --
 ALTER TABLE `emoji`
-  ADD CONSTRAINT `Emoji_fk1` FOREIGN KEY (`categoryID`) REFERENCES `categories` (`id`);
+  ADD CONSTRAINT `emoji_ibfk_1` FOREIGN KEY (`categoryID`) REFERENCES `categories` (`id`) ON DELETE CASCADE;
 
 --
 -- Megkötések a táblához `games`
 --
 ALTER TABLE `games`
-  ADD CONSTRAINT `Games_fk1` FOREIGN KEY (`categoryID`) REFERENCES `categories` (`id`);
+  ADD CONSTRAINT `games_ibfk_1` FOREIGN KEY (`categoryID`) REFERENCES `categories` (`id`) ON DELETE CASCADE;
 
 --
 -- Megkötések a táblához `leaderboard`
@@ -342,13 +374,13 @@ ALTER TABLE `leaderboard`
 -- Megkötések a táblához `picture`
 --
 ALTER TABLE `picture`
-  ADD CONSTRAINT `Picture_fk1` FOREIGN KEY (`categoryID`) REFERENCES `categories` (`id`);
+  ADD CONSTRAINT `picture_ibfk_1` FOREIGN KEY (`categoryID`) REFERENCES `categories` (`id`) ON DELETE CASCADE;
 
 --
 -- Megkötések a táblához `quote`
 --
 ALTER TABLE `quote`
-  ADD CONSTRAINT `Quote_fk1` FOREIGN KEY (`categoryID`) REFERENCES `categories` (`id`);
+  ADD CONSTRAINT `quote_ibfk_1` FOREIGN KEY (`categoryID`) REFERENCES `categories` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

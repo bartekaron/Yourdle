@@ -13,11 +13,17 @@ import { QuoteGameComponent } from './components/quote-game/quote-game.component
 import { EmojiGameComponent } from './components/emoji-game/emoji-game.component';
 import { PictureGameComponent } from './components/picture-game/picture-game.component';
 import { DescriptionGameComponent } from './components/description-game/description-game.component';
+import { AdminCategoriesComponent } from './components/admin-categories/admin-categories.component';
 
 export const routes: Routes = [
     {
         path: 'admin-felhasznalok', 
         component: AdminUsersComponent, 
+        canActivate: [AdminAuthGuard]
+    },
+    {
+        path: 'admin-kategoriak', 
+        component: AdminCategoriesComponent, 
         canActivate: [AdminAuthGuard]
     },
     {

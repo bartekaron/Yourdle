@@ -1,0 +1,74 @@
+<div class="card">
+    <p-toast></p-toast>
+    <p-table [value]="categories" dataKey="id" editMode="row" [tableStyle]="{'min-width': '50rem'}" [paginator]="true" [rows]="10">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Kategória</th>
+                <th>Classic</th>
+                <th>Quote</th>
+                <th>Emoji</th>
+                <th>Picture</th>
+                <th>Description</th>
+                <th>Publikus</th>
+                <th>Actions</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-category>
+            <tr>
+                <td>{{ category.categoryName }}</td>
+                <td><p-tag [value]="category.classic ? 'Van' : 'Nincs'" [severity]="category.classic ? 'success' : 'danger'"></p-tag></td>
+                <td><p-tag [value]="category.quote ? 'Van' : 'Nincs'" [severity]="category.quote ? 'success' : 'danger'"></p-tag></td>
+                <td><p-tag [value]="category.emoji ? 'Van' : 'Nincs'" [severity]="category.emoji ? 'success' : 'danger'"></p-tag></td>
+                <td><p-tag [value]="category.picture ? 'Van' : 'Nincs'" [severity]="category.picture ? 'success' : 'danger'"></p-tag></td>
+                <td><p-tag [value]="category.description ? 'Van' : 'Nincs'" [severity]="category.description ? 'success' : 'danger'"></p-tag></td>
+                <td><p-tag [value]="category.public ? 'Igen' : 'Nem'" [severity]="category.public ? 'success' : 'danger'"></p-tag></td>
+                <td>
+                    <button 
+                        pButton 
+                        pRipple 
+                        icon="pi pi-info-circle" 
+                        class="p-button-rounded p-button-text"
+                        (click)="openCategoryDetails(category.id)">
+                    </button>
+                    <button 
+                        pButton 
+                        pRipple 
+                        icon="pi pi-trash" 
+                        class="p-button-rounded p-button-text p-button-danger"
+                        (click)="confirmDelete($event, category.id)">
+                    </button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+    <p-confirmPopup></p-confirmPopup>
+
+    <!-- Kategória adatai - Modal -->
+    <p-dialog header="Kategória adatai" [(visible)]="displayCategoryDialog" [style]="{width: '50vw'}">
+        <ng-container *ngIf="selectedCategoryData.length > 0; else noData">
+            <div *ngFor="let data of selectedCategoryData" class="category-details">
+                <h3 *ngIf="data.birthDate"><strong>Klasszikus</strong></h3>
+                <h3 *ngIf="data.quote"><strong>Idézet</strong></h3>
+                <h3 *ngIf="data.desc"><strong>Leírás</strong></h3>
+                <h3 *ngIf="data.picture"><strong>Kép</strong></h3>
+                <h3 *ngIf="data.firstEmoji"><strong>Emoji</strong></h3> 
+                <p><strong>Válasz:</strong> {{ data.answer }}</p>
+                <p *ngIf="data.gender"><strong>Nem:</strong> {{ data.gender }}</p>
+                <p *ngIf="data.height"><strong>Magasság:</strong> {{ data.height }}</p>
+                <p *ngIf="data.weight"><strong>Súly:</strong> {{ data.weight }}</p>
+                <p *ngIf="data.hairColor"><strong>Hajszín:</strong> {{ data.hairColor }}</p>
+                <p *ngIf="data.address"><strong>Cím:</strong> {{ data.address }}</p>
+                <p *ngIf="data.birthDate"><strong>Születési dátum:</strong> {{ data.birthDate | date:'yyyy-MM-dd' }}</p>
+                <p *ngIf="data.quote"><strong>Idézet:</strong> {{ data.quote }}</p>
+                <p *ngIf="data.desc"><strong>Leírás:</strong> {{ data.desc }}</p>
+                <p *ngIf="data.picture"><strong>Kép:</strong> <img [src]="data.picture" width="100"></p>
+                <p *ngIf="data.firstEmoji"><strong>Emojik:</strong> {{ data.firstEmoji }} {{ data.secondEmoji }} {{ data.thirdEmoji }}</p>
+                <hr>
+            </div>
+        </ng-container>
+        <ng-template #noData>
+            <p>Nincs elérhető adat ehhez a kategóriához.</p>
+        </ng-template>
+    </p-dialog>
+</div>

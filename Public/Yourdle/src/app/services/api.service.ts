@@ -211,4 +211,16 @@ import { throwError } from 'rxjs';
     );
   }
 
+  getAllCategory(){
+    return this.http.get(this.server + "/categories/allCategory", this.tokenHeader());
+  }
+
+  getCategoryData(id: string){
+    return this.http.get(this.server + "/categories/data/" + id, this.tokenHeader());
+  }
+
+  deleteCategory(id:string){
+    return this.http.delete(this.server + "/categories/" + id, this.tokenHeader());
+  }
+
 }
