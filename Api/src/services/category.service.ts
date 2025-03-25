@@ -1,3 +1,5 @@
+import { decrypt } from "../utils/decrypt";
+
 const { pool } = require ("../config/database")
 const { v4: uuidv4 } = require('uuid');
 
@@ -254,7 +256,7 @@ export const getCategoryDataService = async (id) => {
         }
 
         if (picture === 1) {
-            const pictureData:any = await new Promise((resolve, reject) => {
+            const pictureData: any = await new Promise((resolve, reject) => {
                 pool.query(
                     `SELECT * FROM picture WHERE categoryID = ?`,
                     [id],
@@ -266,7 +268,18 @@ export const getCategoryDataService = async (id) => {
                     }
                 );
             });
-            result = [...result, ...pictureData];
+
+            // Ha van pictureData és a picture titkosítva van, visszafejtjük
+            if (pictureData && pictureData.length > 0) {
+                pictureData.forEach((item) => {
+                    if (item.picture) {
+                        item.picture = decrypt(item.picture); // Visszafejtés
+                    } else {
+                        item.picture = 'http://localhost:3000/uploads/placeholder.png'; // Placeholder kép ha nincs
+                    }
+                });
+                result = [...result, ...pictureData];
+            }
         }
 
         if (emoji === 1) {
@@ -296,4 +309,20 @@ export const getCategoryDataService = async (id) => {
     }
 };
 
-
+export const deleteCategoryService = async(id)=>{
+    try {
+        const results:any = await new Promise((resolve, reject) => {
+            pool.query(`DELETE FROM categories WHERE id = ?`, [id], (err, results) => {
+                if (err) {
+                    const error:any = new Error('Hiba az adatbázis kapcsolatban');
+                    error.status = 500;
+                    return reject(error);
+                }
+                resolve(results);
+            });
+        });
+        return { success: true, message: "Kategória sikeresen törölve!" };
+    } catch (error) {
+        return { success: false, message: "Nem sikerült törölni a kategóriát" };
+    }
+}

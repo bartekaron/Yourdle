@@ -37,7 +37,7 @@ export class NavbarComponent implements OnInit {
           },
           {
             label: 'Kategóriák',
-            routerLink: '/kategoriak'
+            routerLink: '/admin-kategoriak'
           },
           {
             label: 'Felhasználók',

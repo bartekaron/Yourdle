@@ -27,7 +27,9 @@ Content-Type: application/json
 ### GET all category
 GET {{baseUrl}}/allCategory
 Content-Type: application/json
+Authorization: Bearer token
 
 ### Get all data for category
-GET {{baseUrl}}/data/asf
+GET {{baseUrl}}/data/9a3c8657-92f5-43ec-ae9a-6c67ab3a2802
 Content-Type: application/json
+Authorization: Bearer token
