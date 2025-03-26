@@ -4,15 +4,18 @@ import { ApiService } from '../../services/api.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AutoCompleteModule } from 'primeng/autocomplete';
+import { EmojiPickerComponent } from '@chit-chat/ngx-emoji-picker/lib/components/emoji-picker';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-emoji-game',
+  standalone: true,
   imports: [CommonModule, FormsModule, AutoCompleteModule],
   templateUrl: './emoji-game.component.html',
   styleUrl: './emoji-game.component.scss'
 })
 export class EmojiGameComponent {
-  constructor(private api: ApiService, private route: ActivatedRoute) {}
+  constructor(private api: ApiService, private route: ActivatedRoute, private router: Router) {}
 
   categoryId: string = '';
   names: string[] = []; 
@@ -22,10 +25,16 @@ export class EmojiGameComponent {
   previousGuesses: any[] = [];  // Korábbi tippek listája
   revealedEmojis: string[] = []; // Megjelenített emojik
   allEmojis: string[] = []; // Összes emoji a célkarakterhez
-
+  categoryData: any = null; // Store category data to check available game types
+  currentGame: string = 'emoji-game'; // Set the current game type
 
   ngOnInit() {
     this.categoryId = this.route.snapshot.paramMap.get('id') || '';
+
+    // Kategória név lekérése és elérhető játéktípusok meghatározása
+    this.api.getCategoryByID(this.categoryId).subscribe((data: any) => {
+      this.categoryData = data[0]; // Elérhető játéktípusok beállítása
+    });
 
     // Karakterek betöltése
     this.api.getAllEmoji(this.categoryId).subscribe((data: any) => {
@@ -108,5 +117,13 @@ export class EmojiGameComponent {
       return '▲';
     }
     return '';
+  }
+
+  onEmojiSelect(event: any) {
+    console.log('Selected emoji:', event.emoji);
+  }
+
+  navigateToGame(gameType: string) {
+    this.router.navigate([`/${gameType}/${this.categoryId}/0`]);
   }
 }

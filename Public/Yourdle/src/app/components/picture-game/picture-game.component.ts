@@ -4,6 +4,7 @@ import { ApiService } from '../../services/api.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AutoCompleteModule } from 'primeng/autocomplete';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-picture-game',
@@ -13,7 +14,7 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
   styleUrl: './picture-game.component.scss'
 })
 export class PictureGameComponent {
-  constructor(private api: ApiService, private route: ActivatedRoute) {}
+  constructor(private api: ApiService, private route: ActivatedRoute, private router: Router) {}
 
   categoryId: string = '';
   names: string[] = []; 
@@ -23,9 +24,16 @@ export class PictureGameComponent {
   previousGuesses: any[] = [];  // Korábbi tippek listája
   revealedPicture: string | null = null; // Megjelenített kép
   blurLevel: number = 20; // Initial blur level
+  categoryData: any = null; // Store category data to check available game types
+  currentGame: string = 'picture-game'; // Set the current game type
 
   ngOnInit() {
     this.categoryId = this.route.snapshot.paramMap.get('id') || '';
+
+    // Kategória név lekérése és elérhető játéktípusok meghatározása
+    this.api.getCategoryByID(this.categoryId).subscribe((data: any) => {
+      this.categoryData = data[0]; // Elérhető játéktípusok beállítása
+    });
 
     // Karakterek betöltése
     this.api.getAllPicture(this.categoryId).subscribe((data: any) => {
@@ -72,5 +80,9 @@ export class PictureGameComponent {
         this.selectedCharacter = '';
       }
     }
+  }
+
+  navigateToGame(gameType: string) {
+    this.router.navigate([`/${gameType}/${this.categoryId}/0`]);
   }
 }

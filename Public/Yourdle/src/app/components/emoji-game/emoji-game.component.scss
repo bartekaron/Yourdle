@@ -11,15 +11,7 @@
     color: white;  /* Fehér szöveg */
   }
   
-  button {
-    margin-top: 10px;
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
+
   
   button:hover {
     background-color: #0056b3;
@@ -132,4 +124,65 @@
   gap: 10px;
   width: 100%;
 }
+
+.input-container {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Add spacing between the selector and the button */
+  justify-content: center;
+}
+
+p-autoComplete {
+  width: 300px !important;
+}
   
+.navigation-buttons-container {
+  position: fixed;
+  bottom: 0;
+  width: 100%; /* Ensure full width */
+  background-color: black; /* Changed to black */
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  padding: 10px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.navigation-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.nav-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.nav-button:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+.nav-button:active {
+  background-color: #004085;
+  transform: scale(0.95);
+}
+
+.submit-button {
+  padding: 8px 12px;
+  background-color: #00A6ED;
+  border: none;
+  border-radius: 5px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.arrow-icon {
+  font-weight: bold;
+  color: black;
+}

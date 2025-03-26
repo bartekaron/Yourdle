@@ -6,14 +6,12 @@
                     (keyup.enter)="submitCharacter()"
                     [suggestions]="filteredCharacters"
                     (completeMethod)="filterCharacters($event)"
-                    placeholder="Írd be a hős nevét ...">
+                    placeholder="Írd be a karakter nevét ...">
     </p-autoComplete>
     <button (click)="submitCharacter()" class="submit-button">
       <span class="arrow-icon">▶</span>
     </button>
   </div>
-  
-  
 
   <!-- Korábbi tippek megjelenítése -->
   <div class="guess-container">
@@ -39,4 +37,13 @@
       </tbody>
     </table>
   </div>
-  
+  <div class="navigation-buttons-container">
+    <div class="navigation-buttons">
+      <button *ngIf="categoryData?.classic && currentGame !== 'classic-game'" (click)="navigateToGame('classic-game')" class="nav-button">Klasszikus Játék</button>
+      <button *ngIf="categoryData?.quote && currentGame !== 'quote-game'" (click)="navigateToGame('quote-game')" class="nav-button">Idézet Játék</button>
+      <button *ngIf="categoryData?.emoji && currentGame !== 'emoji-game'" (click)="navigateToGame('emoji-game')" class="nav-button">Emoji Játék</button>
+      <button *ngIf="categoryData?.picture && currentGame !== 'picture-game'" (click)="navigateToGame('picture-game')" class="nav-button">Kép Játék</button>
+      <button *ngIf="categoryData?.description && currentGame !== 'description-game'" (click)="navigateToGame('description-game')" class="nav-button">Leírás Játék</button>
+    </div>
+  </div>
+</div>

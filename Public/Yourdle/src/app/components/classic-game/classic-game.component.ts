@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ApiService } from '../../services/api.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-classic-game',
@@ -14,8 +14,9 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ClassicGameComponent implements OnInit {
 
+  currentGame: string = 'classic-game'; // Set the current game type
 
-  constructor(private api: ApiService, private route: ActivatedRoute) {}
+  constructor(private api: ApiService, private route: ActivatedRoute, private router: Router) {}
 
   categoryId: string = '';
   names: string[] = []; 
@@ -32,9 +33,15 @@ export class ClassicGameComponent implements OnInit {
     { key: 'address', label: 'Lakhely' },
     { key: 'birthDate', label: 'Születési dátum' }
   ];
+  categoryData: any = null; // Store category data to check available game types
 
   ngOnInit() {
     this.categoryId = this.route.snapshot.paramMap.get('id') || '';
+
+    // Kategória név lekérése és elérhető játéktípusok meghatározása
+    this.api.getCategoryByID(this.categoryId).subscribe((data: any) => {
+      this.categoryData = data[0]; // Elérhető játéktípusok beállítása
+    });
 
     // Karakterek betöltése
     this.api.getAllClassic(this.categoryId).subscribe((data: any) => {
@@ -94,5 +101,9 @@ export class ClassicGameComponent implements OnInit {
       return '▲';
     }
     return '';
+  }
+
+  navigateToGame(gameType: string) {
+    this.router.navigate([`/${gameType}/${this.categoryId}/0`]);
   }
 }

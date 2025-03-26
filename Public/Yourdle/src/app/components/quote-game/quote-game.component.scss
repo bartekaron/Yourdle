@@ -151,3 +151,56 @@
     color: white;
     text-align: center;
   }
+
+.navigation-buttons-container {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: black; /* Changed to black */
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  padding: 10px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.navigation-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.nav-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.nav-button:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+.nav-button:active {
+  background-color: #004085;
+  transform: scale(0.95);
+}
+
+.arrow-icon {
+  font-weight: bold;
+  color: black;
+}
+
+.autocomplete-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 5px; /* Reduce spacing to make the button closer to the selector */
+  justify-content: center;
+}
+
+p-autoComplete {
+  width: 300px !important;
+}

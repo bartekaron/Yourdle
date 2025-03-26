@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AutoCompleteModule } from 'primeng/autocomplete';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 
 @Component({
@@ -19,15 +19,18 @@ export class DescriptionGameComponent implements OnInit{
   selectedCharacter: string = '';
   targetCharacter: any = null;
   previousGuesses: any[] = [];
+  categoryData: any = null; // Store category data to check available game types
+  currentGame: string = 'description-game'; // Set the current game type
 
-  constructor(private api: ApiService, private route: ActivatedRoute) {}
+  constructor(private api: ApiService, private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit(): void {
     this.categoryId = this.route.snapshot.paramMap.get('id') || '';
 
-    // Kategória név lekérése
+    // Kategória név lekérése és elérhető játéktípusok meghatározása
     this.api.getCategoryByID(this.categoryId).subscribe((data: any) => {
       this.categoryName = data[0].categoryName; // Kategória név beállítása
+      this.categoryData = data[0]; // Elérhető játéktípusok beállítása
     });
 
     // Karakterek betöltése
@@ -95,5 +98,9 @@ export class DescriptionGameComponent implements OnInit{
       return '▲';
     }
     return '';
+  }
+
+  navigateToGame(gameType: string) {
+    this.router.navigate([`/${gameType}/${this.categoryId}/0`]);
   }
 }

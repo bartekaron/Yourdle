@@ -110,21 +110,9 @@
     width: 100%;
   }
   
-  .game-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 40vh;
-  }
+
   
-  .input-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
-  }
+ 
   
   /* Új stílus a kategória névhez */
   .category-name {
@@ -158,9 +146,72 @@
     border: 1px solid #ccc;
     padding: 10px;
     background-color: #fff;
+    width: 100%;
+    max-width: 500px;
+    transition: filter 0.5s ease; // Smooth transition for blur effect
   }
 
   h4{
     color: white;
     text-align: center;
+  }
+
+  .navigation-buttons-container {
+    position: fixed;
+    bottom: 0;
+    width: 100%; /* Ensure full width */
+    background-color: black; /* Changed to black */
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    padding: 10px 0;
+    display: flex;
+    justify-content: center;
+
+  }
+  
+  .input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .navigation-buttons {
+    display: flex;
+    gap: 10px;
+  }
+
+  .game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 40vh;
+  }
+  
+  
+  .nav-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .nav-button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+  }
+  
+  .nav-button:active {
+    background-color: #004085;
+    transform: scale(0.95);
+  }
+
+  .arrow-icon {
+    font-weight: bold;
+    color: black;
   }
