@@ -30,6 +30,7 @@ export class AdminCategoriesComponent {
   selectedCategoryId: string = '';
   selectedCategoryData: any[] = [];
   displayCategoryDialog: boolean = false;
+  groupedCategoryData: Map<string, any[]> = new Map();
 
   constructor(
     private api: ApiService,
@@ -67,10 +68,36 @@ export class AdminCategoriesComponent {
     });
   }
 
-  openCategoryDetails(categoryId: string) {
-    this.api.getCategoryData(categoryId).subscribe((res: any) => {
-      this.selectedCategoryData = res.data;
-      this.displayCategoryDialog = true;
+
+
+openCategoryDetails(categoryId: string) {
+  this.api.getCategoryData(categoryId).subscribe((res: any) => {
+    this.selectedCategoryData = res.data;
+
+    // Adatok csoportosítása típus szerint
+    this.groupedCategoryData = new Map();
+
+    this.selectedCategoryData.forEach((data: any) => {
+      let key = this.getCategoryType(data);
+
+      if (!this.groupedCategoryData.has(key)) {
+        this.groupedCategoryData.set(key, []);
+      }
+      this.groupedCategoryData.get(key)!.push(data);
     });
-  }
+
+    this.displayCategoryDialog = true;
+  });
+}
+
+// Segédfüggvény a kategória típus meghatározásához
+getCategoryType(data: any): string {
+  if (data.gender) return 'Klasszikus';
+  if (data.quote) return 'Idézet';
+  if (data.desc) return 'Leírás';
+  if (data.picture) return 'Kép';
+  if (data.firstEmoji) return 'Emoji';
+  return 'Egyéb';
+}
+
 }

@@ -144,6 +144,18 @@ import { throwError } from 'rxjs';
       return this.http.post(this.server + '/categories/category', data, this.tokenHeader());
     }
 
+    getAllCategory(){
+      return this.http.get(this.server + "/categories/allCategory", this.tokenHeader());
+    }
+  
+    getCategoryData(id: string){
+      return this.http.get(this.server + "/categories/data/" + id, this.tokenHeader());
+    }
+  
+    deleteCategory(id:string){
+      return this.http.delete(this.server + "/categories/" + id, this.tokenHeader());
+    }
+
     createClassic(data: object): Observable<any> {
       return this.http.post(this.server + '/categories/classic', data, this.tokenHeader());
     }
@@ -219,16 +231,6 @@ import { throwError } from 'rxjs';
     return this.http.get(this.server + '/games/solutionPicture/' + id);
   }
 
-  getAllCategory(){
-    return this.http.get(this.server + "/categories/allCategory", this.tokenHeader());
-  }
 
-  getCategoryData(id: string){
-    return this.http.get(this.server + "/categories/data/" + id, this.tokenHeader());
-  }
-
-  deleteCategory(id:string){
-    return this.http.delete(this.server + "/categories/" + id, this.tokenHeader());
-  }
 
 }

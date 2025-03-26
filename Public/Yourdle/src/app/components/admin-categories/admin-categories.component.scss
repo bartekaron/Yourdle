@@ -12,3 +12,14 @@
     margin-bottom: 1rem;
     margin-top: 2rem;
 }
+
+.category-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.category-group {
+    flex: 1;
+    min-width: 200px;
+}
