@@ -15,5 +15,9 @@ export class LandingComponent {
   Egyjatekos() {
     this.router.navigate(['/egyjatekos']);
   }
+
+  Toplista() {
+    this.router.navigate(['/toplista']);
+  }
 }
 

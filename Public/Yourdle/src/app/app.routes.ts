@@ -14,6 +14,7 @@ import { EmojiGameComponent } from './components/emoji-game/emoji-game.component
 import { PictureGameComponent } from './components/picture-game/picture-game.component';
 import { DescriptionGameComponent } from './components/description-game/description-game.component';
 import { AdminCategoriesComponent } from './components/admin-categories/admin-categories.component';
+import { LeaderboardComponent } from './components/leaderboard/leaderboard.component';
 
 export const routes: Routes = [
     {
@@ -47,6 +48,10 @@ export const routes: Routes = [
     },
     {
         path:"lobby/:roomName", component:LobbyComponent, canActivate:[UserAuthGuard]
+    },
+    {
+        path: 'toplista', 
+        component: LeaderboardComponent
     },
     //Játékmódok:
     { path: 'classic-game/:id/:modeIndex', component: ClassicGameComponent },

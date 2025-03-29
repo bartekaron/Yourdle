@@ -45,6 +45,15 @@ import { throwError } from 'rxjs';
     updatePasswd(table: string, field:string, op: string, value: string, data:object){
       return this.http.patch(this.server + '/public/'+table+'/'+field+'/'+op+'/'+value, data);
     }
+
+    getLeaderboard(){
+      return this.http.get(this.server + "/games/leaderboard")
+    }
+
+    getLeaderboardOneUser(id: string){
+      return this.http.get(this.server + "/games/leaderboard/" + id, this.tokenHeader());
+    }
+
     // token-el védett metódusok:
 
     select(table: string, field:string){
