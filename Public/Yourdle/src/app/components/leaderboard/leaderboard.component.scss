@@ -1,0 +1,67 @@
+:host {
+    display: flex;
+    justify-content: center; /* Vízszintesen középre igazítás */
+    align-items: center; /* Függőlegesen középre igazítás */
+    height: 100vh; /* Az egész képernyőt lefedje */
+}
+
+.leaderboard-container {
+    display: flex;
+    flex-direction: column; /* Alapértelmezett elrendezés: függőlegesen */
+    align-items: center; /* Középre igazítás */
+    justify-content: flex-start; /* A tetejére igazítás */
+    width: 100%;
+    padding: 20px;
+}
+
+.user-info {
+    background-color: black; /* Fekete háttér */
+    color: white; /* Fehér szöveg */
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+    text-align: left; /* Balra igazított szöveg */
+    width: 80%;
+    max-width: 800px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.user-details {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Az adatok egy sorba kerülnek */
+    gap: 20px; /* Távolság az egyes elemek között */
+    flex-wrap: wrap; /* Ha szükséges, az elemek a következő sorba kerülnek */
+}
+
+.user-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.profile-pic {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid #007ad9;
+}
+
+p-table {
+    width: 80%; /* A táblázat szélessége */
+    max-width: 1000px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+::ng-deep .p-datatable .p-datatable-thead > tr > th {
+    text-align: center; /* Fejléc szöveg középre */
+    padding: 10px;
+}
+
+::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+    text-align: center; /* Tartalom középre */
+    padding: 10px;
+}

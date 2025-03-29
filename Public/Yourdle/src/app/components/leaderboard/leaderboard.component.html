@@ -1,0 +1,55 @@
+<div class="leaderboard-container">
+    <!-- 🔹 Aktuális felhasználó adatai -->
+    <div class="user-info" *ngIf="userStats">
+        <h3>Saját statisztika</h3>
+        <div class="user-details">
+            <div class="user-item">
+                <img [src]="userStats.profilePic" alt="Profilkép" class="profile-pic">
+            </div>
+            <div class="user-item">
+                <p><strong>Név:</strong> {{ userStats.name }}</p>
+            </div>
+            <div class="user-item">
+                <p><strong>Győzelmek:</strong> {{ userStats.wins }}</p>
+            </div>
+            <div class="user-item">
+                <p><strong>Vereségek:</strong> {{ userStats.losses }}</p>
+            </div>
+            <div class="user-item">
+                <p><strong>Döntetlenek:</strong> {{ userStats.draws }}</p>
+            </div>
+            <div class="user-item">
+                <p><strong>Pontszám:</strong> {{ userStats.points }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 🔹 Leaderboard táblázat -->
+    <p-table #dt [value]="leaderboard" [paginator]="true" [rows]="20" [loading]="loading" responsiveLayout="scroll">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Helyezés</th>
+                <th>Név</th>
+                <th>Profilkép</th>
+                <th>Győzelmek</th>
+                <th>Vereségek</th>
+                <th>Döntetlenek</th>
+                <th>Pontszám</th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-entry let-i="rowIndex">
+            <tr>
+                <td>{{ entry.rank }}</td>
+                <td>{{ entry.name }}</td>
+                <td>
+                    <img [src]="entry.profilePic" alt="Profilkép" width="40" height="40" class="profile-pic">
+                </td>
+                <td>{{ entry.wins }}</td>
+                <td>{{ entry.losses }}</td>
+                <td>{{ entry.draws }}</td>
+                <td>{{ entry.points }}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
