@@ -28,7 +28,7 @@
                 'correct': isPropertyCorrect(detail.key, guess),
                 'incorrect': !isPropertyCorrect(detail.key, guess)
               }">
-            {{ detail.key === 'birthDate' ? (guess[detail.key] | date: 'yyyy') : guess[detail.key] }}
+            {{ detail.key === 'age' ? (guess[detail.key] | date: 'yyyy') : guess[detail.key] }}
             <span *ngIf="showPropertyHint(detail.key, guess)" class="hint-arrow">
               {{ getPropertyHint(detail.key, guess) }}
             </span>

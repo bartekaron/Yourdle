@@ -23,4 +23,8 @@ router.get("/allPicture/:id", gameController.getAllPicture);
 
 router.get("/solutionPicture/:id", gameController.getSolutionPicture);
 
+router.get("/leaderboard", gameController.getAllLeaderboard);
+
+router.get("/leaderboard/:id", authMiddleware,gameController.getLeaderboardOneUser);
+
 export default router;

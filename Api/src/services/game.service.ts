@@ -213,3 +213,80 @@ export const getSolutionPictureService = async (id) => {
         return { success: false, message: "Nem sikerült képet lekérni" };
     }
 }
+
+export const getAllLeaderboardService = async () => {
+    try {
+        const leaderboard:any = await new Promise((resolve, reject) => {
+            pool.query(
+                `SELECT leaderboard.id, leaderboard.userID, leaderboard.wins, leaderboard.losses, leaderboard.draws, users.name, users.profilePic 
+                 FROM leaderboard 
+                 JOIN users ON leaderboard.userID = users.id
+                 ORDER BY leaderboard.wins DESC`,
+                (err, results) => {
+                    if (err) {
+                        return reject(new Error("Hiba az adatbázis kapcsolatban"));
+                    }
+                    resolve(results);
+                }
+            );
+        });
+
+        // Profilképek visszafejtése és alapértelmezett kép beállítása
+        const formattedLeaderboard = leaderboard.map(entry => ({
+            id: entry.id,
+            name: entry.name,
+            profilePic: entry.profilePic ? decrypt(entry.profilePic) : `http://localhost:3000/uploads/placeholder.png`,
+            wins: entry.wins,
+            losses: entry.losses,
+            draws: entry.draws,
+        }));
+
+        return { success: true, data: formattedLeaderboard };
+    } catch (error) {
+        console.error("Leaderboard lekérési hiba:", error);
+        return { success: false, message: "Nem sikerült a toplistát lekérni" };
+    }
+};
+
+export const getLeaderboardOneUserService = async (id) => {
+    try {
+        const leaderboard:any = await new Promise((resolve, reject) => {
+            pool.query(
+                `SELECT leaderboard.id, leaderboard.userID, leaderboard.wins, leaderboard.losses, leaderboard.draws, users.name, users.profilePic 
+                 FROM leaderboard 
+                 JOIN users ON leaderboard.userID = users.id
+                 WHERE leaderboard.userID = ?`,
+                [id],
+                (err, results) => {
+                    if (err) {
+                        return reject(new Error("Hiba az adatbázis kapcsolatban"));
+                    }
+                    if (results.length === 0) {
+                        return resolve(null);
+                    }
+                    resolve(results[0]); // Csak egyetlen felhasználó adata kell
+                }
+            );
+        });
+
+        if (!leaderboard) {
+            return { success: false, message: "A felhasználó nem található a toplistán" };
+        }
+
+        // Profilkép visszafejtése vagy alapértelmezett kép beállítása
+        const formattedLeaderboard = {
+            id: leaderboard.id,
+            name: leaderboard.name,
+            profilePic: leaderboard.profilePic ? decrypt(leaderboard.profilePic) : `http://localhost:3000/uploads/placeholder.png`,
+            wins: leaderboard.wins,
+            losses: leaderboard.losses,
+            draws: leaderboard.draws,
+        };
+
+        return { success: true, data: formattedLeaderboard };
+    } catch (error) {
+        console.error("Leaderboard lekérési hiba:", error);
+        return { success: false, message: "Nem sikerült a toplistát lekérni" };
+    }
+};
+

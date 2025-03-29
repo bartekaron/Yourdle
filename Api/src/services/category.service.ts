@@ -60,11 +60,11 @@ export const createCategoryService = async (category) => {
     }
 }
 
-export const createClassicService = async ({answer, gender, height, weight, hairColor, address, birthDate, categoryID }) => {
+export const createClassicService = async ({answer, gender, height, weight, hairColor, address, age, categoryID }) => {
     try {
         const id = uuidv4();
         const results = await new Promise((resolve, reject) => {
-            pool.query(`INSERT INTO classic SET ?`, { id, answer, gender, height, weight, hairColor, address, birthDate, categoryID}, (err, results) => {
+            pool.query(`INSERT INTO classic SET ?`, { id, answer, gender, height, weight, hairColor, address, age, categoryID}, (err, results) => {
                 if (err) {
                     const error:any = new Error('Hiba az adatbázis kapcsolatban');
                     error.status = 500;
@@ -80,11 +80,11 @@ export const createClassicService = async ({answer, gender, height, weight, hair
     }
 }
 
-export const createDescriptionService = async ({answer, desc, categoryID}) => {
+export const createDescriptionService = async ({answer, description, categoryID}) => {
     try {
         const id = uuidv4();
         const results = await new Promise((resolve, reject) => {
-            pool.query(`INSERT INTO description SET ?`, {id, answer, desc, categoryID}, (err, results) => {
+            pool.query(`INSERT INTO description SET ?`, {id, answer, description, categoryID}, (err, results) => {
                 if (err) {
                     const error:any = new Error('Hiba az adatbázis kapcsolatban');
                     error.status = 500;

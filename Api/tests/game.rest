@@ -26,3 +26,11 @@ Content-Type: application/json
 ###GET description solution  by category ID
 GET {{baseUrl}}/solutionDescription/asf
 Content-Type: application/json
+
+### Get Leaderboard
+GET {{baseUrl}}/leaderboard
+Content-Type: application/json
+
+### Get Leaderboard 1 user
+GET {{baseUrl}}/leaderboard/79dd2b70-259b-48dc-bf8e-49f872df6770
+Content-Type: application/json

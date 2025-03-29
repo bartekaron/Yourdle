@@ -31,15 +31,15 @@
           <label>Gender</label>
           <input type="text" [(ngModel)]="form.gender" />
           <label>Height</label>
-          <input type="number" [(ngModel)]="form.height" />
+          <input type="number" min="1" [(ngModel)]="form.height" />
           <label>Weight</label>
-          <input type="number" [(ngModel)]="form.weight" />
+          <input type="number" min="1" [(ngModel)]="form.weight" />
           <label>Hair Color</label>
           <input type="text" [(ngModel)]="form.hairColor" />
           <label>Address</label>
           <input type="text" [(ngModel)]="form.address" />
-          <label>Birth Date</label>
-          <input type="date" [(ngModel)]="form.birthDate" />
+          <label>Életkor</label>
+          <input type="number" min="1" [(ngModel)]="form.age" />
         </div>
         <div *ngIf="category === 'Kép'" class="p-field">
           <label>Answer</label>
@@ -96,7 +96,7 @@
           <label>Answer</label>
           <input type="text" [(ngModel)]="form.answer" />
           <label>Description</label>
-          <input type="text" [(ngModel)]="form.desc" />
+          <input type="text" [(ngModel)]="form.description" />
         </div>
 
       </div>

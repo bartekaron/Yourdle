@@ -36,11 +36,11 @@ export const createCategory = async (req, res, next) => {
 
 export const createClassic = async (req, res, next) => {
     try {
-        const { answer, gender, height, weight, hairColor, address, birthDate, categoryID } = req.body;
-        if (!answer || !gender || !height || !weight || !hairColor || !address || !birthDate || !categoryID) {
+        const { answer, gender, height, weight, hairColor, address, age, categoryID } = req.body;
+        if (!answer || !gender || !height || !weight || !hairColor || !address || !age || !categoryID) {
             return res.status(400).json({ success: false, message: "Hiányzó adatok!" });
         }
-        const result = await createClassicService({ answer, gender, height, weight, hairColor, address, birthDate, categoryID });
+        const result = await createClassicService({ answer, gender, height, weight, hairColor, address, age, categoryID });
         res.status(200).json({ result, success: true });
     } catch (error) {
         next(error);
@@ -49,11 +49,11 @@ export const createClassic = async (req, res, next) => {
 
 export const createDescription = async (req, res, next) => {
     try {
-        const { answer, desc, categoryID } = req.body;
-        if (!answer || !desc || !categoryID) {
+        const { answer, description, categoryID } = req.body;
+        if (!answer || !description || !categoryID) {
             return res.status(400).json({ success: false, message: "Hiányzó adatok!" });
         }
-        const result = await createDescriptionService({ answer, desc, categoryID });
+        const result = await createDescriptionService({ answer, description, categoryID });
         res.status(200).json({ result, success: true });
     } catch (error) {
         next(error);

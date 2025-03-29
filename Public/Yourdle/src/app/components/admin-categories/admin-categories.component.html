@@ -56,9 +56,9 @@
                     <p *ngIf="data.weight"><strong>Súly:</strong> {{ data.weight }}</p>
                     <p *ngIf="data.hairColor"><strong>Hajszín:</strong> {{ data.hairColor }}</p>
                     <p *ngIf="data.address"><strong>Cím:</strong> {{ data.address }}</p>
-                    <p *ngIf="data.birthDate"><strong>Születési dátum:</strong> {{ data.birthDate | date:'yyyy-MM-dd' }}</p>
+                    <p *ngIf="data.age"><strong>Életkor:</strong> {{ data.age }}</p>
                     <p *ngIf="data.quote"><strong>Idézet:</strong> {{ data.quote }}</p>
-                    <p *ngIf="data.desc"><strong>Leírás:</strong> {{ data.desc }}</p>
+                    <p *ngIf="data.description"><strong>Leírás:</strong> {{ data.description }}</p>
                     <p *ngIf="data.picture"><strong>Kép:</strong> <img [src]="data.picture" width="100"></p>
                     <p *ngIf="data.firstEmoji"><strong>Emojik:</strong> {{ data.firstEmoji }} {{ data.secondEmoji }} {{ data.thirdEmoji }}</p>
 

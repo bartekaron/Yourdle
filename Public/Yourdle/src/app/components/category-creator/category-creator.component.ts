@@ -85,7 +85,7 @@ export class CategoryCreatorComponent {
       weight: '',
       hairColor: '',
       address: '',
-      birthDate: '',
+      age: '',
       picture: '',
       quote: '',
       firstEmoji: '',
@@ -142,7 +142,7 @@ export class CategoryCreatorComponent {
         const formData = { ...form, categoryID };
         switch (category) {
           case 'Klasszikus':
-            if (formData.answer && formData.gender && formData.height && formData.weight && formData.hairColor && formData.address && formData.birthDate) {
+            if (formData.answer && formData.gender && formData.height && formData.weight && formData.hairColor && formData.address && formData.age) {
               this.api.createClassic(formData).subscribe(
                 response => {
                   console.log('Klasszikus form successfully uploaded', response);

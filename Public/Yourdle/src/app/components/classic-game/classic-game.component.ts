@@ -31,7 +31,7 @@ export class ClassicGameComponent implements OnInit {
     { key: 'weight', label: 'Súly' },
     { key: 'hairColor', label: 'Hajszín' },
     { key: 'address', label: 'Lakhely' },
-    { key: 'birthDate', label: 'Születési dátum' }
+    { key: 'age', label: 'Életkor' }
   ];
   categoryData: any = null; // Store category data to check available game types
 

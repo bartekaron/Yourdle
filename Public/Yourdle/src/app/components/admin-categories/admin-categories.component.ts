@@ -94,7 +94,7 @@ openCategoryDetails(categoryId: string) {
 getCategoryType(data: any): string {
   if (data.gender) return 'Klasszikus';
   if (data.quote) return 'Idézet';
-  if (data.desc) return 'Leírás';
+  if (data.description) return 'Leírás';
   if (data.picture) return 'Kép';
   if (data.firstEmoji) return 'Emoji';
   return 'Egyéb';
