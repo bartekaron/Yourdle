@@ -1,8 +1,100 @@
-.navbar-container{
+.navbar-container {
     width: 100%;
-    display: flex;
     background-color: #18181B;
-    justify-content: flex-end;
-}
+    position: relative;
+    z-index: 1000;
+  }
+  
+  /* Alapértelmezett navigációs menü */
+  .navbar {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+  }
+  
+  /* Menüelemek */
+  .navbar li {
+    padding: 10px 10px;
+  }
+  
+  .navbar a, .navbar button {
+    color: white;
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .navbar a:hover, .navbar button:hover {
+    color: #00BFFF;
+  }
+  
+  .navbar .logo {
+    font-weight: bold;
+    font-size: 20px;
+  }
 
-
+  .logo img {
+    height: 40px; /* Kép magassága */
+    width: auto; /* Automatikus szélesség */
+    display: block;
+  }
+  
+  .logo a {
+    display: flex;
+    align-items: center;
+  }
+  
+  
+  .navbar .spacer {
+    flex-grow: 1;
+  }
+  
+  /* Hamburger gomb */
+  .hamburger {
+    display: none; /* Alapból rejtett */
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 1100;
+  }
+  
+  /* Mobilnézet (max 768px) */
+  @media (max-width: 768px) {
+    .navbar {
+      flex-direction: column;
+      background-color: #18181B;
+      position: absolute;
+      width: 100%;
+      top: 50px;
+      left: 0;
+      display: none; /* Alapból elrejtve */
+    }
+  
+    .navbar.open {
+      display: flex; /* Megnyitva mutatja a menüt */
+    }
+  
+    .hamburger {
+      display: block; /* Mobilon látható lesz */
+    }
+  
+    .navbar .spacer {
+      display: none;
+    }
+  }
+  
+  .profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+  
