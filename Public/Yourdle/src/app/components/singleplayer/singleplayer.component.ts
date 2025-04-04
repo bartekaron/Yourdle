@@ -37,7 +37,7 @@ export class SingleplayerComponent implements OnInit {
                  (mode === 'Idézet' && category.quote) ||
                  (mode === 'Emoji' && category.emoji) ||
                  (mode === 'Kép' && category.picture) ||
-                 (mode === 'Leírás' && category.desc);
+                 (mode === 'Leírás' && category.description);
         });
       
         return { ...category, gameModes };
@@ -58,7 +58,7 @@ export class SingleplayerComponent implements OnInit {
       if (!this.usersMap.has(userID)) { // Ha még nincs eltárolva az adott ID
         this.api.getUserById(userID).subscribe(response => {
           if (response.success && response.user) {
-            this.usersMap.set(userID, response.user.username);
+            this.usersMap.set(userID, response.user.name);
           } else {
             this.usersMap.set(userID, 'Ismeretlen');
           }
@@ -67,6 +67,8 @@ export class SingleplayerComponent implements OnInit {
         });
       }
     });
+
+    console.log(this.usersMap);
   }
 
   filterCategories() {

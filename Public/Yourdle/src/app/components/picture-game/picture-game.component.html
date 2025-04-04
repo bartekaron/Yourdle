@@ -15,16 +15,17 @@
   <div class="input-container">
     <p-autoComplete 
       [(ngModel)]="selectedCharacter" 
+      (keyup.enter)="submitCharacter()" 
       [suggestions]="filteredCharacters" 
       (completeMethod)="filterCharacters($event)" 
-      placeholder="Írd be a karakter nevét"
-      (keyup.enter)="submitCharacter()">  
+      placeholder="Írd be a karakter nevét">
     </p-autoComplete>
     <button (click)="submitCharacter()" class="submit-button">
       <span class="arrow-icon">▶</span>
     </button>
   </div>
 
+  
 
   <div class="navigation-buttons-container">
     <div class="navigation-buttons">
@@ -36,5 +37,3 @@
     </div>
   </div>
 </div>
-
-

@@ -51,11 +51,6 @@
                 </td>
                 <td>
                     <p-cellEditor>
-                        <ng-template pTemplate="input">
-                            <input
-                                pInputText type="text"
-                                [(ngModel)]="user.profilePic" />
-                        </ng-template>
                         <ng-template pTemplate="output">
                             <img [src]="user.profilePic" alt="Profile Picture" width="50" height="50">
                         </ng-template>

@@ -131,7 +131,7 @@ import { throwError } from 'rxjs';
     }
    
     getUserById(userID: string): Observable<any> {
-      return this.http.get<any>(this.server + '/users/' + userID, this.tokenHeader());
+      return this.http.get<any>(this.server + '/users/user/' + userID, this.tokenHeader());
     }
   
     

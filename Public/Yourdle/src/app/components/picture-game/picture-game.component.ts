@@ -47,6 +47,7 @@ export class PictureGameComponent {
       if (data.success && data.data) {
         this.targetCharacter = data.data;
         this.revealedPicture = data.data.picture; // Ensure this is correctly set
+
       }
     });
   }
@@ -62,25 +63,36 @@ export class PictureGameComponent {
   // Karakter beküldése
   submitCharacter() {
     if (this.selectedCharacter) {
-      const character = this.names.find(name => name === this.selectedCharacter);
-      if (character && !this.previousGuesses.includes(character)) {
-        this.previousGuesses.unshift(character);
-        
-        if (this.selectedCharacter === this.targetCharacter.answer) {
-          this.blurLevel = 0; // Remove blur effect
-        } else {
-          // Decrease blur level with each incorrect guess
-          this.blurLevel = Math.max(0, this.blurLevel - 5);
+      this.api.getAllDescription(this.categoryId).subscribe((data: any) => {
+        if (data.data && Array.isArray(data.data)) {
+          this.selectedCharacter = this.filteredCharacters[0];
+          const character = data.data.find((char: any) => char.answer === this.selectedCharacter);
+  
+          if (character && !this.previousGuesses.some(guess => guess.answer === character.answer)) {
+            this.previousGuesses.unshift(character); // Új tipp hozzáadása
+  
+            // Ellenőrzés a célkarakterrel
+            if (this.selectedCharacter === this.targetCharacter.answer) {
+              this.blurLevel = 0; // Remove blur effect
+            } else {
+              // Decrease blur level with each incorrect guess
+              this.blurLevel = Math.max(0, this.blurLevel - 5);
+            }
+  
+            // Tippelt karakter eltávolítása az autocomplete listából
+            this.names = this.names.filter(name => name !== character.answer);
+            this.filteredCharacters = [...this.names];
+  
+            this.selectedCharacter = ''; // Visszaállítjuk a kiválasztott karakter mezőt
+          }
         }
-
-        // Tippelt karakter eltávolítása az autocomplete listából
-        this.names = this.names.filter(name => name !== character);
-        this.filteredCharacters = [...this.names];
-
-        this.selectedCharacter = '';
-      }
+      });
     }
   }
+
+  
+
+  
 
   navigateToGame(gameType: string) {
     this.router.navigate([`/${gameType}/${this.categoryId}/0`]);
