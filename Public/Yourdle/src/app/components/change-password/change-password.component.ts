@@ -41,6 +41,11 @@ export class ChangePasswordComponent {
     this.api.ChangePassword(this.user.data.id, this.passwordData).subscribe({
       next: (res: any) => {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Jelszó sikeresen megváltoztatva!' });
+        this.passwordData = {
+          oldpasswd:"",
+          passwd: "",
+          confirm: ""
+        }
         this.closeDialog();
       },
       error: (err) => {

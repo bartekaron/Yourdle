@@ -53,6 +53,7 @@ export class ProfileComponent implements OnInit {
           if (res) {
             this.user.image = res.user.profilePic; 
           }
+          
         });
       }
     })
@@ -65,10 +66,12 @@ export class ProfileComponent implements OnInit {
           this.messageService.add({ severity: 'error', summary: 'Hiba', detail: 'Nem választottál ki fájlt!' });
           return;
         }
-        this.api.uploadFile(event.files[0], this.user.id).subscribe(res=>{
+        this.api.uploadFile(event.files[0], this.user.id).subscribe((res:any)=>{
           if (res) {
+            const newImageUrl = res.image || 'http://localhost:3000/uploads/placeholder.png';
             this.messageService.add({ severity: 'info', summary: 'Success', detail: 'Sikeres profilkép feltöltés' });
             this.user.image = URL.createObjectURL(event.files[0]);
+            this.auth.updateUserData({ data: { ...this.user, image: newImageUrl } });
           }
           else{
             this.messageService.add({ severity: 'error', summary: 'Hiba', detail: 'A kép feltöltése sikertelen.' });
@@ -82,10 +85,12 @@ export class ProfileComponent implements OnInit {
         this.messageService.add({ severity: 'error', summary: 'Hiba', detail: 'Nem választottál ki fájlt!' });
         return;
       }
-      this.api.uploadFile(event.files[0], this.user.id).subscribe(res=>{
+      this.api.uploadFile(event.files[0], this.user.id).subscribe((res:any)=>{
         if (res) {
+          const newImageUrl = res.image || 'http://localhost:3000/uploads/placeholder.png';
           this.messageService.add({ severity: 'info', summary: 'Success', detail: 'Sikeres profilkép feltöltés' });
           this.user.image = URL.createObjectURL(event.files[0]);
+          this.auth.updateUserData({ data: { ...this.user, image: newImageUrl } });
         }
         else{
           this.messageService.add({ severity: 'error', summary: 'Hiba', detail: 'A kép feltöltése sikertelen.' });
@@ -113,14 +118,18 @@ export class ProfileComponent implements OnInit {
   ProfileSave() {
     this.api.profileSave(this.user).subscribe((res:any) => {
             if (res) {
-              this.user = res.user.user;
+
+              this.user.name = res.user.user.name;
+              this.user.email = res.user.user.email;  
+
+              this.auth.updateUserData({ data: this.user });
               this.auth.logout();
               this.auth.login(res.user.token)
               this.messageService.add({severity: 'success', summary: 'Sikeres mentés', detail: 'A profil frissítése sikerült.'});
+              this.closeDialog();
             }
             else{
               this.messageService.add({severity: 'error', summary: 'Hiba', detail: 'A profil frissítése sikertelen volt.' });
-
             }
         }
     );
@@ -136,8 +145,9 @@ deleteProfilePicture() {
     accept: () => {
       this.api.deleteProfilePicture(this.user.id).subscribe((res: any) => {
         if (res.success) {
-          this.user.image = "http://localhost:3000/uploads/placeholder.png"; // Visszaállítjuk az alapértelmezett képet
+          this.user.image = "http://localhost:3000/uploads/placeholder.png"; 
           this.messageService.add({ severity: 'success', summary: 'Siker', detail: 'Profilkép sikeresen törölve!' });
+          this.auth.updateUserData({ data: { ...this.user, image: 'http://localhost:3000/uploads/placeholder.png' } });
         } else {
           this.messageService.add({ severity: 'error', summary: 'Hiba', detail: 'Nem sikerült törölni a profilképet.' });
         }

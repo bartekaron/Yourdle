@@ -18,7 +18,7 @@
         </a>
         <button *ngIf="item.command" (click)="item.command(); closeMenu()">
           <i *ngIf="item.icon" [class]="item.icon"></i>
-          <img *ngIf="user?.image" [src]="user.image" alt="Profile Picture" class="profile-pic">
+          <img *ngIf="loggedIn" [src]="user.image" alt="Profilkép" class="profile-pic">
           {{ item.label }}
         </button>
       </li>

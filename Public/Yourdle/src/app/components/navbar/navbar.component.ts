@@ -21,50 +21,60 @@ export class NavbarComponent implements OnInit {
   isMenuOpen = false;
   items: any[] = [];
   user:any 
-
+  loggedIn:boolean = false;
 
   ngOnInit() {
-    this.auth.isLoggedIn$.subscribe(res => {
-      this.Menu(res);
-    });
+
+      this.auth.isLoggedIn$.subscribe(res => {
+        this.loggedIn = res;
+        this.Menu(res);
+        this.auth.loggedUser$.subscribe(user => {
+          if (user) {
+            this.user = user.data;
+            this.user.image = this.user.image || 'http://localhost:3000/uploads/placeholder.png';
+            this.api.select('users/user', this.auth.loggedUser().data.id).subscribe((res: any) => {
+              if (res) {
+                this.user.image = res.user.profilePic; 
+              }
+            });
+          }
+        });
+      });
+      
+    
+    
   }
 
   Menu(isLoggedIn: boolean) {
     if (isLoggedIn) {
-      this.auth.loggedUser$.subscribe(user=>{
-        if (user) {
-          this.user = user.data;
-          this.api.select('users/user', this.user.id).subscribe((res: any) => {
-            if (res) {
-              this.user.image =  res.user.profilePic || 'http://localhost:3000/uploads/placeholder.png';
-            }
-          });
-          if (this.auth.isAdmin()) {
-            this.items = [
-              { label: 'Kategóriák', routerLink: '/admin-kategoriak' },
-              { label: 'Felhasználók', routerLink: '/admin-felhasznalok' },
-              { command: () => this.openProfileDialog() }
-            ];
-          } else {
-            this.items = [
-              { label: 'Egyjátékos', routerLink: '/egyjatekos' },
-              { label: 'Toplista', routerLink: '/toplista' },
-              { label: 'Párbaj', routerLink: '/parbaj' },
-              { label: 'Kategória készítő', routerLink: '/kategoria-keszito' },
-              { command: () => this.openProfileDialog() }
-            ];
-          }
-        }  else {
+      const user = this.auth.loggedUser();
+      if (user) {
+        this.user = user.data;
+        if (this.auth.isAdmin()) {
+          this.items = [
+            { label: 'Kategóriák', routerLink: '/admin-kategoriak' },
+            { label: 'Felhasználók', routerLink: '/admin-felhasznalok' },
+            { command: () => this.openProfileDialog() }
+          ];
+        } else {
           this.items = [
             { label: 'Egyjátékos', routerLink: '/egyjatekos' },
             { label: 'Toplista', routerLink: '/toplista' },
-            { label: 'Bejelentkezés', command: () => this.openLoginDialog() }
+            { label: 'Párbaj', routerLink: '/parbaj' },
+            { label: 'Kategória készítő', routerLink: '/kategoria-keszito' },
+            { command: () => this.openProfileDialog() }
           ];
         }
-      })
-
+      }
+    } else {
+      this.items = [
+        { label: 'Egyjátékos', routerLink: '/egyjatekos' },
+        { label: 'Toplista', routerLink: '/toplista' },
+        { label: 'Bejelentkezés', command: () => this.openLoginDialog() }
+      ];
     }
   }
+  
 
   openLoginDialog() {
     if (LoginComponent.instance) {

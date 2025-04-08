@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, retry } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { ApiService } from './api.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,9 @@ import { environment } from '../../environments/environment';
 
 export class AuthService {
 
-  constructor() { }
+  constructor(private api: ApiService) {
+    this.initialize();
+  }
 
   private tokenName = environment.tokenName;
 
@@ -22,6 +25,16 @@ export class AuthService {
     return !!localStorage.getItem(this.tokenName);
   }
 
+  decodeToken(token: string): any {
+    try {
+      const payload = token.split('.')[1];
+      const decodedPayload = atob(payload);
+      return JSON.parse(decodedPayload);
+    } catch {
+      return null;
+    }
+  }
+  
   login(token:string){
     localStorage.setItem(environment.tokenName, token);
     this.isLoggedIn.next(true);
@@ -57,7 +70,33 @@ export class AuthService {
   }
 
   updateUserData(newUserData: any) {
-    this.userSubject.next(newUserData);
+    this.userSubject.next(newUserData); 
   }
+
+
+  initialize() {
+    const token = localStorage.getItem(this.tokenName);
+    if (token) {
+      this.loadUserFromToken(token);
+    }
+}
+
+loadUserFromToken(token: string) {
+  const payload = this.decodeToken(token); 
+  const userId = payload?.id;
+
+  if (userId) {
+    this.api.select('users/user', userId).subscribe((res: any) => {
+      if (res && res.user) {
+        const fullUser = {
+          ...payload,
+          image: res.user.profilePic
+        };
+        this.userSubject.next({ data: fullUser });
+        this.isLoggedIn.next(true);
+      }
+    });
+  }
+}
 
 }

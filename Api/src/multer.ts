@@ -31,8 +31,9 @@ const updateProfilePicture = async (req: Request, res: Response) => {
     const encryptedUrl = encrypt(imageUrl); // Titkosítás
 
     await pool.query('UPDATE users SET profilePic = ? WHERE id = ?', [encryptedUrl, req.body.id]);
+    console.log(imageUrl);
 
-    res.status(200).json({ success: true });
+    res.status(200).json({ success: true, image: imageUrl });
 };
 
 // Category kép frissítés
