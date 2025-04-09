@@ -24,11 +24,11 @@
       <tbody>
         <tr *ngFor="let guess of previousGuesses">
           <td *ngFor="let detail of characterProperties" 
-              [ngClass]="{
-                'correct': isPropertyCorrect(detail.key, guess),
-                'incorrect': !isPropertyCorrect(detail.key, guess)
-              }">
-            {{ detail.key === 'age' ? (guess[detail.key] | date: 'yyyy') : guess[detail.key] }}
+            [ngClass]="{
+              'correct': isPropertyCorrect(detail.key, guess),
+              'incorrect': !isPropertyCorrect(detail.key, guess)
+            }">
+          {{ guess[detail.key] }}
             <span *ngIf="showPropertyHint(detail.key, guess)" class="hint-arrow">
               {{ getPropertyHint(detail.key, guess) }}
             </span>

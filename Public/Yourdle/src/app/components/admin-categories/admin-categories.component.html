@@ -1,5 +1,5 @@
 <div class="card">
-    <p-toast></p-toast>
+
     <p-table [value]="categories" dataKey="id" editMode="row" [tableStyle]="{'min-width': '50rem'}" [paginator]="true" [rows]="10">
         <ng-template pTemplate="header">
             <tr>
@@ -71,5 +71,5 @@
             <p>Nincs elérhető adat ehhez a kategóriához.</p>
         </ng-template>
     </p-dialog>
-    
 </div>
+<p-toast />

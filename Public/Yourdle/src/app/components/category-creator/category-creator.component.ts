@@ -4,18 +4,18 @@ import { MessageService } from 'primeng/api';
 import { DropdownModule } from 'primeng/dropdown';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ButtonModule } from 'primeng/button';
-import { FileUpload } from 'primeng/fileupload';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import * as uuid from 'uuid';
 import { EmojiPickerComponent, EmojiSelectedEvent } from '@chit-chat/ngx-emoji-picker/lib/components/emoji-picker';
 import { TextBoxComponent } from '@chit-chat/ngx-emoji-picker/lib/components/text-box';
+import {  ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-category-creator',
   standalone: true,
-  imports: [DropdownModule, CheckboxModule, ButtonModule, CommonModule, FormsModule, ReactiveFormsModule, EmojiPickerComponent, TextBoxComponent],
+  imports: [DropdownModule, CheckboxModule, ButtonModule, CommonModule, FormsModule, ReactiveFormsModule, EmojiPickerComponent, TextBoxComponent, ToastModule],
   templateUrl: './category-creator.component.html',
   styleUrl: './category-creator.component.scss'
 })

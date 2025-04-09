@@ -9,11 +9,12 @@ import { RegisterComponent } from "./components/register/register.component";
 import { ForgottenPasswordComponent } from './components/forgotten-password/forgotten-password.component';
 import { MatchHistoryComponent } from "./components/match-history/match-history.component";
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { ToastModule } from 'primeng/toast';
 
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, NavbarComponent, HeaderComponent, LoginComponent, ProfileComponent, RegisterComponent, ForgottenPasswordComponent, MatchHistoryComponent, ChangePasswordComponent],
+  imports: [RouterOutlet, NavbarComponent, HeaderComponent, LoginComponent, ProfileComponent, RegisterComponent, ForgottenPasswordComponent, MatchHistoryComponent, ChangePasswordComponent, ToastModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

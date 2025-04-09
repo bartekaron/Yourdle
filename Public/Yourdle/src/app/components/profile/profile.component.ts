@@ -135,26 +135,26 @@ export class ProfileComponent implements OnInit {
     );
 }
 
-deleteProfilePicture() {
-  this.confirmationService.confirm({
-    message: 'Biztosan törölni szeretnéd a profilképed?',
-    header: 'Megerősítés',
-    icon: 'pi pi-exclamation-triangle',
-    acceptLabel: 'Igen',
-    rejectLabel: 'Mégse',
-    accept: () => {
-      this.api.deleteProfilePicture(this.user.id).subscribe((res: any) => {
-        if (res.success) {
-          this.user.image = "http://localhost:3000/uploads/placeholder.png"; 
-          this.messageService.add({ severity: 'success', summary: 'Siker', detail: 'Profilkép sikeresen törölve!' });
-          this.auth.updateUserData({ data: { ...this.user, image: 'http://localhost:3000/uploads/placeholder.png' } });
-        } else {
-          this.messageService.add({ severity: 'error', summary: 'Hiba', detail: 'Nem sikerült törölni a profilképet.' });
-        }
-      });
-    }
-  });
-}
+  deleteProfilePicture() {
+    this.confirmationService.confirm({
+      message: 'Biztosan törölni szeretnéd a profilképed?',
+      header: 'Megerősítés',
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel: 'Igen',
+      rejectLabel: 'Mégse',
+      accept: () => {
+        this.api.deleteProfilePicture(this.user.id).subscribe((res: any) => {
+          if (res.success) {
+            this.user.image = "http://localhost:3000/uploads/placeholder.png"; 
+            this.messageService.add({ severity: 'success', summary: 'Siker', detail: 'Profilkép sikeresen törölve!' });
+            this.auth.updateUserData({ data: { ...this.user, image: 'http://localhost:3000/uploads/placeholder.png' } });
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Hiba', detail: 'Nem sikerült törölni a profilképet.' });
+          }
+        });
+      }
+    });
+  }
 
 
   Logout(){
