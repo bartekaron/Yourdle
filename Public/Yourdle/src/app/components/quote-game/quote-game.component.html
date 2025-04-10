@@ -14,12 +14,13 @@
   </div>
 
   <div class="autocomplete-wrapper">
-    <p-autoComplete [(ngModel)]="selectedCharacter"
-                    (keyup.enter)="submitCharacter()"
-                    [suggestions]="filteredCharacters"
-                    (completeMethod)="filterCharacters($event)"
-                    placeholder="Írd be a karakter nevét ...">
-    </p-autoComplete>
+      <p-autoComplete [(ngModel)]="selectedCharacter"
+      (keyup.enter)="submitCharacter()"
+      (onSelect)="onCharacterSelect($event)"
+      [suggestions]="filteredCharacters"
+      (completeMethod)="filterCharacters($event)"
+      placeholder="Írd be a karakter nevét ...">
+  </p-autoComplete>
     <button (click)="submitCharacter()" class="submit-button">
       <span class="arrow-icon">▶</span>
     </button>

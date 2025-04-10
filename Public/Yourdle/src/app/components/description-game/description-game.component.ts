@@ -52,33 +52,31 @@ export class DescriptionGameComponent implements OnInit{
     this.filteredCharacters = this.names.filter(name =>
       name.toLowerCase().includes(query)
     );
+  
+    // Ha csak egy találat van, automatikusan választjuk
+    if (this.filteredCharacters.length === 1) {
+      this.selectedCharacter = this.filteredCharacters[0];  // Automatikusan kiválasztja az egyetlen találatot
+    }
   }
 
   submitCharacter() {
-    if (this.selectedCharacter) {
+    if (this.selectedCharacter || this.filteredCharacters.length === 1) {
+      // Ha van kiválasztott karakter, vagy csak egy találat van
+      const characterToSubmit = this.selectedCharacter || this.filteredCharacters[0];
       this.api.getAllDescription(this.categoryId).subscribe((data: any) => {
         if (data.data && Array.isArray(data.data)) {
-          this.selectedCharacter = this.filteredCharacters[0];
-          const character = data.data.find((char: any) => char.answer === this.selectedCharacter);
-  
-          if (character && !this.previousGuesses.some(guess => guess.answer === character.answer)) {
-            this.previousGuesses.unshift(character); // Új tipp hozzáadása
-  
-            // Ellenőrzés a célkarakterrel
-            if (this.selectedCharacter === this.targetCharacter.answer) {
-              alert("Helyes válasz!");
-            }
-  
-            // Tippelt karakter eltávolítása az autocomplete listából
+          const character = data.data.find((char: any) => char.answer === characterToSubmit);
+          if (character) {
+            this.previousGuesses.unshift(character);  // Új tipp hozzáadása a lista elejére
             this.names = this.names.filter(name => name !== character.answer);
             this.filteredCharacters = [...this.names];
-  
-            this.selectedCharacter = ''; // Visszaállítjuk a kiválasztott karakter mezőt
+            this.selectedCharacter = '';  // Mező törlése
           }
         }
       });
     }
   }
+  
   
 
   isPropertyCorrect(key: string, character: any): boolean {
@@ -102,5 +100,9 @@ export class DescriptionGameComponent implements OnInit{
 
   navigateToGame(gameType: string) {
     this.router.navigate([`/${gameType}/${this.categoryId}/0`]);
+  }
+
+  onCharacterSelect(event: any) {
+    this.selectedCharacter = event.value;
   }
 }

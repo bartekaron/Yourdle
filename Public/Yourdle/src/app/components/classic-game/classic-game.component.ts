@@ -62,18 +62,24 @@ export class ClassicGameComponent implements OnInit {
     this.filteredCharacters = this.names.filter(name =>
       name.toLowerCase().includes(query)
     );
+  
+    // Ha csak egy találat van, automatikusan választjuk
+    if (this.filteredCharacters.length === 1) {
+      this.selectedCharacter = this.filteredCharacters[0];  // Automatikusan kiválasztja az egyetlen találatot
+    }
   }
+  
 
   // Karakter beküldése
   submitCharacter() {
-    if (this.selectedCharacter) {
+    if (this.selectedCharacter || this.filteredCharacters.length === 1) {
+      // Ha van kiválasztott karakter, vagy csak egy találat van
+      const characterToSubmit = this.selectedCharacter || this.filteredCharacters[0]; // Az első találat automatikusan beküldésre kerül
       this.api.getAllClassic(this.categoryId).subscribe((data: any) => {
         if (data.data && Array.isArray(data.data)) {
-          this.selectedCharacter = this.filteredCharacters[0]; // Legfelső találat kiválasztása
-          const character = data.data.find((char: any) => char.answer === this.selectedCharacter);
+          const character = data.data.find((char: any) => char.answer === characterToSubmit);
           if (character) {
             this.previousGuesses.unshift(character);  // Új tipp hozzáadása a lista elejére
-
             this.names = this.names.filter(name => name !== character.answer);
             this.filteredCharacters = [...this.names];
             this.selectedCharacter = '';  // Mező törlése
@@ -82,6 +88,7 @@ export class ClassicGameComponent implements OnInit {
       });
     }
   }
+  
 
   // Tulajdonság helyességének ellenőrzése
   isPropertyCorrect(key: string, character: any): boolean {
@@ -106,4 +113,10 @@ export class ClassicGameComponent implements OnInit {
   navigateToGame(gameType: string) {
     this.router.navigate([`/${gameType}/${this.categoryId}/0`]);
   }
+
+  onCharacterSelect(event: any) {
+    this.selectedCharacter = event.value;
+  }
+  
 }
+

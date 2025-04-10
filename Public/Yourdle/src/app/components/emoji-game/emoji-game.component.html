@@ -21,12 +21,12 @@
 
   <!-- Autocomplete mező a karakter kiválasztásához -->
 <div class="input-container">
-  <p-autoComplete 
-    [(ngModel)]="selectedCharacter" 
-    [suggestions]="filteredCharacters" 
-    (completeMethod)="filterCharacters($event)" 
-    placeholder="Írd be a karakter nevét"
-    (keyup.enter)="submitCharacter()">  
+    <p-autoComplete [(ngModel)]="selectedCharacter"
+    (keyup.enter)="submitCharacter()"
+    (onSelect)="onCharacterSelect($event)"
+    [suggestions]="filteredCharacters"
+    (completeMethod)="filterCharacters($event)"
+    placeholder="Írd be a karakter nevét ...">
   </p-autoComplete>
   <button (click)="submitCharacter()" class="submit-button">
     <span class="arrow-icon">▶</span>

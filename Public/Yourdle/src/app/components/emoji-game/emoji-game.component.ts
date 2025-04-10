@@ -68,15 +68,22 @@ export class EmojiGameComponent {
     this.filteredCharacters = this.names.filter(name =>
       name.toLowerCase().includes(query)
     );
+
+    // Ha csak egy találat van, automatikusan választjuk
+    if (this.filteredCharacters.length === 1) {
+      this.selectedCharacter = this.filteredCharacters[0];  // Automatikusan kiválasztja az egyetlen találatot
+    }
   }
 
   // Karakter beküldése
     submitCharacter() {
-      if (this.selectedCharacter) {
+      if (this.selectedCharacter || this.filteredCharacters.length === 1) {
+        // Ha van kiválasztott karakter, vagy csak egy találat van
+        const characterToSubmit = this.selectedCharacter || this.filteredCharacters[0];
         this.api.getAllEmoji(this.categoryId).subscribe((data: any) => {
           if (data.data && Array.isArray(data.data)) {
             this.selectedCharacter = this.filteredCharacters[0];
-            const character = data.data.find((char: any) => char.answer === this.selectedCharacter);
+            const character = data.data.find((char: any) => char.answer === characterToSubmit);
             if (character && !this.previousGuesses.includes(character.answer)) {
               this.previousGuesses.unshift(character.answer);
               
@@ -125,5 +132,9 @@ export class EmojiGameComponent {
 
   navigateToGame(gameType: string) {
     this.router.navigate([`/${gameType}/${this.categoryId}/0`]);
+  }
+
+  onCharacterSelect(event: any) {
+    this.selectedCharacter = event.value;
   }
 }

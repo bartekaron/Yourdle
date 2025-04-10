@@ -57,14 +57,21 @@ export class QuoteGameComponent implements OnInit {
     this.filteredCharacters = this.names.filter(name =>
       name.toLowerCase().includes(query)
     );
+
+    // Ha csak egy találat van, automatikusan választjuk
+    if (this.filteredCharacters.length === 1) {
+      this.selectedCharacter = this.filteredCharacters[0];  // Automatikusan kiválasztja az egyetlen találatot
+    }
   }
 
   submitCharacter() {
-    if (this.selectedCharacter) {
+    if (this.selectedCharacter || this.filteredCharacters.length === 1) {
+      // Ha van kiválasztott karakter, vagy csak egy találat van
+      const characterToSubmit = this.selectedCharacter || this.filteredCharacters[0];
       this.api.getAllQuote(this.categoryId).subscribe((data: any) => {
         if (data.data && Array.isArray(data.data)) {
           this.selectedCharacter = this.filteredCharacters[0];
-          const character = data.data.find((char: any) => char.answer === this.selectedCharacter);
+          const character = data.data.find((char: any) => char.answer === characterToSubmit);
 
           if (character && !this.previousGuesses.some(guess => guess.answer === character.answer)) {
             this.previousGuesses.unshift(character); // Új tipp hozzáadása
@@ -86,5 +93,9 @@ export class QuoteGameComponent implements OnInit {
 
   navigateToGame(gameType: string) {
     this.router.navigate([`/${gameType}/${this.categoryId}/0`]);
+  }
+
+  onCharacterSelect(event: any) {
+    this.selectedCharacter = event.value;
   }
 }
