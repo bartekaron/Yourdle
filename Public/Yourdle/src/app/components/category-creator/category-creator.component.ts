@@ -181,6 +181,7 @@ export class CategoryCreatorComponent {
       response => {
         this.message.add({ severity: 'success', summary: 'Siker', detail: 'Kategória sikeresen létrehozva!' });
         this.uploadForms(categoryData.id);
+        this.resetForm();
       },
       error => {
         this.message.add({ severity: 'error', summary: 'Hiba', detail: 'Hiba történt a kategória létrehozása során.' });
@@ -287,6 +288,19 @@ export class CategoryCreatorComponent {
         }
       }
     }
+  }
+
+  resetForm() {
+    this.categoryName = '';
+    this.isPublic = false;
+    this.selectedCategories = [];
+    this.classic = 0;
+    this.quote = 0;
+    this.emoji = 0;
+    this.picture = 0;
+    this.description = 0;
+    this.formCounts = {};
+    this.forms = {};
   }
 
   inputValue = model<string>('');
