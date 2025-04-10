@@ -49,6 +49,11 @@ p-checkbox{
     
 }
 
+.p-field-number{
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
 #LBL{
     margin-right: 10px;
 }
@@ -113,3 +118,27 @@ p-checkbox{
       }
     }
   }
+
+  .forms-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px; /* Adjust spacing between items */
+  }
+  
+  .form-row {
+    flex: 1 1 calc(33.333% - 16px); /* Each form takes up 1/3 of the row, minus the gap */
+    box-sizing: border-box; /* Ensures padding and border are included in the width */
+    
+  }
+  
+  @media (max-width: 768px) {
+    .form-row {
+      flex: 1 1 100%; /* On smaller screens, forms take up the full width */
+    }
+  }
+
+.form-item{
+    max-width: 300px;
+}
+
+
