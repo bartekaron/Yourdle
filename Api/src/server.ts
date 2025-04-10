@@ -9,6 +9,7 @@ import { Server } from "socket.io";
 import { initializeSocketIO } from "./duel";
 import { forgotPassword, getPublicData, updatePublicData } from "./nodemailer";
 import { uploadProfilePicture, uploadCategoryPicture, updateProfilePicture, updateCategoryPicture } from "./multer";
+import {pool } from "./config/database";
 
 const app = express();
 const server = createServer(app);
@@ -43,6 +44,38 @@ app.post('/uploadCategoryPicture', authMiddleware, uploadCategoryPicture, update
 app.post('/api/forgott-password', forgotPassword);
 app.get('/api/public/:table/:field/:op/:value', getPublicData);
 app.patch('/api/public/:table/:field/:op/:value', updatePublicData);
+
+app.get('/api/sugo', (req, res) => {
+    const sql = 'SELECT * FROM sugo';
+    pool.query(sql, (err, results) => {
+      if (err) {
+        return res.status(500).send(err);
+      }
+      res.json(results);
+    });
+});
+
+app.get('/api/users', (req, res) => {
+    const sql = 'SELECT name, email, id FROM users';
+    pool.query(sql, (err, results) => {
+      if (err) {
+        return res.status(500).send(err);
+      }
+      res.json(results);
+    });
+});
+
+app.get('/api/categories', (req, res) => {
+    const sql = 'SELECT * FROM categories';
+    pool.query(sql, (err, results) => {
+      if (err) {
+        return res.status(500).send(err);
+      }
+      res.json(results);
+    });
+});
+
+
 
 
 server.listen(process.env.PORT, () => {

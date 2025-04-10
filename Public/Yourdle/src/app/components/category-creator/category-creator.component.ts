@@ -114,6 +114,69 @@ export class CategoryCreatorComponent {
     };
 
     console.log(categoryData);
+    if (!this.categoryName) {
+      this.message.add({ severity: 'error', summary: 'Hiba', detail: 'Kérlek add meg a kategória nevét!' });
+      return;
+    }
+    if (this.selectedCategories.length === 0) {
+      this.message.add({ severity: 'error', summary: 'Hiba', detail: 'Kérlek válassz ki legalább egy játéktípust!' });
+      return;
+    }
+    if (this.selectedCategories.length > 5) {
+      this.message.add({ severity: 'error', summary: 'Hiba', detail: 'Maximum 5 játéktípust választhatsz ki!' });
+      return;
+    }
+    if (this.categoryName.length < 3) {
+      this.message.add({ severity: 'error', summary: 'Hiba', detail: 'A kategória neve legalább 3 karakter hosszú legyen!' });
+      return;
+    }
+
+    if(this.selectedCategories.includes('Kép')) {
+      for (const form of this.forms['Kép']) {
+        if (!form.answer || !form.picture) {
+          this.message.add({ severity: 'error', summary: 'Hiba', detail: 'Kép formában hiányzó adatok!' });
+          return;
+        }
+      } 
+    }
+
+    if(this.selectedCategories.includes('Klasszikus')){
+      for (const form of this.forms['Klasszikus']) {
+        if (!form.answer || !form.gender || !form.height || !form.weight || !form.hairColor || !form.address || !form.age) {
+          this.message.add({ severity: 'error', summary: 'Hiba', detail: 'Klasszikus formában hiányzó adatok!' });
+          return;
+        }
+      } 
+    }
+
+
+    if(this.selectedCategories.includes('Leírás')){
+      for (const form of this.forms['Leírás']) {
+        if (!form.answer || !form.description) {
+          this.message.add({ severity: 'error', summary: 'Hiba', detail: 'Leírás formában hiányzó adatok!' });
+          return;
+        }
+      } 
+    }
+
+    if(this.selectedCategories.includes('Idézet')){
+      for (const form of this.forms['Idézet']) {
+        if (!form.answer || !form.quote) {
+          this.message.add({ severity: 'error', summary: 'Hiba', detail: 'Idézet formában hiányzó adatok!' });
+          return;
+        }
+      } 
+    }
+
+    if(this.selectedCategories.includes('Emoji')){
+      for (const form of this.forms['Emoji']) {
+        if (!form.answer || !form.firstEmoji || !form.secondEmoji || !form.thirdEmoji) {
+          this.message.add({ severity: 'error', summary: 'Hiba', detail: 'Emoji formában hiányzó adatok!' });
+          return;
+        }
+      } 
+    }
+
     this.api.createCategory(categoryData).subscribe(
       response => {
         this.message.add({ severity: 'success', summary: 'Siker', detail: 'Kategória sikeresen létrehozva!' });

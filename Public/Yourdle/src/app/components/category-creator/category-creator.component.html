@@ -23,82 +23,83 @@
     </div>
     
     <div id="formsContainer">
-      <div *ngFor="let form of forms[category]; let i = index">
-        <h3>Form {{i + 1}} ({{category}})</h3>
-        <div *ngIf="category === 'Klasszikus'" class="p-field">
-          <label>Answer</label>
-          <input type="text" [(ngModel)]="form.answer" />
-          <label>Gender</label>
-          <input type="text" [(ngModel)]="form.gender" />
-          <label>Height</label>
-          <input type="number" min="1" [(ngModel)]="form.height" />
-          <label>Weight</label>
-          <input type="number" min="1" [(ngModel)]="form.weight" />
-          <label>Hair Color</label>
-          <input type="text" [(ngModel)]="form.hairColor" />
-          <label>Address</label>
-          <input type="text" [(ngModel)]="form.address" />
-          <label>Életkor</label>
-          <input type="number" min="1" [(ngModel)]="form.age" />
-        </div>
-        <div *ngIf="category === 'Kép'" class="p-field">
-          <label>Answer</label>
-          <input type="text" [(ngModel)]="form.answer" />
-          <label>Picture</label>
-          <input type="file" (change)="onImageSelected($event, form)" accept="image/*" />
-          <img *ngIf="form.picture" [src]="form.picture" alt="Selected Image" />
-        </div>
-        <div *ngIf="category === 'Idézet'" class="p-field">
-          <label>Answer</label>
-          <input type="text" [(ngModel)]="form.answer" />
-          <label>Quote</label>
-          <input type="text" [(ngModel)]="form.quote" />
-        </div>
-        <div *ngIf="category === 'Emoji'" class="p-field">
-          <label>Answer</label>
-          <input type="text" [(ngModel)]="form.answer" />
-          <label>First Emoji</label>
-          <div class="showcase-container flex-column">
-            <div class="row-showcase justify-center" *ngIf="!form.firstEmojiSelected">
-              <div class="emoji-picker-container">
-                <ch-emoji-picker [width]="350" [height]="350" [autofocus]="false" (onEmojiSelected)="handleEmojiSelected($event, 'firstEmoji', form)"></ch-emoji-picker>
+      <div class="form-row" *ngFor="let form of forms[category]; let i = index">
+        <div class="form-item">
+          <h3>Form {{i + 1}} ({{category}})</h3>
+          <div *ngIf="category === 'Klasszikus'" class="p-field">
+            <label>Answer</label>
+            <input type="text" [(ngModel)]="form.answer" />
+            <label>Gender</label>
+            <input type="text" [(ngModel)]="form.gender" />
+            <label>Height</label>
+            <input type="number" min="1" [(ngModel)]="form.height" />
+            <label>Weight</label>
+            <input type="number" min="1" [(ngModel)]="form.weight" />
+            <label>Hair Color</label>
+            <input type="text" [(ngModel)]="form.hairColor" />
+            <label>Address</label>
+            <input type="text" [(ngModel)]="form.address" />
+            <label>Életkor</label>
+            <input type="number" min="1" [(ngModel)]="form.age" />
+          </div>
+          <div *ngIf="category === 'Kép'" class="p-field">
+            <label>Answer</label>
+            <input type="text" [(ngModel)]="form.answer" />
+            <label>Picture</label>
+            <input type="file" (change)="onImageSelected($event, form)" accept="image/*" />
+            <img *ngIf="form.picture" [src]="form.picture" alt="Selected Image" />
+          </div>
+          <div *ngIf="category === 'Idézet'" class="p-field">
+            <label>Answer</label>
+            <input type="text" [(ngModel)]="form.answer" />
+            <label>Quote</label>
+            <input type="text" [(ngModel)]="form.quote" />
+          </div>
+          <div *ngIf="category === 'Emoji'" class="p-field">
+            <label>Answer</label>
+            <input type="text" [(ngModel)]="form.answer" />
+            <label>First Emoji</label>
+            <div class="showcase-container flex-column">
+              <div class="row-showcase justify-center" *ngIf="!form.firstEmojiSelected">
+                <div class="emoji-picker-container">
+                  <ch-emoji-picker [width]="350" [height]="350" [autofocus]="false" (onEmojiSelected)="handleEmojiSelected($event, 'firstEmoji', form)"></ch-emoji-picker>
+                </div>
+              </div>
+              <div class="row-showcase justify-center" *ngIf="form.firstEmojiSelected">
+                <ch-text-box [(value)]="form.firstEmoji" [width]="350" placeholder="Pick an emoji" readonly></ch-text-box>
               </div>
             </div>
-            <div class="row-showcase justify-center" *ngIf="form.firstEmojiSelected">
-              <ch-text-box [(value)]="form.firstEmoji" [width]="350" placeholder="Pick an emoji" readonly></ch-text-box>
-            </div>
-          </div>
-          <label *ngIf="form.firstEmojiSelected">Second Emoji</label>
-          <div class="showcase-container flex-column" *ngIf="form.firstEmojiSelected">
-            <div class="row-showcase justify-center" *ngIf="!form.secondEmojiSelected">
-              <div class="emoji-picker-container">
-                <ch-emoji-picker [width]="350" [height]="350" [autofocus]="false" (onEmojiSelected)="handleEmojiSelected($event, 'secondEmoji', form)"></ch-emoji-picker>
+            <label *ngIf="form.firstEmojiSelected">Second Emoji</label>
+            <div class="showcase-container flex-column" *ngIf="form.firstEmojiSelected">
+              <div class="row-showcase justify-center" *ngIf="!form.secondEmojiSelected">
+                <div class="emoji-picker-container">
+                  <ch-emoji-picker [width]="350" [height]="350" [autofocus]="false" (onEmojiSelected)="handleEmojiSelected($event, 'secondEmoji', form)"></ch-emoji-picker>
+                </div>
+              </div>
+              <div class="row-showcase justify-center" *ngIf="form.secondEmojiSelected">
+                <ch-text-box [(value)]="form.secondEmoji" [width]="350" placeholder="Pick an emoji" readonly></ch-text-box>
               </div>
             </div>
-            <div class="row-showcase justify-center" *ngIf="form.secondEmojiSelected">
-              <ch-text-box [(value)]="form.secondEmoji" [width]="350" placeholder="Pick an emoji" readonly></ch-text-box>
-            </div>
-          </div>
-          <label *ngIf="form.secondEmojiSelected">Third Emoji</label>
-          <div class="showcase-container flex-column" *ngIf="form.secondEmojiSelected">
-            <div class="row-showcase justify-center" *ngIf="!form.thirdEmojiSelected">
-              <div class="emoji-picker-container">
-                <ch-emoji-picker [width]="350" [height]="350" [autofocus]="false" (onEmojiSelected)="handleEmojiSelected($event, 'thirdEmoji', form)"></ch-emoji-picker>
+            <label *ngIf="form.secondEmojiSelected">Third Emoji</label>
+            <div class="showcase-container flex-column" *ngIf="form.secondEmojiSelected">
+              <div class="row-showcase justify-center" *ngIf="!form.thirdEmojiSelected">
+                <div class="emoji-picker-container">
+                  <ch-emoji-picker [width]="350" [height]="350" [autofocus]="false" (onEmojiSelected)="handleEmojiSelected($event, 'thirdEmoji', form)"></ch-emoji-picker>
+                </div>
+              </div>
+              <div class="row-showcase justify-center" *ngIf="form.thirdEmojiSelected">
+                <ch-text-box [(value)]="form.thirdEmoji" [width]="350" placeholder="Pick an emoji" readonly></ch-text-box>
               </div>
             </div>
-            <div class="row-showcase justify-center" *ngIf="form.thirdEmojiSelected">
-              <ch-text-box [(value)]="form.thirdEmoji" [width]="350" placeholder="Pick an emoji" readonly></ch-text-box>
-            </div>
+          </div>
+  
+          <div *ngIf="category === 'Leírás'" class="p-field">
+            <label>Answer</label>
+            <input type="text" [(ngModel)]="form.answer" />
+            <label>Description</label>
+            <input type="text" [(ngModel)]="form.description" />
           </div>
         </div>
-
-        <div *ngIf="category === 'Leírás'" class="p-field">
-          <label>Answer</label>
-          <input type="text" [(ngModel)]="form.answer" />
-          <label>Description</label>
-          <input type="text" [(ngModel)]="form.description" />
-        </div>
-
       </div>
     </div>
   </div>
