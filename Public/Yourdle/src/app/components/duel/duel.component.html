@@ -1,7 +1,7 @@
 <h2>Párbaj</h2>
 
 <!-- Keresősáv -->
-<div class="search-container">
+  <div class="search-container">
     <input type="text" [(ngModel)]="searchTerm" (input)="filterRooms()" placeholder="Keresés kategóriában..." class="search-input"/>
   </div>
   
@@ -20,27 +20,34 @@
   
 
 <!-- Lebegő "+" gomb -->
-<button class="fab" (click)="displayCreateRoomDialog = true">
-  <i class="pi pi-plus"></i>
-</button>
+  <button class="fab" (click)="displayCreateRoomDialog = true">
+    <i class="pi pi-plus"></i>
+  </button>
 
 <!-- Popup ablak -->
-<p-dialog [(visible)]="displayCreateRoomDialog" header="Szoba létrehozása" [modal]="true">
-  <div class="dialog-content">
-    <label>Kategória kiválasztása</label>
-    <p-dropdown [(ngModel)]="selectedCategory" [options]="categories" 
-            optionLabel="label" optionValue="value" placeholder="Kategóriák">
-    </p-dropdown>
+  <p-dialog 
+    [(visible)]="displayCreateRoomDialog" 
+    header="Szoba létrehozása" 
+    [modal]="true"
+    [style]="{width: '400px', minHeight: '300px'}">
 
+    <div class="dialog-content">
+      <label>Kategória kiválasztása</label>
+      <p-dropdown [(ngModel)]="selectedCategory" [options]="categories" 
+        optionLabel="label" optionValue="value" placeholder="Kategóriák"
+        (onChange)="updateAvailableGameTypes()">
+      </p-dropdown>
 
-    <label>Játék típusok hozzáadása</label>
-    <div *ngFor="let gameType of gameTypes">
-      <p-checkbox [(ngModel)]="gameType.checked" [binary]="true"></p-checkbox>
-      <label>{{ gameType.label }}</label>
+      <div *ngIf="availableGameTypes.length > 0">
+        <label>Játék típusok hozzáadása</label>
+        <div *ngFor="let gameType of availableGameTypes">
+          <p-checkbox [(ngModel)]="gameType.checked" [binary]="true"></p-checkbox>
+          <label>{{ gameType.label }}</label>
+        </div>
+      </div>
+
+      <button pButton label="Létrehozás" (click)="createRoom()" class="create-btn"></button>
     </div>
-
-    <button pButton label="Létrehozás" (click)="createRoom()" class="create-btn"></button>
-  </div>
-</p-dialog>
+  </p-dialog>
 
 <p-toast />

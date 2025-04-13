@@ -67,3 +67,25 @@
   button:hover:not(:disabled) {
     background-color: #0056b3;
   }
+  
+  .room-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+  }
+  
+  .leave-button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    cursor: pointer;
+  }
+  
+  .leave-button:hover {
+    background-color: #a71d2a;
+  }

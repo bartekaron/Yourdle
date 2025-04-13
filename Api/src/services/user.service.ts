@@ -70,7 +70,7 @@ export const updateUserProfile = async (id, name, email) => {
     
     const updatedUser = await getOneUser(id);
 
-    const token = generateToken({ id: updatedUser.id, name: updatedUser.name, email: updatedUser.email, role: updatedUser.role, image: updatedUser.profilePic });
+    const token = generateToken({ id: updatedUser.id, name: name, email: email, role: updatedUser.role, image: updatedUser.profilePic });
 
     return { user: updatedUser, token };
 };
