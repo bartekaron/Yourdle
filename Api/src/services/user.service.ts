@@ -12,7 +12,7 @@ export const loginUser = async (email, passwd) => {
         const results:any = await new Promise((resolve, reject) => {
             pool.query(`SELECT id, name, email, passwd, profilePic, role FROM users WHERE email=?`, [email], (err, results) => {
                 if (err) {
-                    const error:any = new Error('Hiba az adatbázis kapcsolatban');
+                    const error:any = new Error('Hiba az adatbázis kapcsolatban!');
                     error.status = 500;
                     return reject(error);
                 }
@@ -21,7 +21,7 @@ export const loginUser = async (email, passwd) => {
         });
         
         if (results.length === 0) {
-            const error:any = new Error('Nincs ilyen felhasználó');
+            const error:any = new Error('Nincs ilyen felhasználó!');
             error.status = 404;
             throw error;
         }
@@ -79,7 +79,7 @@ export const getOneUser = async (id)=>{
     const results:any = await new Promise((resolve, reject) => {
         pool.query(`SELECT * FROM users WHERE id=?`, [id], (err, results) => {
             if (err) {
-                const error:any = new Error('Hiba az adatbázis kapcsolatban');
+                const error:any = new Error('Hiba az adatbázis kapcsolatban!');
                 error.status = 500;
                 return reject(error);
             }
@@ -88,7 +88,7 @@ export const getOneUser = async (id)=>{
     });
     
     if (results.length === 0) {
-        const error:any = new Error('Nincs ilyen felhasználóasd');
+        const error:any = new Error('Nincs ilyen felhasználó!');
         error.status = 404;
         throw error;
     }
@@ -103,7 +103,7 @@ export const getAllUsersService = async () => {
     const results:any = await new Promise((resolve, reject) =>
         pool.query(`SELECT id, name, email, role, profilePic FROM users`, (err, results) => {
             if (err) {
-                const error:any = new Error('Hiba az adatbázis kapcsolatban');
+                const error:any = new Error('Hiba az adatbázis kapcsolatban!');
                 error.status = 500;
                 return reject(error);
             }
@@ -112,7 +112,7 @@ export const getAllUsersService = async () => {
     );
 
     if (results.length === 0) {
-        const error:any = new Error('Hiba történt a felhasználók lekérdezése során');
+        const error:any = new Error('Hiba történt a felhasználók lekérdezése során!');
         error.status = 404;
         throw error;
     }
@@ -174,7 +174,7 @@ export const getMatchHistory = async(id)=>{
         const results:any = await new Promise((resolve, reject) => {
             pool.query(`SELECT * FROM games_vt WHERE player1ID = ? or player2ID = ?`, [id, id], (err, results) => {
                 if (err) {
-                    const error:any = new Error('Hiba az adatbázis kapcsolatban');
+                    const error:any = new Error('Hiba az adatbázis kapcsolatban!');
                     error.status = 500;
                     return reject(error);
                 }
@@ -182,7 +182,7 @@ export const getMatchHistory = async(id)=>{
             });
         });
         if (results.length === 0) {
-            const error:any = new Error('Nincs ilyen felhasználó');
+            const error:any = new Error('Nincs ilyen felhasználó!');
             error.status = 404;
             throw error;
         }
@@ -190,7 +190,7 @@ export const getMatchHistory = async(id)=>{
 
 
     } catch (error) {
-        return {success: false, message:"Nem sikerült lekérni a meccs előzményeket"}
+        return {success: false, message:"Nem sikerült lekérni a meccs előzményeket!"}
     }
 }
 
@@ -203,7 +203,7 @@ export const deleteUserByEmail = async (email) => {
         const results:any = await new Promise((resolve, reject) => {
             pool.query(`DELETE FROM users WHERE email = ?`, [email], (err, results) => {
                 if (err) {
-                    const error:any = new Error('Hiba az adatbázis kapcsolatban');
+                    const error:any = new Error('Hiba az adatbázis kapcsolatban!');
                     error.status = 500;
                     return reject(error);
                 }
@@ -212,7 +212,7 @@ export const deleteUserByEmail = async (email) => {
         });
         return { success: true, message: "Felhasználó sikeresen törölve!" };
     } catch (error) {
-        return { success: false, message: "Nem sikerült törölni a felhasználót" };
+        return { success: false, message: "Nem sikerült törölni a felhasználót!" };
     }
 }
 
@@ -223,7 +223,7 @@ export const editUserService = async (id, name, email, role) => {
         const results:any = await new Promise((resolve, reject) => {
             pool.query(`UPDATE users SET name = ?, email = ?, role = ? WHERE id = ?`, [name, email, role, id], (err, results) => {
                 if (err) {
-                    const error:any = new Error('Hiba az adatbázis kapcsolatban');
+                    const error:any = new Error('Hiba az adatbázis kapcsolatban!');
                     error.status = 500;
                     return reject(error);
                 }
@@ -232,6 +232,6 @@ export const editUserService = async (id, name, email, role) => {
         });
         return { success: true, message: "Felhasználó sikeresen módosítva!" };
     } catch (error) {
-        return { success: false, message: "Nem sikerült módosítani a felhasználót" };
+        return { success: false, message: "Nem sikerült módosítani a felhasználót!" };
     }
 }
