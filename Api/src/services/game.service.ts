@@ -6,7 +6,7 @@ export const getAllClassicService = async (id) => {
         const result = await new Promise((resolve, reject) => {
             pool.query(`SELECT * FROM classic WHERE categoryID = ?`, [id], (err, results) => {
                 if (err) {
-                    return reject(new Error('Hiba az adatbázis kapcsolatban'));
+                    return reject(new Error('Hiba az adatbázis kapcsolatban!'));
                 }
                 resolve(results);
             });
@@ -14,7 +14,7 @@ export const getAllClassicService = async (id) => {
 
         return { success: true, data: result };
     } catch (error) {
-        return { success: false, message: "Nem sikerült lekérni a klasszikus játékokat" };
+        return { success: false, message: "Nem sikerült lekérni a klasszikus játékokat!" };
     }
 };
 
@@ -23,7 +23,7 @@ export const getSolutionClassicService = async (id) => {
         const result = await new Promise((resolve, reject) => {
             pool.query(`SELECT * FROM classic WHERE categoryID = ? ORDER BY RAND() LIMIT 1`, [id], (err, results) => {
                 if (err) {
-                    return reject(new Error('Hiba az adatbázis kapcsolatban'));
+                    return reject(new Error('Hiba az adatbázis kapcsolatban!'));
                 }
                 if (results.length === 0) {
                     return resolve(null);
@@ -33,12 +33,12 @@ export const getSolutionClassicService = async (id) => {
         });
 
         if (!result) {
-            return { success: false, message: "Nem található karakter ebben a kategóriában." };
+            return { success: false, message: "Nem található karakter ebben a kategóriában!" };
         }
 
         return { success: true, data: result };  // Mindig legyen success flag!
     } catch (error) {
-        return { success: false, message: "Nem sikerült karaktert lekérni" };
+        return { success: false, message: "Nem sikerült karaktert lekérni!" };
     }
 }
 
@@ -48,7 +48,7 @@ export const getAllEmojiService = async (id) => {
         const result = await new Promise((resolve, reject) => {
             pool.query(`SELECT * FROM emoji WHERE categoryID = ?`, [id], (err, results) => {
                 if (err) {
-                    return reject(new Error('Hiba az adatbázis kapcsolatban'));
+                    return reject(new Error('Hiba az adatbázis kapcsolatban!'));
                 }
                 resolve(results);
             });
@@ -56,7 +56,7 @@ export const getAllEmojiService = async (id) => {
 
         return { success: true, data: result };
     } catch (error) {
-        return { success: false, message: "Nem sikerült lekérni a klasszikus játékokat" };
+        return { success: false, message: "Nem sikerült lekérni a klasszikus játékokat!" };
     }
 };
 
@@ -65,7 +65,7 @@ export const getSolutionEmojiService = async (id) => {
         const result = await new Promise((resolve, reject) => {
             pool.query(`SELECT * FROM emoji WHERE categoryID = ? ORDER BY RAND() LIMIT 1`, [id], (err, results) => {
                 if (err) {
-                    return reject(new Error('Hiba az adatbázis kapcsolatban'));
+                    return reject(new Error('Hiba az adatbázis kapcsolatban!'));
                 }
                 if (results.length === 0) {
                     return resolve(null);
@@ -75,12 +75,12 @@ export const getSolutionEmojiService = async (id) => {
         });
 
         if (!result) {
-            return { success: false, message: "Nem található karakter ebben a kategóriában." };
+            return { success: false, message: "Nem található karakter ebben a kategóriában!" };
         }
 
         return { success: true, data: result };  // Mindig legyen success flag!
     } catch (error) {
-        return { success: false, message: "Nem sikerült karaktert lekérni" };
+        return { success: false, message: "Nem sikerült karaktert lekérni!" };
     }
 }
 
@@ -89,7 +89,7 @@ export const getAllDescriptionService = async (id) => {
         const result = await new Promise((resolve, reject) => {
             pool.query(`SELECT * FROM description WHERE categoryID = ?`, [id], (err, results) => {
                 if (err) {
-                    return reject(new Error('Hiba az adatbázis kapcsolatban'));
+                    return reject(new Error('Hiba az adatbázis kapcsolatban!'));
                 }
                 resolve(results);
             });
@@ -97,7 +97,7 @@ export const getAllDescriptionService = async (id) => {
 
         return { success: true, data: result };
     } catch (error) {
-        return { success: false, message: "Nem sikerült lekérni az emoji karaktereket" };
+        return { success: false, message: "Nem sikerült lekérni az emoji karaktereket!" };
     }
 }
 
@@ -106,7 +106,7 @@ export const getSolutionDescriptionService = async (id) => {
         const result = await new Promise((resolve, reject) => {
             pool.query(`SELECT * FROM description WHERE categoryID = ? ORDER BY RAND() LIMIT 1`, [id], (err, results) => {
                 if (err) {
-                    return reject(new Error('Hiba az adatbázis kapcsolatban'));
+                    return reject(new Error('Hiba az adatbázis kapcsolatban!'));
                 }
                 if (results.length === 0) {
                     return resolve(null);
@@ -116,12 +116,12 @@ export const getSolutionDescriptionService = async (id) => {
         });
 
         if (!result) {
-            return { success: false, message: "Nem található karakter ebben a kategóriában." };
+            return { success: false, message: "Nem található karakter ebben a kategóriában!" };
         }
 
         return { success: true, data: result }; 
     } catch (error) {
-        return { success: false, message: "Nem sikerült karaktert lekérni" };
+        return { success: false, message: "Nem sikerült karaktert lekérni!" };
     }
 }
 
@@ -131,7 +131,7 @@ export const getAllQuoteService = async (id) => {
         const result = await new Promise((resolve, reject) => {
             pool.query(`SELECT * FROM quote WHERE categoryID = ?`, [id], (err, results) => {
                 if (err) {
-                    return reject(new Error('Hiba az adatbázis kapcsolatban'));
+                    return reject(new Error('Hiba az adatbázis kapcsolatban!'));
                 }
                 resolve(results);
             });
@@ -139,7 +139,7 @@ export const getAllQuoteService = async (id) => {
 
         return { success: true, data: result };
     } catch (error) {
-        return { success: false, message: "Nem sikerült lekérni az idézeteket" };
+        return { success: false, message: "Nem sikerült lekérni az idézeteket!" };
     }
 }
 
@@ -148,7 +148,7 @@ export const getSolutionQuoteService = async (id) => {
         const result = await new Promise((resolve, reject) =>
             pool.query(`SELECT * FROM quote WHERE categoryID = ? ORDER BY RAND() LIMIT 1`, [id], (err, results) => {
                 if (err) {
-                    return reject(new Error('Hiba az adatbázis kapcsolatban'));
+                    return reject(new Error('Hiba az adatbázis kapcsolatban!'));
                 }
                 if (results.length === 0) {
                     return resolve(null);
@@ -158,12 +158,12 @@ export const getSolutionQuoteService = async (id) => {
         );
 
         if (!result) {
-            return { success: false, message: "Nem található idézet ebben a kategóriában." };
+            return { success: false, message: "Nem található idézet ebben a kategóriában!" };
         }
 
         return { success: true, data: result }; 
     } catch (error) {
-        return { success: false, message: "Nem sikerült idézetet lekérni" };
+        return { success: false, message: "Nem sikerült idézetet lekérni!" };
     }
 }
 
@@ -172,7 +172,7 @@ export const getAllPictureService = async (id) => {
         const result = await new Promise((resolve, reject) =>
             pool.query(`SELECT * FROM picture WHERE categoryID = ?`, [id], (err, results) => {
                 if (err) {
-                    return reject(new Error('Hiba az adatbázis kapcsolatban'));
+                    return reject(new Error('Hiba az adatbázis kapcsolatban!'));
                 }
                 resolve(results);
             })
@@ -180,7 +180,7 @@ export const getAllPictureService = async (id) => {
 
         return { success: true, data: result };
     } catch (error) {
-        return { success: false, message: "Nem sikerült lekérni a képeket" };
+        return { success: false, message: "Nem sikerült lekérni a képeket!" };
     }
 }
 
@@ -190,7 +190,7 @@ export const getSolutionPictureService = async (id) => {
         const result:any = await new Promise((resolve, reject) =>
             pool.query(`SELECT id, categoryID, answer, picture FROM picture WHERE categoryID = ? ORDER BY RAND() LIMIT 1`, [id], (err, results) => {
                 if (err) {
-                    return reject(new Error('Hiba az adatbázis kapcsolatban'));
+                    return reject(new Error('Hiba az adatbázis kapcsolatban!'));
                 }
                 if (results.length === 0) {
                     return resolve(null);
@@ -200,7 +200,7 @@ export const getSolutionPictureService = async (id) => {
         );
 
         if (!result) {
-            return { success: false, message: "Nem található kép ebben a kategóriában." };
+            return { success: false, message: "Nem található kép ebben a kategóriában!" };
         }
 
         // Decrypt the picture
@@ -210,7 +210,7 @@ export const getSolutionPictureService = async (id) => {
 
         return { success: true, data: result }; 
     } catch (error) {
-        return { success: false, message: "Nem sikerült képet lekérni" };
+        return { success: false, message: "Nem sikerült képet lekérni!" };
     }
 }
 
@@ -224,7 +224,7 @@ export const getAllLeaderboardService = async () => {
                  ORDER BY leaderboard.wins DESC`,
                 (err, results) => {
                     if (err) {
-                        return reject(new Error("Hiba az adatbázis kapcsolatban"));
+                        return reject(new Error("Hiba az adatbázis kapcsolatban!"));
                     }
                     resolve(results);
                 }
@@ -244,7 +244,7 @@ export const getAllLeaderboardService = async () => {
         return { success: true, data: formattedLeaderboard };
     } catch (error) {
         console.error("Leaderboard lekérési hiba:", error);
-        return { success: false, message: "Nem sikerült a toplistát lekérni" };
+        return { success: false, message: "Nem sikerült a toplistát lekérni!" };
     }
 };
 
@@ -259,7 +259,7 @@ export const getLeaderboardOneUserService = async (id) => {
                 [id],
                 (err, results) => {
                     if (err) {
-                        return reject(new Error("Hiba az adatbázis kapcsolatban"));
+                        return reject(new Error("Hiba az adatbázis kapcsolatban!"));
                     }
                     if (results.length === 0) {
                         return resolve(null);
@@ -270,7 +270,7 @@ export const getLeaderboardOneUserService = async (id) => {
         });
 
         if (!leaderboard) {
-            return { success: false, message: "A felhasználó nem található a toplistán" };
+            return { success: false, message: "A felhasználó nem található a toplistán!" };
         }
 
         // Profilkép visszafejtése vagy alapértelmezett kép beállítása
@@ -286,7 +286,7 @@ export const getLeaderboardOneUserService = async (id) => {
         return { success: true, data: formattedLeaderboard };
     } catch (error) {
         console.error("Leaderboard lekérési hiba:", error);
-        return { success: false, message: "Nem sikerült a toplistát lekérni" };
+        return { success: false, message: "Nem sikerült a toplistát lekérni!" };
     }
 };
 
