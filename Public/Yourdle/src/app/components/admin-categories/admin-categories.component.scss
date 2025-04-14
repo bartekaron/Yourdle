@@ -1,25 +1,156 @@
-
-:host ::ng-deep .p-dialog .product-image {
-    width: 150px;
-    margin: 0 auto 2rem auto;
-    display: block;
-}
-
-.card{
+.card {
     margin: 0 auto;
     width: 100%;
     max-width: 100%;
     margin-bottom: 1rem;
     margin-top: 2rem;
-}
-
-.category-details {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-.category-group {
-    flex: 1;
-    min-width: 200px;
-}
+    background: rgba(15, 15, 30, 0.95);
+    border: 2px solid #00ffcc;
+    border-radius: 1rem;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+    backdrop-filter: blur(4px);
+    transition: all 0.3s ease;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 0 40px #00ffcc;
+  }
+  
+  /* Táblázat */
+  .p-table {
+    background-color: rgba(0, 0, 0, 0.7);
+    border: 2px solid #00ffcc;
+    border-radius: 1rem;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+    color: #00ffcc;
+    font-family: 'Orbitron', sans-serif;
+  }
+  
+  .p-table th {
+    color: #00ffcc;
+    background-color: rgba(0, 0, 0, 0.85);
+    text-shadow: 0 0 5px #00ffcc;
+    font-size: 1.1rem;
+  }
+  
+  .p-table td {
+    color: #ffffff;
+    background-color: rgba(0, 0, 0, 0.6);
+    text-shadow: 0 0 4px #00ffcc;
+  }
+  
+  /* p-tag-ek cyberpunkosan */
+  .p-tag-success {
+    background-color: #00ffcc !important;
+    color: #000 !important;
+    border-radius: 0.5rem;
+    font-family: 'Orbitron', sans-serif;
+    box-shadow: 0 0 10px #00ffcc;
+  }
+  
+  .p-tag-danger {
+    background-color: #ff0055 !important;
+    color: #fff !important;
+    border-radius: 0.5rem;
+    font-family: 'Orbitron', sans-serif;
+    box-shadow: 0 0 10px #ff0055;
+  }
+  
+  /* Akciógombok */
+  .p-button {
+    background-color: transparent;
+    border: 2px solid #00ffcc;
+    color: #00ffcc;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 10px #00ffcc;
+    transition: all 0.3s ease;
+  }
+  
+  .p-button:hover {
+    background-color: #00ffcc;
+    color: #000;
+    box-shadow: 0 0 20px #00ffcc;
+  }
+  
+  .p-button-danger {
+    border-color: #ff0055 !important;
+    color: #ff0055 !important;
+    box-shadow: 0 0 10px #ff0055;
+  }
+  
+  .p-button-danger:hover {
+    background-color: #ff0055 !important;
+    color: #000 !important;
+    box-shadow: 0 0 20px #ff0055;
+  }
+  
+  /* Ikonos gombok */
+  .p-button-rounded {
+    border-radius: 50%;
+  }
+  
+  /* Dialog */
+  .p-dialog {
+    background-color: rgba(10, 10, 30, 0.95);
+    border: 2px solid #00ffcc;
+    box-shadow: 0 0 30px #00ffcc;
+    border-radius: 1rem;
+    font-family: 'Orbitron', sans-serif;
+    color: #00ffcc;
+  }
+  
+  .p-dialog .p-dialog-header {
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #00ffcc;
+    text-shadow: 0 0 5px #00ffcc;
+    font-size: 1.3rem;
+  }
+  
+  .p-dialog .p-dialog-content p {
+    margin-bottom: 0.5rem;
+    color: #ffffff;
+    text-shadow: 0 0 4px #00ffcc;
+  }
+  
+  .p-dialog img {
+    border-radius: 0.5rem;
+    border: 2px solid #00ffcc;
+    box-shadow: 0 0 10px #00ffcc;
+  }
+  
+  /* ConfirmPopup */
+  .p-confirmPopup {
+    background-color: rgba(20, 20, 40, 0.9);
+    border: 2px solid #00ffcc;
+    box-shadow: 0 0 15px #00ffcc;
+    border-radius: 0.5rem;
+    color: #00ffcc;
+    font-family: 'Orbitron', sans-serif;
+  }
+  
+  /* Toast */
+  .p-toast {
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #00ffcc;
+    font-family: 'Orbitron', sans-serif;
+    box-shadow: 0 0 10px #00ffcc;
+  }
+  
+  /* Cím stílus a dialogban */
+  .category-group h3 {
+    color: #00ffcc;
+    text-shadow: 0 0 5px #00ffcc;
+    font-size: 1.2rem;
+    margin-top: 1rem;
+  }
+  
+  /* Horizontális elválasztó */
+  hr {
+    border: none;
+    border-top: 1px solid #00ffcc;
+    box-shadow: 0 0 5px #00ffcc;
+    margin: 1rem 0;
+  }
