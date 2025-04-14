@@ -1,118 +1,149 @@
-:host ::ng-deep .p-dialog {
-  background: radial-gradient(circle at top left, #354f63, #1e2d3d) !important;
+:host ::ng-deep .p-dialog.profile-dialog {
+  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+  border: 2px solid #0ff !important;
   border-radius: 20px;
   padding: 2rem;
-  width: 800px;
+  width: 800px; /* Növelt szélesség */
   max-width: 90vw;
-  box-shadow: none !important;
-  border: none !important;
+  box-shadow: 0 0 20px #0ff !important;
+  font-family: 'Orbitron', sans-serif;
 }
-  
+
 .profile-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  text-align: center;
-  position: relative; 
+  gap: 1rem;
+  color: #0ff;
+  font-family: 'Orbitron', sans-serif;
 }
-  
-  .profile-tabs {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-  
-  .profile-btn {
-    background: #5c768d;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 10px;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-  }
-  
-  .profile-btn.active {
-    background: #88a0b8;
-  }
-  
-  .profile-title {
-    font-size: 24px;
-    margin-bottom: 10px;
-    color: white;
-  }
-  
-  .profile-image img {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    margin-bottom: 10px;
-    object-fit: cover;
-  }
-  
-  .profile-image-buttons {
-    display: flex;
-    gap: 10px;
-  }
-  
-  .input-group {
-    width: 80%;
-    margin: 10px 0;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .input-group label {
-    color: white;
-    font-size: 14px;
-    margin-bottom: 5px;
-  }
-  
-  .custom-input {
-    width: 100%;
-    padding: 8px;
-    border-radius: 5px;
-    border: none;
-  }
-  
-  .button-group {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 80%;
-    margin-top: 15px;
-  }
-  
-  .save-button {
-    display: flex;
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px;
-    align-self: center;
-    width: 60%;
-    border-radius: 5px;
-  }
-  
-  .password-button {
-    display: flex;
-    background-color: #1c52c5;
-    color: white;
-    padding: 10px;
-    align-self: center;
-    width: 60%;
-    border-radius: 5px;
-  }
 
-  .exit-button {
-    position: absolute;
-    width: 100px;
-    bottom: 5px;
-    right: 1px;
-    font-size: 12px;  
-    padding: 5px 10px;
-    background-color: #685f5f;  
-    color: white;
-    border-radius: 5px;
-  }
-  
+.profile-title {
+  font-size: 1.8rem; /* Növelt cím */
+  font-weight: bold;
+  color: #0ff;
+  text-shadow: 0 0 10px #0ff;
+}
+
+.profile-tabs {
+  margin-top: 10px;
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.profile-image {
+  display: flex;
+  flex-direction: column; /* VERTICAL alignment */
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.profile-image img {
+  width: 90px; /* Kép méretének növelése */
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #0ff;
+  box-shadow: 0 0 10px #0ff;
+}
+
+.profile-image-buttons {
+  display: flex;
+  flex-direction: column; /* Gombok függőleges elrendezése */
+  align-items: center; /* Gombok középre igazítása */
+  gap: 0.5rem; /* Kisebb távolság a gombok között */
+  margin-top: 0.5rem; /* Kicsit lejjebb tolom a gombokat */
+}
+
+.profile-btn {
+  background: #0ff;
+  border: none;
+  color: #000;
+  padding: 0.4rem 1rem;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 0 10px #0ff;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-btn:hover {
+  background: #00f6ff;
+  box-shadow: 0 0 20px #0ff;
+}
+
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 350px;
+  margin: 0.5rem 0;
+}
+
+.input-group label {
+  color: #0ff;
+  font-weight: bold;
+  margin-bottom: 0.3rem;
+  text-shadow: 0 0 5px #0ff;
+}
+
+.custom-input {
+  background: transparent;
+  border: 2px solid #0ff;
+  padding: 0.6rem;
+  color: #0ff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #0ff;
+  font-family: 'Orbitron', sans-serif;
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.custom-input:focus {
+  outline: none;
+  box-shadow: 0 0 20px #0ff;
+  border-color: #00f6ff;
+}
+
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  width: 100%;
+  max-width: 350px;
+  margin-top: 1rem;
+}
+
+.save-button,
+.password-button,
+.exit-button {
+  background: #0ff;
+  color: #000;
+  padding: 0.6rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #0ff;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.save-button:hover,
+.password-button:hover,
+.exit-button:hover {
+  background: #00f6ff;
+  box-shadow: 0 0 20px #0ff;
+}
+
+.exit-button {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  width: auto;
+  font-size: 0.8rem;
+  padding: 4px 8px;
+  background-color: #685f5f;
+  color: white;
+  border-radius: 5px;
+}

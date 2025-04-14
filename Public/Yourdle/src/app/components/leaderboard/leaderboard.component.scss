@@ -1,67 +1,113 @@
 :host {
     display: flex;
-    justify-content: center; /* Vízszintesen középre igazítás */
-    align-items: center; /* Függőlegesen középre igazítás */
-    height: 100vh; /* Az egész képernyőt lefedje */
-}
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    color: #0ff;
+    font-family: 'Orbitron', sans-serif;
+    padding-top: 2rem; 
+  }
+  
 
-.leaderboard-container {
+  h2 {
+    font-size: 4rem;
+    font-family: 'Orbitron', sans-serif;
+    color: #0ff;
+    font-weight: bold;
+    text-shadow: 0 0 10px #0ff;
+    margin-bottom: 3rem;
+    margin-top: 0;
+    text-align: center;
+    animation: flicker 3s infinite alternate;
+  }
+  
+  
+  
+  .leaderboard-container {
     display: flex;
-    flex-direction: column; /* Alapértelmezett elrendezés: függőlegesen */
-    align-items: center; /* Középre igazítás */
-    justify-content: flex-start; /* A tetejére igazítás */
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
     width: 100%;
-    padding: 20px;
-}
-
-.user-info {
-    background-color: black; /* Fekete háttér */
-    color: white; /* Fehér szöveg */
-    border-radius: 10px;
-    padding: 15px;
-    margin-bottom: 20px;
-    text-align: left; /* Balra igazított szöveg */
-    width: 80%;
-    max-width: 800px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.user-details {
+    max-width: none;
+    padding: 2rem;
+    backdrop-filter: blur(4px);
+  }
+  
+  .user-info {
+    background: rgba(0, 0, 0, 0.9);
+    color: #0ff;
+    border: 2px solid #0ff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    width: 100%;
+    max-width: 100%;
+    box-shadow: 0 0 20px #0ff;
+    overflow-x: auto; /* görgethető legyen, ha kell */
+  }
+  
+  .user-details {
+    display: flex;
+    flex-wrap: nowrap; /* egy sorban tartjuk */
+    gap: 60px;
+    min-width: 800px; /* min szélesség, aminél elkezd scrollozni */
+    padding-bottom: 0.5rem;
+  }
+  
+  .user-item {
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Az adatok egy sorba kerülnek */
-    gap: 20px; /* Távolság az egyes elemek között */
-    flex-wrap: wrap; /* Ha szükséges, az elemek a következő sorba kerülnek */
-}
-
-.user-item {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     gap: 10px;
-}
-
-.profile-pic {
-    width: 50px;
-    height: 50px;
+    color: #0ff;
+    text-shadow: 0 0 10px #0ff;
+    font-size: 1.1rem;
+    white-space: nowrap; /* ne törje meg a szöveget */
+  }
+  
+  .profile-pic {
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
-    border: 2px solid #007ad9;
-}
-
-p-table {
-    width: 80%; /* A táblázat szélessége */
+    border: 2px solid #0ff;
+    box-shadow: 0 0 10px #0ff;
+  }
+  
+  
+  
+  p-table {
+    width: 80%;
     max-width: 1000px;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-}
-
-::ng-deep .p-datatable .p-datatable-thead > tr > th {
-    text-align: center; /* Fejléc szöveg középre */
+    box-shadow: 0 0 20px #0ff;
+    background: rgba(0, 0, 0, 0.85);
+    color: #0ff;
+  }
+  
+  ::ng-deep .p-datatable .p-datatable-thead > tr > th {
+    text-align: center;
     padding: 10px;
-}
-
-::ng-deep .p-datatable .p-datatable-tbody > tr > td {
-    text-align: center; /* Tartalom középre */
+    background-color: #111;
+    color: #0ff;
+    text-shadow: 0 0 5px #0ff;
+    border-bottom: 1px solid #0ff;
+  }
+  
+  ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+    text-align: center;
     padding: 10px;
-}
+    background-color: rgba(10, 10, 20, 0.85);
+    border-bottom: 1px solid rgba(0, 255, 255, 0.1);
+    color: #0ff;
+    transition: background-color 0.3s ease;
+  }
+  
+  ::ng-deep .p-datatable .p-datatable-tbody > tr:hover {
+    background-color: rgba(0, 255, 255, 0.1);
+  }
+  
+  h3 {
+    text-shadow: 0 0 10px #0ff;
+  }
+  

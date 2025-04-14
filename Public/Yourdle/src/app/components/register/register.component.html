@@ -1,31 +1,27 @@
-<p-dialog [(visible)]="visible" modal [closable]="true" [dismissableMask]="true" styleClass="login-dialog">
-    <div class="login-container">
-        
-  
-      <h2 class="login-title">Regisztráció</h2>
-  
-      <div class="input-group">
-        <label for="name">Felhasználó név</label>
-        <input [(ngModel)]="user.name" id="name" type="text" pInputText class="custom-input" />
-      </div>
+<p-dialog [(visible)]="visible" modal [closable]="true" [dismissableMask]="true" styleClass="register-dialog">
+  <div class="login-container">
+    <h2 class="login-title">Regisztráció</h2>
 
-      <div class="input-group">
-        <label for="email">Email</label>
-        <input [(ngModel)]="user.email" id="email" type="text" pInputText class="custom-input" />
-      </div>
-  
-      <div class="input-group">
-        <label for="password">Jelszó</label>
-        <input [(ngModel)]="user.passwd" id="password" type="password" pInputText class="custom-input" />
-      </div>
-
-        
-      <div class="input-group">
-        <label for="password">Jelszó megerősítés</label>
-        <input [(ngModel)]="user.confirm" id="confirm" type="password" pInputText class="custom-input" />
-      </div>
-  
-      <button pButton (click)="Register()"  label="Regisztráció" class="login-button"></button>
+    <div class="input-group">
+      <label for="name">Felhasználó név</label>
+      <input [(ngModel)]="user.name" id="name" type="text" pInputText class="custom-input" />
     </div>
-  </p-dialog>
-  
+
+    <div class="input-group">
+      <label for="email">Email</label>
+      <input [(ngModel)]="user.email" id="email" type="text" pInputText class="custom-input" />
+    </div>
+
+    <div class="input-group">
+      <label for="password">Jelszó</label>
+      <input [(ngModel)]="user.passwd" id="password" type="password" pInputText class="custom-input" />
+    </div>
+
+    <div class="input-group">
+      <label for="confirm">Jelszó megerősítés</label>
+      <input [(ngModel)]="user.confirm" id="confirm" type="password" pInputText class="custom-input" />
+    </div>
+
+    <button pButton (click)="Register()" label="Regisztráció" class="login-button"></button>
+  </div>
+</p-dialog>

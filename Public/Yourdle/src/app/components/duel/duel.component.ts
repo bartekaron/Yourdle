@@ -100,7 +100,7 @@ export class DuelComponent implements OnInit {
       this.socketService.emit("createRoom", {
         roomName: this.user.name,
         category: this.selectedCategory,
-        availableGameTypes: selectedGameTypes,
+        gameTypes: selectedGameTypes,
         owner: this.user.name
       });
 
