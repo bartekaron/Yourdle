@@ -1,9 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
-
 body {
   background-color: #000;
   color: #0ff;
-  font-family: 'Orbitron', sans-serif;
+  font-family: 'Share Tech Mono', monospace;
   margin: 0;
   padding: 0;
 }
@@ -89,7 +87,7 @@ body {
 
 p-autoComplete {
   width: 320px !important;
-  font-family: 'Orbitron', sans-serif;
+  font-family: 'Share Tech Mono', monospace;
 }
 
 .submit-button {
@@ -150,7 +148,7 @@ p-autoComplete {
   border-radius: 0.5rem;
   padding: 0.8rem 1.5rem;
   font-size: 1rem;
-  font-family: 'Orbitron', sans-serif;
+  font-family: 'Share Tech Mono', monospace;
   box-shadow: 0 0 10px #0ff;
   transition: all 0.3s ease;
   cursor: pointer;

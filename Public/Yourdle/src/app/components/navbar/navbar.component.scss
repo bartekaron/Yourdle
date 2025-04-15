@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+
 .navbar-container {
   width: 100%;
   backdrop-filter: blur(6px);
@@ -14,7 +17,7 @@
   align-items: center;
   padding: 0.5rem 2rem;
   margin: 0;
-  font-family: 'Orbitron', sans-serif;
+  font-family: 'Share Tech Mono', monospace;
   text-shadow: 0 0 5px #0ff;
 }
 
@@ -30,7 +33,7 @@
   border: none;
   cursor: pointer;
   font-size: 1rem;
-  font-family: 'Orbitron', sans-serif;
+  font-family: 'Share Tech Mono', monospace;
   transition: all 0.3s ease;
   text-shadow: 0 0 5px #0ff;
 }
@@ -80,7 +83,7 @@
   color: #0ff;
   cursor: pointer;
   padding: 0.5rem 1rem;
-  font-family: 'Orbitron', sans-serif;
+  font-family: 'Share Tech Mono', monospace;
   box-shadow: 0 0 10px #0ff;
   border-radius: 6px;
   position: absolute;

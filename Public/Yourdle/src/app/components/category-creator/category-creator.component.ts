@@ -290,6 +290,19 @@ export class CategoryCreatorComponent {
     }
   }
 
+  onFormCountChange(category: string) {
+    const value = this.formCounts[category];
+  
+    
+    if (!value || value < 1) {
+      this.formCounts[category] = 1;
+    } else if (value > 200) {
+      this.formCounts[category] = 200;
+    }
+  
+    this.generateForms(category);
+  }
+
   resetForm() {
     this.categoryName = '';
     this.isPublic = false;

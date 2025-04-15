@@ -1,12 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap');
-
 .auth-container {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 90vh;
   padding: 20px;
-  font-family: 'Orbitron', sans-serif;
+  font-family: 'Share Tech Mono', monospace;
 }
 
 .auth-card {
@@ -63,7 +61,7 @@
     border-radius: 0.5rem;
     color: #00ffcc;
     outline: none;
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Share Tech Mono', monospace;
     font-size: 1rem;
     box-shadow: 0 0 10px #00ccff;
   }
@@ -87,7 +85,7 @@
   color: #00ffcc;
   padding: 10px;
   border-radius: 0.8rem;
-  font-family: 'Orbitron', sans-serif;
+  font-family: 'Share Tech Mono', monospace;
   font-size: 1.1rem;
   cursor: pointer;
   box-shadow: 0 0 15px #00ffcc;
