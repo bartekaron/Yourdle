@@ -2,56 +2,119 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     min-height: 100vh;
-    color: white;
-
-}
-
-.title {
-    font-size: 4rem;
-    font-weight: bold;
-    margin-bottom: 15rem;
-    font-family: Do Hyeon;
-}
-
-.card-container {
-    display: flex;
-    gap: 2rem;
-}
-
-.custom-card {
-    width: 100%;
+    padding: 2rem;
+    padding-top: 4rem;
     text-align: center;
-    background-color: #1a1a1a;
-    color: white;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 0.5rem;
-    opacity: 0.9;
-    margin-left: 50px;
-    margin-right: 50px;
-}
-
-.card-title {
-    font-size: 2.5rem;
+    backdrop-filter: blur(3px);
+  }
+  
+  
+  .title {
+    font-size: 6rem;
     font-weight: bold;
-    font-family: "Hanuman", sans-serif;
-}
-
-.card-subtitle {
+    margin-bottom: 6rem;
+    font-family: 'Share Tech Mono', monospace;
+    color: #0ff;
+    text-shadow:
+      0 0 5px #0ff,
+      0 0 10px #0ff,
+      0 0 20px #0ff,
+      0 0 40px #0ff;
+    animation: flicker 3s infinite alternate;
+  }
+  
+  .card-container {
+    display: flex;
+    flex-direction: row;
+    gap: 4rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .custom-card {
+    width: 300px;
+    padding: 2rem;
+    background: rgba(15, 15, 30, 0.95);
+    border: 2px solid #0ff;
+    border-radius: 1rem;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+    transition: all 0.4s ease;
+    backdrop-filter: blur(4px);
+  
+    &:hover {
+      transform: translateY(-5px) scale(1.03);
+      box-shadow: 0 0 40px #0ff;
+    }
+  }
+  
+  .card-title {
     font-size: 2rem;
-    color: white;
-    font-family: "Hanuman", sans-serif;
-    
-}
+    margin-bottom: 1rem;
+    color: #0ff;
+    font-family: 'Share Tech Mono', monospace;
 
-.card-button {
-    width: 100%;
-}
+    text-shadow: 0 0 10px #0ff;
+  }
+  
+  .card-subtitle {
+    font-size: 1.2rem;
+    color: #ccc;
+    font-family: 'Share Tech Mono', monospace;
 
-.card-button a {
-    text-decoration: none;
-    color: white;
-    font-family: "Hanuman", sans-serif;
-}
+    margin-bottom: 2rem;
+  }
+  
+  .card-button {
+    background-color: transparent;
+    border: 2px solid #0ff;
+    padding: 1rem;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 10px #0ff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  
+    a {
+      color: #0ff;
+      text-decoration: none;
+      font-family: 'Share Tech Mono', monospace;
+    }
+  
+    &:hover {
+      background-color: #0ff;
+      a {
+        color: #000;
+      }
+    }
+  }
+  
+  :host ::ng-deep .custom-button.p-button {
+    background-color: transparent !important;
+    border: 2px solid #0ff !important;
+    color: #0ff !important;
+    font-family: 'Share Tech Mono', monospace;
+    box-shadow: 0 0 10px #0ff;
+    padding: 1rem !important;
+    font-size: 1rem !important;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+  }
+  
+  :host ::ng-deep .custom-button.p-button:hover {
+    background-color: #0ff !important;
+    color: #000 !important;
+    box-shadow: 0 0 20px #0ff;
+  }
+  
 
+  @keyframes flicker {
+    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+      opacity: 1;
+    }
+    20%, 24%, 55% {
+      opacity: 0.4;
+    }
+  }
+  

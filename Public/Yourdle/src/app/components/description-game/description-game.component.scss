@@ -1,85 +1,72 @@
+/* Alap stílus */
+body {
+  background-color: #0f0f0f;
+  color: #ffffff;
+  font-family: 'Share Tech Mono', monospace;
+  margin: 0;
+  padding: 0;
+}
+
+/* Cím */
 .title {
   font-size: 4rem;
   font-weight: bold;
-  font-family: Do Hyeon;
-  color: white;
+  font-family: 'Share Tech Mono', monospace;
+  color: #00ffff;
+  text-shadow: 0 0 15px #00ffff, 0 0 25px #ff00ff;
   text-align: center;
+  margin: 20px 0;
 }
 
-/* Alap stílusok */
-body {
-  background-color: #1e1e1e;  /* Sötét háttér */
-  color: white;  /* Fehér szöveg */
-}
-
-.submit-button {
-  padding: 8px 12px; /* Kicsit kisebb gomb */
-  background-color: #00A6ED;
-  border: none;
-  border-radius: 5px;
-  font-size: 18px;
-  cursor: pointer;
-}
-
-.previous-guesses {
-  margin-top: 20px;
-}
-
-.property {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 10px;
-}
-
-.label {
+/* Kategória név */
+.category-name {
+  font-size: 1.7rem;
   font-weight: bold;
-  color: white;  /* Fehér szöveg */
+  color: #ffffff;
+  text-align: center;
+  margin-bottom: 15px;
+  text-shadow: 0 0 10px #ff00ff;
 }
 
-.value {
-  padding: 5px;
-  border-radius: 4px;
-  color: white;  /* Fehér szöveg */
-}
-
-.correct {
-  background-color: green;
-}
-
-.incorrect {
-  background-color: red;
-}
-
-.hint-arrow {
-  font-size: 14px;
-  color: white;  /* Fehér szöveg */
-}
-
-.emoji-container {
+/* Leírás konténer */
+.descprion-container {
   display: flex;
-  justify-content: center;
-  gap: 10px;
-  font-size: 3rem;
-  margin-bottom: 20px;
-  background: rgba(255, 255, 255, 0.2);
-  padding: 20px;
-  border-radius: 10px;
-  min-width: 300px;
-}
-
-.emoji {
-  width: 100px;
-  height: 80px;
-  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: 3rem;
-  background: transparent;
+  margin-top: 30px;
+  width: 80%;
   padding: 10px;
-  border-radius: 10px;
 }
 
+/* Kategória név (speciális stílus) */
+.category-name {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #00ffff;
+  text-align: center;
+  margin-bottom: 20px;
+  text-shadow: 0 0 10px #ff00ff;
+  letter-spacing: 1px;
+}
+
+/* Leírás box */
+.description {
+  font-size: 2rem;
+  color: #ffffff;
+  background: rgba(0, 255, 255, 0.05);
+  border: 1px solid #ff00ff;
+  box-shadow: 0 0 12px #ff00ff;
+  border-radius: 10px;
+  padding: 25px;
+  text-align: center;
+  margin: 20px auto;
+  width: 80%;
+  max-width: 900px;
+  font-family: 'Share Tech Mono', monospace;
+}
+
+/* Találatok */
 .guesses-container {
   margin-top: 20px;
   text-align: center;
@@ -89,113 +76,126 @@ body {
 }
 
 .guess {
-  margin-bottom: 20px;
+  margin: 10px auto;
   padding: 10px;
-  border-radius: 4px;
-  background-color: #2a2a2a;
-  color: white;
-  text-align: center;
-  width: 50%;
+  border-radius: 5px;
+  background-color: #222;
+  color: #fff;
+  width: 60%;
+  box-shadow: 0 0 5px #555;
 }
 
 .correct-guess {
-  background-color: #43D403;
-  color: black;
-  width: 100%;
+  background-color: #359e6d;
+  box-shadow: 0 0 10px #00ff88;
+  width: 80%;
 }
 
 .incorrect-guess {
-  background-color: #E84057;
-  color: black;
-  width: 100%;
+  background-color: #ff004c;
+  box-shadow: 0 0 10px #ff004c;
+  width: 80%;
 }
 
+/* Autocomplete szűrő és gombok */
+.autocomplete-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+p-autoComplete {
+  width: 300px !important;
+}
+
+.submit-button {
+  padding: 10px 16px;
+  background-color: #00ffff;
+  border: none;
+  border-radius: 5px;
+  font-size: 18px;
+  color: #000;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 0 10px #00ffff;
+}
+
+.arrow-icon {
+  font-weight: bold;
+}
+
+/* Navigációs gombok */
+.navigation-buttons-container {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #0a0a0a;
+  box-shadow: 0 -2px 10px #00ffff;
+  padding: 15px 0;
+  display: flex;
+  justify-content: center;
+  z-index: 10;
+}
+
+.navigation-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.nav-button {
+  background-color: transparent;
+  color: #00ffff;
+  border: 2px solid #00ffff;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: bold;
+  text-shadow: 0 0 5px #00ffff;
+  transition: all 0.3s ease;
+}
+
+.nav-button:hover {
+  background-color: #00ffff;
+  color: black;
+  transform: scale(1.1);
+  box-shadow: 0 0 15px #00ffff;
+}
+
+.nav-button:active {
+  transform: scale(0.95);
+}
+
+/* Játék konténer */
 .game-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  height: 40vh;
+  justify-content: flex-start;
+  min-height: 100vh;
+  padding-bottom: 100px;
 }
 
 .input-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 15px;
   width: 100%;
 }
 
-/* Új stílus a kategória névhez */
-.category-name {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: white;
-  text-align: center;
-  margin-bottom: 10px;
-}
-
-/* Új stílus a leíráshoz */
-.description {
-  font-size: 2.5rem;
-  font-weight: normal;
-  color: white;
-  text-align: center;
-  margin-top: 10px;
-  background: rgba(255, 255, 255, 0.2); /* Átlátszó háttér */
-  padding: 20px;
+/* Kép alapú megjelenítés */
+img {
+  max-width: 100%;
   border-radius: 10px;
+  box-shadow: 0 0 20px rgba(255, 0, 255, 0.3);
+  transition: transform 0.3s ease;
 }
 
-.navigation-buttons-container {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background-color: black; /* Changed to black */
-  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-  padding: 10px 0;
-  display: flex;
-  justify-content: center;
-}
-
-.navigation-buttons {
-  display: flex;
-  gap: 10px;
-}
-
-.nav-button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.nav-button:hover {
-  background-color: #0056b3;
+img:hover {
   transform: scale(1.05);
 }
 
-.nav-button:active {
-  background-color: #004085;
-  transform: scale(0.95);
-}
 
-.arrow-icon {
-  font-weight: bold;
-  color: black;
-}
-
-.autocomplete-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 10px; /* Add spacing between the selector and the button */
-  justify-content: center;
-}
-
-p-autoComplete {
-  width: 300px !important;
-}

@@ -1,82 +1,133 @@
 .container {
-    display: flex;
-    margin-top: 4%;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
-    color: white;
-
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem;
+  background: transparent;
+  color: #0ff;
+  font-family: 'Share Tech Mono', monospace;
 }
+
 .title {
-    font-size: 4rem;
-    font-weight: bold;
-    margin-bottom: 15rem;
-    font-family: Do Hyeon;
+  font-size: 4rem;
+  font-weight: bold;
+  margin-bottom: 5rem;
+  color: #0ff;
+  text-shadow: 0 0 15px #0ff;
 }
 
 .card-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-    justify-content: center;
-  }
-  
-  .sp-card {
-    width: 250px;
-    text-align: center;
-    padding: 16px;
-  }
-  
-  .fab {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: #2d5d7b;
-    color: white;
-    border: none;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    cursor: pointer;
-  }
-  
-  .fab:hover {
-    background: #1f3e52;
-  }
-  
-  .dialog-content {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .create-btn {
-    margin-top: 10px;
-    background-color: #2d5d7b;
-    color: white;
-  }
-  h2{
-    margin-top: 10px;
-    margin-bottom: 10px;
-    display: flex;
-    justify-self: center;
-    color: white;
-  }
-  
-  .search-container {
-    margin-bottom: 15px;
-  }
-  
-  .search-input {
-    width: 100%;
-    padding: 8px;
-    font-size: 1rem;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-  }
-  
-  
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+  width: 100%;
+}
+
+.sp-card {
+  width: 260px;
+  background: rgba(0, 0, 0, 0.85);
+  border: 2px solid #0ff;
+  border-radius: 12px;
+  color: #0ff;
+  text-align: center;
+  box-shadow: 0 0 15px #0ff;
+  padding: 1.5rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.sp-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 25px #0ff;
+}
+
+.sp-card ul {
+  padding-left: 0;
+  list-style: none;
+}
+
+.sp-card li {
+  margin-bottom: 0.25rem;
+}
+
+.sp-card p {
+  margin: 0.5rem 0;
+}
+
+.card-title {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #0ff;
+  text-shadow: 0 0 10px #0ff;
+}
+
+.fab {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #0ff;
+  color: #000;
+  border: none;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  font-size: 28px;
+  cursor: pointer;
+  box-shadow: 0 0 15px #0ff;
+  transition: box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+.fab:hover {
+  background: #00f6ff;
+  box-shadow: 0 0 25px #0ff;
+}
+
+.dialog-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: #0ff;
+}
+
+.create-btn {
+  margin-top: 10px;
+  background-color: #0ff;
+  color: #000;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 0 15px #0ff;
+}
+
+h2 {
+  margin: 10px 0;
+  color: #0ff;
+  text-shadow: 0 0 10px #0ff;
+  text-align: center;
+}
+
+.search-container {
+  margin-bottom: 2rem;
+  width: 100%;
+  max-width: 500px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 2px solid #0ff;
+  background: #000;
+  color: #0ff;
+  box-shadow: 0 0 10px #0ff;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.search-input:focus {
+  border-color: #00f6ff;
+}

@@ -1,0 +1,99 @@
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 90vh;
+  padding: 20px;
+  font-family: 'Share Tech Mono', monospace;
+}
+
+.auth-card {
+  background: rgba(10, 10, 30, 0.95);
+  border: 2px solid #00ffcc;
+  border-radius: 1rem;
+  box-shadow: 0 0 30px #00ffcc;
+  padding: 2rem;
+  width: 100%;
+  max-width: 450px;
+  color: #ffffff;
+}
+
+.auth-title {
+  font-size: 1.8rem;
+  color: #00ffcc;
+  text-shadow: 0 0 10px #00ffcc;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.auth-instruction {
+  margin-bottom: 1.2rem;
+  font-size: 1rem;
+  color: #bdf;
+}
+
+.auth-error {
+  color: #ff0055;
+  text-shadow: 0 0 8px #ff0055;
+}
+
+.auth-link {
+  display: inline-block;
+  margin-top: 1rem;
+  color: #00ccff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.auth-link:hover {
+  color: #00ffff;
+  text-shadow: 0 0 10px #00ffff;
+}
+
+.cyber-input {
+  margin-bottom: 1.5rem;
+
+  input {
+    width: 100%;
+    padding: 10px;
+    background-color: transparent;
+    border: 2px solid #00ccff;
+    border-radius: 0.5rem;
+    color: #00ffcc;
+    outline: none;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 1rem;
+    box-shadow: 0 0 10px #00ccff;
+  }
+
+  label {
+    margin-left: 5px;
+    color: #88f;
+    font-size: 0.9rem;
+  }
+
+  input:focus {
+    border-color: #00ffff;
+    box-shadow: 0 0 20px #00ffff;
+  }
+}
+
+.cyber-button {
+  width: 100%;
+  background-color: transparent;
+  border: 2px solid #00ffcc;
+  color: #00ffcc;
+  padding: 10px;
+  border-radius: 0.8rem;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 1.1rem;
+  cursor: pointer;
+  box-shadow: 0 0 15px #00ffcc;
+  transition: all 0.3s ease;
+}
+
+.cyber-button:hover {
+  background-color: #00ffcc;
+  color: #000;
+  box-shadow: 0 0 25px #00ffcc;
+}

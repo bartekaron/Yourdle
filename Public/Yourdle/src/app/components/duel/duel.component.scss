@@ -1,65 +1,182 @@
+h2 {
+  font-size: 4rem;
+  font-weight: bold;
+  margin-top: 20px;
+  font-family: 'Share Tech Mono', monospace;
+  color: #0ff;
+  text-shadow: 0 0 10px #0ff;
+  margin-bottom: 2rem;
+  text-align: center;
+  animation: flicker 3s infinite alternate;
+}
+
+.search-input {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+  border: 2px solid #0ff;
+  background: rgba(15, 15, 30, 0.9);
+  color: #0ff;
+  font-family: 'Share Tech Mono', monospace;
+  box-shadow: 0 0 10px #0ff;
+  backdrop-filter: blur(3px);
+  transition: all 0.3s ease;
+}
+
+.search-input::placeholder {
+  color: #0ff;
+  opacity: 0.6;
+}
+
 .room-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-    justify-content: center;
-  }
-  
-  .room-card {
-    width: 250px;
-    text-align: center;
-    padding: 16px;
-  }
-  
-  .fab {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: #2d5d7b;
-    color: white;
-    border: none;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    cursor: pointer;
-  }
-  
-  .fab:hover {
-    background: #1f3e52;
-  }
-  
-  .dialog-content {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .create-btn {
-    margin-top: 10px;
-    background-color: #2d5d7b;
-    color: white;
-  }
-  h2{
-    margin-top: 10px;
-    margin-bottom: 10px;
-    display: flex;
-    justify-self: center;
-    color: white;
-  }
-  
-  .search-container {
-    margin-bottom: 15px;
-  }
-  
-  .search-input {
-    width: 100%;
-    padding: 8px;
-    font-size: 1rem;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-  }
-  
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+}
+
+.room-card {
+  width: 280px;
+  background: rgba(15, 15, 30, 0.95);
+  border: 2px solid #0ff;
+  border-radius: 1rem;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+  padding: 1.5rem;
+  font-family: 'Share Tech Mono', monospace;
+  color: #ccc;
+  backdrop-filter: blur(4px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.room-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 40px #0ff;
+}
+
+.room-card p {
+  margin: 0.5rem 0;
+}
+
+.room-card strong {
+  color: #0ff;
+}
+
+button.p-button {
+  background-color: transparent;
+  border: 2px solid #0ff;
+  color: #0ff;
+  font-family: 'Share Tech Mono', monospace;
+  box-shadow: 0 0 10px #0ff;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+button.p-button:hover {
+  background-color: #0ff;
+  color: #000;
+  box-shadow: 0 0 20px #0ff;
+}
+
+.fab {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #0ff;
+  color: #000;
+  border: none;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  cursor: pointer;
+  box-shadow: 0 0 20px #0ff;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.fab:hover {
+  background: #00cccc;
+  box-shadow: 0 0 40px #0ff;
+}
+
+.dialog-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  font-family: 'Share Tech Mono', monospace;
+  color: #ccc;
+}
+
+p-dropdown, p-checkbox {
+  font-family: 'Share Tech Mono', monospace;
+  margin-top: 10px;
+}
+
+.create-btn {
+  background-color: transparent !important;
+  border: 2px solid #0ff !important;
+  color: #0ff !important;
+  box-shadow: 0 0 10px #0ff;
+  padding: 1rem;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+  font-family: 'Share Tech Mono', monospace;
+}
+
+.create-btn:hover {
+  background-color: #0ff !important;
+  color: #000 !important;
+  box-shadow: 0 0 20px #0ff;
+}
+
+::ng-deep .p-dialog {
+  background: rgba(15, 15, 30, 0.95);
+  border: 2px solid #0ff;
+  border-radius: 1rem;
+  box-shadow: 0 0 30px #0ff;
+  backdrop-filter: blur(6px);
+  color: #0ff;
+  font-family: 'Share Tech Mono', monospace;
+}
+
+::ng-deep .p-dialog .p-dialog-header {
+  background: transparent;
+  color: #0ff;
+  border-bottom: 1px solid #0ff;
+  text-shadow: 0 0 10px #0ff;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+::ng-deep .p-dialog .p-dialog-content {
+  padding: 1.5rem;
+  color: #ccc;
+  font-family: 'Share Tech Mono', monospace;
+}
+
+::ng-deep .p-dialog .p-dialog-footer {
+  border-top: 1px solid #0ff;
+  background: transparent;
+  padding: 1rem;
+}
+
+::ng-deep .p-dialog .p-button {
+  background-color: transparent !important;
+  border: 2px solid #0ff !important;
+  color: #0ff !important;
+  box-shadow: 0 0 10px #0ff;
+  font-family: 'Share Tech Mono', monospace;
+}
+
+::ng-deep .p-dialog .p-button:hover {
+  background-color: #0ff !important;
+  color: #000 !important;
+  box-shadow: 0 0 20px #0ff;
+}

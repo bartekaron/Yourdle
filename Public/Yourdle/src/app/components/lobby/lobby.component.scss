@@ -1,91 +1,116 @@
 .lobby-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  }
-  
-  .room-title {
-    font-size: 2rem;
-    color: #ffffff;
-    margin-bottom: 20px;
-  }
-  
-  .player-list {
-    margin-top: 20px;
-    width: 100%;
-  }
-  
-  .player-list h3 {
-    font-size: 1.2rem;
-    color: #ffffff;
-  }
-  
-  .player-list ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .player-list li {
-    font-size: 1.1rem;
-    padding: 5px 0;
-    color: #ffffff;
-  }
-  
-  .player-name {
-    font-weight: bold;
-  }
-  
-  .no-players {
-    margin-top: 20px;
-    font-size: 1.1rem;
-    color: #fdfdfd;
-  }
-  
-  .start-game-button {
-    margin-top: 30px;
-  }
-  
-  button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-  }
-  
-  button:hover:not(:disabled) {
-    background-color: #0056b3;
-  }
-  
-  .room-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    max-width: 600px;
-  }
-  
-  .leave-button {
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    padding: 8px 14px;
-    border-radius: 5px;
-    font-size: 0.9rem;
-    cursor: pointer;
-  }
-  
-  .leave-button:hover {
-    background-color: #a71d2a;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 30px;
+  margin-top: 80px; /* <-- Itt az új margó */
+  border-radius: 1rem;
+  background: rgba(15, 15, 30, 0.95);
+  border: 2px solid #00ffcc;
+  box-shadow: 0 0 25px #00ffcc;
+  font-family: 'Share Tech Mono', monospace;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.room-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: 20px;
+}
+
+.room-title {
+  font-size: 2rem;
+  color: #00ffcc;
+  text-shadow: 0 0 10px #00ffcc;
+}
+
+.leave-button {
+  background-color: transparent;
+  border: 2px solid #ff0055;
+  color: #ff0055;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-family: 'Share Tech Mono', monospace;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px #ff0055;
+}
+
+.leave-button:hover {
+  background-color: #ff0055;
+  color: #000;
+  box-shadow: 0 0 20px #ff0055;
+}
+
+.player-list {
+  margin-top: 20px;
+  width: 100%;
+}
+
+.player-list h3 {
+  font-size: 1.2rem;
+  color: #00ffcc;
+  text-shadow: 0 0 6px #00ffcc;
+  margin-bottom: 10px;
+}
+
+.player-list ul {
+  list-style: none;
+  padding: 0;
+}
+
+.player-list li {
+  font-size: 1.1rem;
+  padding: 6px 0;
+  color: #ffffff;
+  text-shadow: 0 0 5px #00ffcc;
+}
+
+.player-name {
+  font-weight: bold;
+}
+
+.no-players {
+  margin-top: 20px;
+  font-size: 1.1rem;
+  color: #ffffff;
+  text-shadow: 0 0 5px #ff0055;
+}
+
+.start-game-button {
+  margin-top: 30px;
+}
+
+.start-game-button button {
+  background-color: transparent;
+  border: 2px solid #00ffcc;
+  color: #00ffcc;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 0 12px #00ffcc;
+  transition: all 0.3s ease;
+}
+
+.start-game-button button:hover:not(:disabled) {
+  background-color: #00ffcc;
+  color: #000;
+  box-shadow: 0 0 25px #00ffcc;
+}
+
+.start-game-button button:disabled {
+  border-color: #555;
+  color: #777;
+  box-shadow: none;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
