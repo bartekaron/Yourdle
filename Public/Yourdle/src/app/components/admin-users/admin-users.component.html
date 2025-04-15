@@ -12,7 +12,7 @@
         <ng-template pTemplate="body" let-user let-editing="editing" let-ri="rowIndex">
             <tr [pEditableRow]="user">
                 <td>
-                    <p-cellEditor>  
+                    <p-cellEditor>
                         <ng-template pTemplate="input">
                             <input
                                 pInputText type="text"
@@ -58,7 +58,7 @@
                 <td>
                     <div class="flex align-items-center justify-content-center gap-2">
                         <button
-                            *ngIf="!editing"
+                            *ngIf="!editing && !(user.id === authService.loggedUser()?.data.id && authService.isAdmin())"
                             pButton
                             pRipple
                             type="button"
@@ -68,7 +68,7 @@
                             class="p-button-rounded p-button-text">
                         </button>
                         <button
-                            *ngIf="editing"
+                            *ngIf="editing && !(user.id === authService.loggedUser()?.data.id && authService.isAdmin())"
                             pButton
                             pRipple
                             type="button"
@@ -78,7 +78,7 @@
                             class="p-button-rounded p-button-text p-button-success mr-2">
                         </button>
                         <button
-                            *ngIf="editing"
+                            *ngIf="editing && !(user.id === authService.loggedUser()?.data.id && authService.isAdmin())"
                             pButton pRipple
                             type="button"
                             pCancelEditableRow
@@ -97,14 +97,15 @@
                                 </div>
                             </ng-template>
                         </p-confirmPopup>
-                    <button
-                        pButton
-                        pRipple
-                        type="button"
-                        icon="pi pi-trash"
-                        class="p-button-rounded p-button-text p-button-danger"
-                        (click)="confirm($event, user)">
-                    </button>
+                        <button
+                            *ngIf="!(user.id === authService.loggedUser()?.data.id && authService.isAdmin())"
+                            pButton
+                            pRipple
+                            type="button"
+                            icon="pi pi-trash"
+                            class="p-button-rounded p-button-text p-button-danger"
+                            (click)="confirm($event, user)">
+                        </button>
                     </div>
                 </td>
             </tr>
