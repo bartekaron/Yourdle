@@ -1,30 +1,25 @@
 <p-dialog [(visible)]="visible" modal [closable]="true" [dismissableMask]="true" styleClass="profile-dialog">
-    <div class="profile-container">
-      <div class="profile-tabs">
-        <button (click)="Profile()" pButton label="Profilom" class="profile-btn"></button>
-        <button pButton label="Meccs előzmény" class="profile-btn"></button>
-      </div>
-  
-      <h2 class="profile-title">Meccs előzmény</h2>
-      <div class="match-history">
-        <table *ngIf="matches.length > 0; else noMatches">
-          <tr *ngFor="let match of matches" [ngClass]="getRowClass(match.result)">
-            <td>
-              <img [src]="match.opponentProfilePic" alt="{{ match.opponentName }}" class="profile-pic" />
-            </td>
-            <td class="opponent-name">{{ match.opponentName }}</td>
-            <td class="match-result">{{ getResultText(match.result) }}</td>
-          </tr>
-        </table>
-      
-        <!-- Ha nincs meccs, akkor ezt jelenítsd meg -->
-        <ng-template #noMatches>
-          <p class="no-matches-text">Még nincs lejátszott mérkőzés</p>
-        </ng-template>
-      </div>
-      
-
-
-
+  <div class="profile-container">
+    <div class="profile-tabs">
+      <button (click)="Profile()" pButton label="Profilom" class="profile-btn"></button>
+      <button pButton label="Meccs előzmény" class="profile-btn"></button>
     </div>
-  </p-dialog>
+
+    <h2 class="profile-title">Meccs előzmény</h2>
+    <div class="match-history">
+      <table *ngIf="matches.length > 0; else noMatches">
+        <tr *ngFor="let match of matches" [ngClass]="getRowClass(match.result)">
+          <td>
+            <img [src]="match.opponentProfilePic" alt="{{ match.opponentName }}" class="profile-pic" />
+          </td>
+          <td class="opponent-name">{{ match.opponentName }}</td>
+          <td class="match-result">{{ getResultText(match.result) }}</td>
+        </tr>
+      </table>
+    
+      <ng-template #noMatches>
+        <p class="no-matches-text">Még nincs lejátszott mérkőzés</p>
+      </ng-template>
+    </div>
+  </div>
+</p-dialog>

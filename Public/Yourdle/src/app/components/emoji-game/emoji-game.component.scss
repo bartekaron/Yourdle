@@ -1,188 +1,177 @@
+body {
+  background-color: #000;
+  color: #0ff;
+  font-family: 'Share Tech Mono', monospace;
+  margin: 0;
+  padding: 0;
+}
+
 .title {
-    font-size: 4rem;
-    font-weight: bold;
-    font-family: Do Hyeon;
-    color: white;
-    text-align: center;
-  }
-  /* Alap stílusok */
-  body {
-    background-color: #1e1e1e;  /* Sötét háttér */
-    color: white;  /* Fehér szöveg */
-  }
-  
+  font-size: 5rem;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  color: #0ff;
+  text-shadow: 0 0 5px #0ff, 0 0 15px #0ff, 0 0 30px #0ff;
+  animation: flicker 3s infinite alternate;
+}
 
-  
-  button:hover {
-    background-color: #0056b3;
-  }
-  
-  .previous-guesses {
-    margin-top: 20px;
-  }
-  
-  
-  .property {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 10px;
-  }
-  
-  .label {
-    font-weight: bold;
-    color: white;  /* Fehér szöveg */
-  }
-  
-  .value {
-    padding: 5px;
-    border-radius: 4px;
-    color: white;  /* Fehér szöveg */
-  }
-  
-  .correct {
-    background-color: green;
-  }
-  
-  .incorrect {
-    background-color: red;
-  }
-  
-  .hint-arrow {
-    font-size: 14px;
-    color: white;  /* Fehér szöveg */
-  }
-
-  .emoji-container {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    font-size: 3rem;
-    margin-bottom: 20px;
-    background: rgba(255, 255, 255, 0.2);
-    padding: 20px;
-    border-radius: 10px;
-    min-width: 300px;
-  }
-  
-  .emoji {
-    width: 100px; 
-    height: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 3rem;
-    background: transparent;
-    padding: 10px;
-    border-radius: 10px;
-  }
-  
-  
-  .guesses-container {
-    margin-top: 20px;
-    text-align: center;
-    min-width: 200px;
-    max-height: 200px; 
-    overflow-y: auto; 
-  }
-  
-  
-  .guess {
-    margin-bottom: 20px;
-    padding: 10px;
-    border-radius: 4px;
-    background-color: #2a2a2a;
-    color: white;
-    text-align: center;
-    width: 50%;
-  }
-
-  .correct-guess {
-    background-color: #43D403;
-    color: black;
-    width: 100%;
-  }
-  
-  .incorrect-guess {
-    background-color: #E84057;
-    color: black;
-    width: 100%;
-  }
-
-  .game-container {
+.emoji-container {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  gap: 15px;
+  font-size: 3rem;
+  margin-bottom: 2rem;
+  background: rgba(0, 255, 255, 0.1);
+  padding: 1.5rem;
+  border: 2px solid #0ff;
+  box-shadow: 0 0 20px #0ff;
+  border-radius: 1rem;
+  min-width: 320px;
+}
+
+.emoji {
+  width: 80px;
+  height: 80px;
+  display: flex;
   align-items: center;
   justify-content: center;
-  height: 40vh;
+  font-size: 3rem;
+  border: 2px solid #0ff;
+  border-radius: 0.5rem;
+  background-color: rgba(0, 255, 255, 0.05);
+  box-shadow: inset 0 0 10px #0ff;
+}
+
+.guesses-container {
+  margin-top: 1rem;
+  text-align: center;
+  max-height: 250px;
+  overflow-y: auto;
+  width: 80%;
+}
+
+.guess {
+  margin: 1rem auto;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background-color: #111;
+  border: 1px solid #0ff;
+  box-shadow: 0 0 10px #0ff;
+  font-weight: bold;
+  font-size: 1.2rem;
+  width: 100%;
+  max-width: 500px;
+}
+
+.correct-guess {
+  background-color: #359e6d;
+  text-shadow: 0 0 5px #0f0;
+}
+
+.incorrect-guess {
+  background-color: rgba(255, 0, 0, 0.2);
+  text-shadow: 0 0 5px #f00;
 }
 
 .input-container {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+  margin-bottom: 4rem;
   width: 100%;
 }
 
-.input-container {
-  display: flex;
-  align-items: center;
-  gap: 10px; /* Add spacing between the selector and the button */
-  justify-content: center;
-}
-
 p-autoComplete {
-  width: 300px !important;
-}
-  
-.navigation-buttons-container {
-  position: fixed;
-  bottom: 0;
-  width: 100%; /* Ensure full width */
-  background-color: black; /* Changed to black */
-  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-  padding: 10px 0;
-  display: flex;
-  justify-content: center;
-}
-
-.navigation-buttons {
-  display: flex;
-  gap: 10px;
-}
-
-.nav-button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.nav-button:hover {
-  background-color: #0056b3;
-  transform: scale(1.05);
-}
-
-.nav-button:active {
-  background-color: #004085;
-  transform: scale(0.95);
+  width: 320px !important;
+  font-family: 'Share Tech Mono', monospace;
 }
 
 .submit-button {
-  padding: 8px 12px;
-  background-color: #00A6ED;
-  border: none;
-  border-radius: 5px;
-  font-size: 18px;
+  background-color: transparent;
+  border: 2px solid #0ff;
+  border-radius: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  font-size: 1.2rem;
+  color: #0ff;
+  box-shadow: 0 0 10px #0ff;
   cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: #0ff;
+  color: #000;
+  box-shadow: 0 0 20px #0ff;
 }
 
 .arrow-icon {
   font-weight: bold;
-  color: black;
+}
+
+/* Container */
+.game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  min-height: 100vh;
+  padding-bottom: 6rem;
+}
+
+/* Navigáció */
+.navigation-buttons-container {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.95);
+  box-shadow: 0 -2px 10px #0ff;
+  padding: 1rem 0;
+  display: flex;
+  justify-content: center;
+  z-index: 10;
+  backdrop-filter: blur(4px);
+}
+
+.navigation-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.nav-button {
+  background-color: transparent;
+  color: #0ff;
+  border: 2px solid #0ff;
+  border-radius: 0.5rem;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  font-family: 'Share Tech Mono', monospace;
+  box-shadow: 0 0 10px #0ff;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.nav-button:hover {
+  background-color: #0ff;
+  color: #000;
+  box-shadow: 0 0 20px #0ff;
+}
+
+.nav-button:active {
+  transform: scale(0.95);
+  background-color: #0cf;
+  color: #000;
+}
+
+/* Flicker effect */
+@keyframes flicker {
+  0%, 18%, 22%, 25%, 53%, 57%, 100% {
+    opacity: 1;
+  }
+  20%, 24%, 55% {
+    opacity: 0.4;
+  }
 }

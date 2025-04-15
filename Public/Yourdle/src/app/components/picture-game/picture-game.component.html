@@ -1,6 +1,6 @@
 <h3 class="title">Picture Game</h3>
 <div class="game-container">
-  <div class="picture-container" style="display: flex; justify-content: center; align-items: center;">
+  <div class="picture-container">
     <img *ngIf="revealedPicture" [src]="revealedPicture" [style.filter]="'blur(' + blurLevel + 'px)'" alt="Revealed Picture" class="revealed-picture">
   </div>
 
@@ -19,7 +19,7 @@
                 [suggestions]="filteredCharacters"
                 (completeMethod)="filterCharacters($event)"
                 placeholder="Írd be a karakter nevét ...">
-    </p-autoComplete>>
+    </p-autoComplete>
     <button (click)="submitCharacter()" class="submit-button">
       <span class="arrow-icon">▶</span>
     </button>

@@ -1,120 +1,107 @@
 :host ::ng-deep .p-dialog {
-    background: radial-gradient(circle at top left, #354f63, #1e2d3d) !important;
-    border-radius: 20px;
-    padding: 2rem;
-    position: relative;
-    width: 1000px; /* Megnövelt szélesség */
-    max-width: 90vw; /* Kisebb kijelzőkhöz */
-    box-shadow: none !important; /* Árnyék eltávolítása */
-    border: none !important; /* Esetleges fekete csík eltüntetése */
-  }
-  
-  
-  .login-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1.2rem;
-    width: 100%;
-  }
-  
-  /* Bezáró gomb (X) */
-  .close-button {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    background: transparent;
-    border: none;
-    font-size: 1.8rem;
-    color: white;
-    cursor: pointer;
-  }
-  
-  .close-button:hover {
-    color: #ff6363;
-  }
-  
-  .login-title {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: white;
-  }
-  
-  .input-group {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-width: 400px; /* Nagyobb inputmezők */
-  }
-  
-  label {
-    color: white;
-    font-weight: 600;
-  }
-  
-  .custom-input {
-    background: rgba(255, 255, 255, 0.2);
-    border: none;
-    padding: 0.75rem;
-    color: white;
-    border-radius: 20px !important; 
-    width: 100%; 
-    box-sizing: border-box; 
-  }
-  
-  .custom-input:focus {
-    outline: none;
-    background: rgba(255, 255, 255, 0.3);
-  }
-  
-  .forgot-password {
-    align-self: flex-end;
-    margin-right: 10px;
-  }
-  
-  .forgot-password a {
-    color: white;
-    font-size: 0.9rem;
-    text-decoration: none;
-  }
-  
-  .forgot-password a:hover {
-    text-decoration: underline;
-  }
-  
-  .login-button {
-    background: #4a6fa5;
-    color: white;
-    font-weight: bold;
-    padding: 0.75rem;
-    width: 100%;
-    max-width: 300px;
-    border-radius: 20px; /* Lekerekített gomb */
-  }
-  
-  .register-link a {
-    color: white;
-    font-size: 0.9rem;
-    text-decoration: none;
-  }
-  
-  .register-link a:hover {
-    text-decoration: underline;
-  }
-  
-  .register-link a {
-    pointer-events: auto;  /* Biztosítja, hogy a link reagáljon a kattintásra */
-    z-index: 9999;         /* Megakadályozza, hogy más elemek eltakarják */
-  }
-  
-  .register-link a {
-    color: white;
-    font-size: 0.9rem;
-    text-decoration: none;
-    cursor: pointer; /* Ez változtatja a kurzort kattinthatóvá */
-  }
-  
-  .register-link a:hover {
-    text-decoration: underline;
-  }
-  
+  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+  border: 2px solid #0ff !important;
+  border-radius: 20px;
+  padding: 2rem;
+  width: 1000px;
+  max-width: 90vw;
+  box-shadow: 0 0 30px #0ff !important;
+  font-family: 'Share Tech Mono', monospace;
+}
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  width: 100%;
+  color: #0ff;
+}
+
+.login-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #0ff;
+  text-shadow: 0 0 10px #0ff;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 400px;
+}
+
+label {
+  color: #0ff;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  text-shadow: 0 0 5px #0ff;
+}
+
+.custom-input {
+  background: transparent;
+  border: 2px solid #0ff;
+  padding: 0.75rem;
+  color: #0ff;
+  border-radius: 12px !important;
+  width: 100%;
+  box-shadow: 0 0 10px #0ff;
+  font-family: 'Share Tech Mono', monospace;
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.custom-input:focus {
+  outline: none;
+  box-shadow: 0 0 20px #0ff;
+  border-color: #00f6ff;
+}
+
+.forgot-password {
+  align-self: flex-end;
+  margin-right: 10px;
+}
+
+.forgot-password a {
+  color: #0ff;
+  font-size: 0.9rem;
+  text-decoration: none;
+  text-shadow: 0 0 5px #0ff;
+}
+
+.forgot-password a:hover {
+  text-decoration: underline;
+  color: #00f6ff;
+}
+
+.login-button {
+  background: #0ff;
+  color: #000;
+  font-weight: bold;
+  padding: 0.75rem;
+  width: 100%;
+  max-width: 300px;
+  border-radius: 20px;
+  border: none;
+  box-shadow: 0 0 20px #0ff;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.login-button:hover {
+  background: #00f6ff;
+  box-shadow: 0 0 30px #0ff;
+}
+
+.register-link a {
+  color: #0ff;
+  font-size: 0.9rem;
+  text-decoration: none;
+  cursor: pointer;
+  text-shadow: 0 0 5px #0ff;
+  z-index: 9999;
+}
+
+.register-link a:hover {
+  text-decoration: underline;
+  color: #00f6ff;
+}

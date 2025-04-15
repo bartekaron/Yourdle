@@ -1,186 +1,122 @@
-:host ::ng-deep .p-dialog {
-    background: radial-gradient(circle at top left, #354f63, #1e2d3d) !important;
-    border-radius: 20px;
-    padding: 2rem;
-    width: 800px;
-    max-width: 90vw;
-    box-shadow: none !important;
-    border: none !important;
-  }
-    
-  .profile-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    position: relative; 
-  }
-    
-    .profile-tabs {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-    
-    .profile-btn {
-      background: #5c768d;
-      border: none;
-      padding: 10px 15px;
-      border-radius: 10px;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    
-    .profile-btn.active {
-      background: #88a0b8;
-    }
-    
-    .profile-title {
-      font-size: 24px;
-      margin-bottom: 10px;
-      color: white;
-    }
-    
-    .profile-image img {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      margin-bottom: 10px;
-      object-fit: cover;
-    }
-    
-    .profile-image-buttons {
-      display: flex;
-      gap: 10px;
-    }
-    
-    .input-group {
-      width: 80%;
-      margin: 10px 0;
-      display: flex;
-      flex-direction: column;
-    }
-    
-    .input-group label {
-      color: white;
-      font-size: 14px;
-      margin-bottom: 5px;
-    }
-    
-    .custom-input {
-      width: 100%;
-      padding: 8px;
-      border-radius: 5px;
-      border: none;
-    }
-    
-    .button-group {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      width: 80%;
-      margin-top: 15px;
-    }
-    
-    .save-button {
-      display: flex;
-      background-color: #4CAF50;
-      color: white;
-      padding: 10px;
-      align-self: center;
-      width: 60%;
-      border-radius: 5px;
-    }
-    
-    .password-button {
-      display: flex;
-      background-color: #1c52c5;
-      color: white;
-      padding: 10px;
-      align-self: center;
-      width: 60%;
-      border-radius: 5px;
-    }
-  
-    .exit-button {
-      position: absolute;
-      width: 100px;
-      bottom: 5px;
-      right: 1px;
-      font-size: 12px;  
-      padding: 5px 10px;
-      background-color: #685f5f;  
-      color: white;
-      border-radius: 5px;
-    }
-    
-    .match-history {
-      display: flex;
-      justify-content: center;
-    
-      table {
-        width: 90%; 
-        max-width: 1100px;
-        border-collapse: separate;
-        border-spacing: 0 15px;
-    
-        tr {
-          display: grid;
-          grid-template-columns: 100px 1fr 150px; 
-          align-items: center;
-          width: 500px;
-          height: 80px;
-          justify-content: space-between;
-          border-radius: 15px;
-          transition: transform 0.2s ease-in-out;
-          margin-bottom: 10px;
-    
-          &:hover {
-            transform: scale(1.03); 
-          }
-        }
-    
-        td {
-          padding: 10px 10px;
-          text-align: center;
-        }
-    
-        .profile-pic {
-          width: 60px; 
-          height: 60px;
-          border-radius: 50%;
-          object-fit: cover;
-          margin-right: 20px;
-        }
-    
-        .opponent-name {
-          font-weight: bold;
-          font-size: 1.2rem;
-          text-align: center;
-        }
-    
-        .match-result {
-          font-weight: bold;
-          font-size: 1.2rem;
-          text-align: center;
-        }
-      }
-    
-      .win {
-        background-color: #43D403;
-        color: black;
-      }
-    
-      .lose {
-        background-color: #E84057;
-        color: black;
-      }
-    
-      .draw {
-        background-color: #BDBDBD;
-        color: black;
-      }
-    }
-    
+:host ::ng-deep .p-dialog.profile-dialog {
+  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+  border: 2px solid #0ff !important;
+  border-radius: 20px;
+  padding: 2rem;
+  width: 800px; /* Növelt szélesség */
+  max-width: 90vw;
+  box-shadow: 0 0 20px #0ff !important;
+  font-family: 'Share Tech Mono', monospace;
+}
+
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  color: #0ff;
+  font-family: 'Share Tech Mono', monospace;
+}
+
+.profile-title {
+  font-size: 1.8rem; /* Növelt cím */
+  font-weight: bold;
+  color: #0ff;
+  text-shadow: 0 0 10px #0ff;
+}
+
+.profile-tabs {
+  margin-top: 10px;
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.profile-btn {
+  background: #0ff;
+  border: none;
+  color: #000;
+  padding: 0.4rem 1rem;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 0 10px #0ff;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.match-history {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+table {
+  width: 90%;
+  max-width: 1100px;
+  border-collapse: separate;
+  border-spacing: 0 15px;
+}
+
+tr {
+  display: grid;
+  grid-template-columns: 100px 1fr 150px;
+  align-items: center;
+  height: 80px;
+  justify-content: space-between;
+  background: #1a1a1a;
+  border-radius: 12px;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  margin-bottom: 10px;
+}
+
+tr:hover {
+  transform: scale(1.03);
+}
+
+td {
+  padding: 15px 10px;
+  text-align: center;
+}
+
+.profile-pic {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #0ff;
+  box-shadow: 0 0 10px #0ff;
+}
+
+.opponent-name {
+  font-weight: bold;
+  font-size: 1.4rem;
+  color: #f5f5f5;
+}
+
+.match-result {
+  font-weight: bold;
+  font-size: 1.4rem;
+  color: #f5f5f5;
+}
+
+.win {
+  background-color: #43d403;
+  color: #111;
+}
+
+.lose {
+  background-color: #e84057;
+  color: #111;
+}
+
+.draw {
+  background-color: #bdbdbd;
+  color: #111;
+}
+
+.no-matches-text {
+  color: #ffeb3b;
+  font-size: 1.2rem;
+  font-weight: bold;
+}

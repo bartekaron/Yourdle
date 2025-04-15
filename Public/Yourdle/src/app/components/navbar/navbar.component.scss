@@ -1,100 +1,135 @@
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+
 .navbar-container {
-    width: 100%;
-    background-color: #18181B;
-    position: relative;
-    z-index: 1000;
-  }
-  
-  /* Alapértelmezett navigációs menü */
+  width: 100%;
+  backdrop-filter: blur(6px);
+  background-color: rgba(0, 0, 0, 0.4);
+  border-bottom: 2px solid #0ff;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+  position: relative;
+  z-index: 1000;
+}
+
+.navbar {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 2rem;
+  margin: 0;
+  font-family: 'Share Tech Mono', monospace;
+  text-shadow: 0 0 5px #0ff;
+}
+
+.navbar li {
+  padding: 1rem;
+}
+
+.navbar a,
+.navbar button {
+  color: #0ff;
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  font-family: 'Share Tech Mono', monospace;
+  transition: all 0.3s ease;
+  text-shadow: 0 0 5px #0ff;
+}
+
+.navbar a:not(.logo a):hover,
+.navbar button:not(:has(img)):hover {
+  color: #000;
+  background-color: #0ff;
+  padding: 0.5rem 0.5rem;
+  border-radius: 8px;
+  box-shadow: 0 0 20px #0ff;
+}
+
+
+.navbar .logo {
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.logo img {
+  height: 40px;
+  width: auto;
+  display: block;
+  filter: drop-shadow(0 0 5px #0ff);
+  transition: transform 0.3s ease;
+}
+
+.logo img:hover {
+  transform: scale(1.05);
+}
+
+.logo a {
+  display: flex;
+  align-items: center;
+}
+
+.navbar .spacer {
+  flex-grow: 1;
+}
+
+/* Hamburger */
+.hamburger {
+  display: none;
+  background: none;
+  border: 2px solid #0ff;
+  font-size: 24px;
+  color: #0ff;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  font-family: 'Share Tech Mono', monospace;
+  box-shadow: 0 0 10px #0ff;
+  border-radius: 6px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 1100;
+  transition: all 0.3s ease;
+}
+
+.hamburger:hover {
+  background-color: #0ff;
+  color: #000;
+  box-shadow: 0 0 20px #0ff;
+}
+
+/* Mobil */
+@media (max-width: 768px) {
   .navbar {
-    list-style: none;
-    display: flex;
-    align-items: center;
-    padding: 0;
-    margin: 0;
-  }
-  
-  /* Menüelemek */
-  .navbar li {
-    padding: 10px 10px;
-  }
-  
-  .navbar a, .navbar button {
-    color: white;
-    text-decoration: none;
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  
-  .navbar a:hover, .navbar button:hover {
-    color: #00BFFF;
-  }
-  
-  .navbar .logo {
-    font-weight: bold;
-    font-size: 20px;
+    flex-direction: column;
+    background-color: rgba(0, 0, 0, 0.9);
+    position: absolute;
+    width: 100%;
+    top: 60px;
+    left: 0;
+    display: none;
+    border-top: 1px solid #0ff;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
   }
 
-  .logo img {
-    height: 40px; /* Kép magassága */
-    width: auto; /* Automatikus szélesség */
+  .navbar.open {
+    display: flex;
+  }
+
+  .hamburger {
     display: block;
   }
-  
-  .logo a {
-    display: flex;
-    align-items: center;
-  }
-  
-  
+
   .navbar .spacer {
-    flex-grow: 1;
+    display: none;
   }
-  
-  /* Hamburger gomb */
-  .hamburger {
-    display: none; /* Alapból rejtett */
-    background: none;
-    border: none;
-    font-size: 24px;
-    color: white;
-    cursor: pointer;
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    z-index: 1100;
-  }
-  
-  /* Mobilnézet (max 768px) */
-  @media (max-width: 768px) {
-    .navbar {
-      flex-direction: column;
-      background-color: #18181B;
-      position: absolute;
-      width: 100%;
-      top: 50px;
-      left: 0;
-      display: none; /* Alapból elrejtve */
-    }
-  
-    .navbar.open {
-      display: flex; /* Megnyitva mutatja a menüt */
-    }
-  
-    .hamburger {
-      display: block; /* Mobilon látható lesz */
-    }
-  
-    .navbar .spacer {
-      display: none;
-    }
-  }
-  
-  .profile-pic {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-  }
-  
+}
+
+.profile-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-left: 0.5rem;
+  box-shadow: 0 0 10px #0ff;
+}

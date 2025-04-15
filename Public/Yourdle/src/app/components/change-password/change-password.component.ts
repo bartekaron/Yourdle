@@ -35,25 +35,37 @@ export class ChangePasswordComponent {
 
   ChangePassword() {
     if (this.passwordData.passwd !== this.passwordData.confirm) {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Jelszavak nem egyeznek!' });
+      this.messageService.add({ 
+        severity: 'error', 
+        summary: 'Hiba', 
+        detail: 'A két jelszó nem egyezik meg!' 
+      });
+      return;
     }
 
     this.api.ChangePassword(this.user.data.id, this.passwordData).subscribe({
       next: (res: any) => {
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Jelszó sikeresen megváltoztatva!' });
+        this.messageService.add({ 
+          severity: 'success', 
+          summary: 'Siker', 
+          detail: 'A jelszó sikeresen megváltozott!' 
+        });
         this.passwordData = {
-          oldpasswd:"",
+          oldpasswd: "",
           passwd: "",
           confirm: ""
-        }
+        };
         this.closeDialog();
       },
       error: (err) => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: err.error?.message || 'Hiba történt a jelszó módosításakor!' });
+        this.messageService.add({ 
+          severity: 'error', 
+          summary: 'Hiba', 
+          detail: err.error?.message || 'Hiba történt a jelszó módosításakor!' 
+        });
       }
     });
   }
-
 
   showDialog() {
     this.user = this.auth.loggedUser();
@@ -63,26 +75,23 @@ export class ChangePasswordComponent {
   closeDialog() {
     this.visible = false;
     this.user = {
-      oldpasswd:"",
+      oldpasswd: "",
       passwd: "",
       confirm: ""
-    }
+    };
   }
 
-
-    Profile(){
-      if (ProfileComponent.instance) {
-        this.closeDialog();
-        ProfileComponent.instance.showDialog();
-      } 
-    }
+  Profile() {
+    if (ProfileComponent.instance) {
+      this.closeDialog();
+      ProfileComponent.instance.showDialog();
+    } 
+  }
   
-    MatchHistory(){
-      if (MatchHistoryComponent.instance) {
-        this.closeDialog();
-        MatchHistoryComponent.instance.showDialog();
-      } 
-    }
-
-    
+  MatchHistory() {
+    if (MatchHistoryComponent.instance) {
+      this.closeDialog();
+      MatchHistoryComponent.instance.showDialog();
+    } 
+  }
 }
