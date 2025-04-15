@@ -51,9 +51,15 @@ confirm(event: Event, user:any) {
       message: 'Delete user?',
       accept: () => {
         let email = user.email;
-          this.api.deleteByEmail(email).subscribe(res=>{
-            this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'User deleted'});
-            this.getUsers();
+          this.api.deleteByEmail(email).subscribe((res:any)=>{
+            if(res.user.success){
+              this.messageService.add({ severity: 'success', summary: 'Siker', detail: res.user.message });
+              this.getUsers();
+            }
+            else{
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: res.user.message });
+            }
+            
           })
  
       },
@@ -96,8 +102,14 @@ onRowEditSave(user: any) {
         role: user.role
       }
       console.log(data);
-      this.api.editUser(id, data).subscribe(res =>{
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'User is updated' });
+      this.api.editUser(id, data).subscribe((res:any) =>{
+        if (res.user.success) {
+          this.messageService.add({ severity: 'success', summary: 'Siker', detail: res.user.message });
+          this.getUsers();
+        }
+        else{
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: res.user.message });
+        }
       });
 }
  

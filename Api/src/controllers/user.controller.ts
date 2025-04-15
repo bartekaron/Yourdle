@@ -174,7 +174,7 @@ export const deleteUser = async (req, res, next) => {
         }
 
         const user = await deleteUserByEmail(email);
-        res.status(200).json({ success: true, user });
+        res.status(200).json({ user });
     } catch (err) {
         next(err);
     }
@@ -191,7 +191,7 @@ export const editUser = async (req, res, next) => {
         }
  
         const user = await editUserService(id, name, email, role);
-        res.status(200).json({ success: true, user });
+        res.status(200).json({ user });
     } catch (err) {
         next(err);
     }
