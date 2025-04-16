@@ -3,7 +3,7 @@
     <h2 class="login-title">Regisztráció</h2>
 
     <div class="input-group">
-      <label for="name">Felhasználó név</label>
+      <label for="name">Felhasználónév</label>
       <input [(ngModel)]="user.name" id="name" type="text" pInputText class="custom-input" />
     </div>
 
@@ -25,3 +25,5 @@
     <button pButton (click)="Register()" label="Regisztráció" class="login-button"></button>
   </div>
 </p-dialog>
+
+<p-toast />
