@@ -67,6 +67,13 @@ export const changePassword = async (req, res, next) => {
         const { oldpasswd, passwd, confirm } = req.body;
         const userId  = req.params.id; 
 
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+        if (!passwordRegex.test(passwd)) {
+            return res.status(400).json({
+                success: false,
+                message: 'A jelszónak legalább 8 karakter hosszúnak kell lennie, tartalmaznia kell kis- és nagybetűt, valamint számot!'
+            });
+        }
 
         if (!oldpasswd || !passwd || !confirm) {
             return res.status(400).json({ success: false, message: 'Hiányzó adatok!' });
