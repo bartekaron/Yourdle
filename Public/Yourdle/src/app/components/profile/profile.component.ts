@@ -69,12 +69,12 @@ export class ProfileComponent implements OnInit {
         this.api.uploadFile(event.files[0], this.user.id).subscribe((res:any)=>{
           if (res) {
             const newImageUrl = res.image || 'http://localhost:3000/uploads/placeholder.png';
-            this.messageService.add({ severity: 'info', summary: 'Success', detail: 'Sikeres profilkép feltöltés' });
+            this.messageService.add({ severity: 'info', summary: 'Sikeres mentés', detail: 'Sikeres profilkép feltöltés' });
             this.user.image = URL.createObjectURL(event.files[0]);
             this.auth.updateUserData({ data: { ...this.user, image: newImageUrl } });
           }
           else{
-            this.messageService.add({ severity: 'error', summary: 'Hiba', detail: 'A kép feltöltése sikertelen.' });
+            this.messageService.add({ severity: 'error', summary: 'Hiba', detail: 'A kép feltöltése sikertelen!' });
           }
         })  
       })
@@ -88,12 +88,12 @@ export class ProfileComponent implements OnInit {
       this.api.uploadFile(event.files[0], this.user.id).subscribe((res:any)=>{
         if (res) {
           const newImageUrl = res.image || 'http://localhost:3000/uploads/placeholder.png';
-          this.messageService.add({ severity: 'info', summary: 'Success', detail: 'Sikeres profilkép feltöltés' });
+          this.messageService.add({ severity: 'info', summary: 'Sikeres mentés', detail: 'Sikeres profilkép feltöltés!' });
           this.user.image = URL.createObjectURL(event.files[0]);
           this.auth.updateUserData({ data: { ...this.user, image: newImageUrl } });
         }
         else{
-          this.messageService.add({ severity: 'error', summary: 'Hiba', detail: 'A kép feltöltése sikertelen.' });
+          this.messageService.add({ severity: 'error', summary: 'Hiba', detail: 'A kép feltöltése sikertelen!' });
         }
       })
     }
@@ -125,11 +125,11 @@ export class ProfileComponent implements OnInit {
               this.auth.updateUserData({ data: this.user });
               this.auth.logout();
               this.auth.login(res.user.token)
-              this.messageService.add({severity: 'success', summary: 'Sikeres mentés', detail: 'A profil frissítése sikerült.'});
+              this.messageService.add({severity: 'info', summary: 'Sikeres mentés', detail: 'A profil frissítése sikerült!'});
               this.closeDialog();
             }
             else{
-              this.messageService.add({severity: 'error', summary: 'Hiba', detail: 'A profil frissítése sikertelen volt.' });
+              this.messageService.add({severity: 'error', summary: 'Hiba', detail: 'A profil frissítése sikertelen volt!' });
             }
         }
     );
@@ -146,10 +146,10 @@ export class ProfileComponent implements OnInit {
         this.api.deleteProfilePicture(this.user.id).subscribe((res: any) => {
           if (res.success) {
             this.user.image = "http://localhost:3000/uploads/placeholder.png"; 
-            this.messageService.add({ severity: 'success', summary: 'Siker', detail: 'Profilkép sikeresen törölve!' });
+            this.messageService.add({ severity: 'info', summary: 'Sikeres törlés', detail: 'Profilkép sikeresen törölve!' });
             this.auth.updateUserData({ data: { ...this.user, image: 'http://localhost:3000/uploads/placeholder.png' } });
           } else {
-            this.messageService.add({ severity: 'error', summary: 'Hiba', detail: 'Nem sikerült törölni a profilképet.' });
+            this.messageService.add({ severity: 'error', summary: 'Hiba', detail: 'Nem sikerült törölni a profilképet!' });
           }
         });
       }
@@ -160,7 +160,7 @@ export class ProfileComponent implements OnInit {
   Logout(){
     this.auth.logout();
     this.closeDialog();
-    this.messageService.add({severity: 'success', summary: 'Kilépés', detail: 'Sikeres kijelentkezés.', life: 2000});
+    this.messageService.add({severity: 'success', summary: 'Kilépés', detail: 'Sikeres kijelentkezés!', life: 2000});
     this.router.navigateByUrl("/")
   }
 
