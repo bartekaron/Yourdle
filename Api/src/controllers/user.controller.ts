@@ -1,13 +1,14 @@
 import { checkOldPassword, deleteProfilePictureService, getMatchHistory, getOneUser, loginUser, registerUser, updatePassword, updateUserProfile, getAllUsersService, deleteUserByEmail, editUserService } from "../services/user.service";
 import { decrypt } from "../utils/decrypt";
-
-
+const { pool } = require ("../config/database")
+import { promisify } from 'util';
+const query = promisify(pool.query).bind(pool);
 
 export const login = async (req, res, next) => {
     try {
         const { email, passwd } = req.body;
         if (!email || !passwd) {
-            return res.status(400).json({ success:false, message: "Hiányzó adatok" });
+            return res.status(400).json({ success:false, message: "Hiányzó adatok!" });
         }
         const token = await loginUser(email, passwd);
         res.status(200).json({ success:true, token });
@@ -29,6 +30,27 @@ export const register = async (req, res, next) => {
 
         if (!validateEmail(email)) {
             return res.status(400).json({ success: false, message: 'Érvénytelen email cím!' });
+        }
+
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+        if (!passwordRegex.test(password)) {
+            return res.status(400).json({
+                success: false,
+                message: 'A jelszónak legalább 8 karakter hosszúnak kell lennie, tartalmaznia kell kis- és nagybetűt, valamint számot!'
+            });
+        }
+
+        const existingUsers = await query(
+            'SELECT * FROM users WHERE email = ? OR name = ?',
+            [email, name]
+        );
+
+        if (existingUsers.length > 0) {
+            const alreadyTaken = existingUsers[0].email === email ? 'email' : 'felhasználónév';
+            return res.status(400).json({
+                success: false,
+                message: `Ez a ${alreadyTaken} már regisztrálva van!`
+            });
         }
 
         const role = 'user';

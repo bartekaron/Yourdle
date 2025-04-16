@@ -146,7 +146,7 @@ p-dropdown, p-checkbox {
   font-family: 'Share Tech Mono', monospace;
 }
 
-::ng-deep .p-dialog .p-dialog-header {
+:host ::ng-deep .p-dialog .p-dialog-header {
   background: transparent;
   color: #0ff;
   border-bottom: 1px solid #0ff;
@@ -155,19 +155,19 @@ p-dropdown, p-checkbox {
   font-weight: bold;
 }
 
-::ng-deep .p-dialog .p-dialog-content {
+:host ::ng-deep .p-dialog .p-dialog-content {
   padding: 1.5rem;
   color: #ccc;
   font-family: 'Share Tech Mono', monospace;
 }
 
-::ng-deep .p-dialog .p-dialog-footer {
+:host ::ng-deep .p-dialog .p-dialog-footer {
   border-top: 1px solid #0ff;
   background: transparent;
   padding: 1rem;
 }
 
-::ng-deep .p-dialog .p-button {
+:host ::ng-deep .p-dialog .p-button {
   background-color: transparent !important;
   border: 2px solid #0ff !important;
   color: #0ff !important;
@@ -175,7 +175,7 @@ p-dropdown, p-checkbox {
   font-family: 'Share Tech Mono', monospace;
 }
 
-::ng-deep .p-dialog .p-button:hover {
+:host ::ng-deep .p-dialog .p-button:hover {
   background-color: #0ff !important;
   color: #000 !important;
   box-shadow: 0 0 20px #0ff;
