@@ -42,6 +42,7 @@ export class LoginComponent {
     this.api.login(this.user).subscribe({
       next: (res: any) => {
         this.auth.login(res.token);
+        this.auth.initialize();
         this.messageService.add({
           severity: 'success',
           summary: 'Sikeres bejelentkezés',
