@@ -11,6 +11,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmPopup } from 'primeng/confirmpopup';
 import { FormsModule } from '@angular/forms';
 import { FloatLabelModule } from 'primeng/floatlabel';
+import { AuthService } from '../../services/auth.service';
  
  
 @Component({
@@ -29,7 +30,7 @@ export class AdminUsersComponent {
  
   clonedUsers: { [s: string]: any } = {};
  
-  constructor(private api: ApiService, private messageService: MessageService, private confirmationService: ConfirmationService) {}
+  constructor(private api: ApiService, private messageService: MessageService, private confirmationService: ConfirmationService, public authService: AuthService) {}
  
   ngOnInit(): void {
    this.getUsers();
@@ -57,7 +58,8 @@ confirm(event: Event, user:any) {
               this.getUsers();
             }
             else{
-              this.messageService.add({ severity: 'error', summary: 'Error', detail: res.user.message });
+              this.messageService.add({ severity: 'error', summary: 'Hiba', detail: res.user.message });
+
             }
             
           })
@@ -108,7 +110,7 @@ onRowEditSave(user: any) {
           this.getUsers();
         }
         else{
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: res.user.message });
+          this.messageService.add({ severity: 'error', summary: 'Hiba', detail: res.user.message });
         }
       });
 }
