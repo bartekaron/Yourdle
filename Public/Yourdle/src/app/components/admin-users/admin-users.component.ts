@@ -59,6 +59,7 @@ confirm(event: Event, user:any) {
             }
             else{
               this.messageService.add({ severity: 'error', summary: 'Hiba', detail: res.user.message });
+
             }
             
           })

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Már 29. 13:07
+-- Létrehozás ideje: 2025. Ápr 15. 10:18
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -20,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Adatbázis: `yourdle`
 --
-CREATE DATABASE IF NOT EXISTS `yourdle` DEFAULT CHARACTER SET utf8 COLLATE utf8_hungarian_ci;
-USE `yourdle`;
 
 -- --------------------------------------------------------
 
@@ -46,8 +44,6 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`id`, `categoryName`, `userID`, `classic`, `quote`, `emoji`, `picture`, `description`, `public`) VALUES
-('asf', 'fiu', '05d30dda-6021-47fc-b944-7f0508d3de43', 1, 1, 1, 0, 0, 1),
-('f8ab88de-103c-4f88-b929-bdb46baf76ec', 'asfsafa', '1fabc600-f55e-4348-9cfa-3c0b52227055', 1, 0, 0, 0, 0, 1),
 ('safafcsacsadas', 'emoji', '79dd2b70-259b-48dc-bf8e-49f872df6770', 0, 0, 1, 0, 0, 1);
 
 -- --------------------------------------------------------
@@ -67,14 +63,6 @@ CREATE TABLE `classic` (
   `address` varchar(40) NOT NULL,
   `age` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
-
---
--- A tábla adatainak kiíratása `classic`
---
-
-INSERT INTO `classic` (`id`, `categoryID`, `answer`, `gender`, `height`, `weight`, `hairColor`, `address`, `age`) VALUES
-('359ec28e-7b7a-4e17-a396-08b3ed8c629c', 'f8ab88de-103c-4f88-b929-bdb46baf76ec', 'afsaf', '2', 2, 2, '2', '2', 2),
-('ad', 'asf', 'faf', 'f', 2, 2, '3', '3', 34);
 
 -- --------------------------------------------------------
 
@@ -129,15 +117,6 @@ CREATE TABLE `games` (
   `finishedAt` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
---
--- A tábla adatainak kiíratása `games`
---
-
-INSERT INTO `games` (`id`, `categoryID`, `player1ID`, `player2ID`, `winnerID`, `finishedAt`) VALUES
-('faccsasc', 'asf', '1d9c9c5f-a535-4bc8-a8a3-a23d1617f779', '1fabc600-f55e-4348-9cfa-3c0b52227055', '', '2025-02-18'),
-('gafs', 'asf', '05d30dda-6021-47fc-b944-7f0508d3de43', '1fabc600-f55e-4348-9cfa-3c0b52227055', '05d30dda-6021-47fc-b944-7f0508d3de43', '2025-02-21'),
-('vcac', 'asf', '79dd2b70-259b-48dc-bf8e-49f872df6770', '1fabc600-f55e-4348-9cfa-3c0b52227055', '1fabc600-f55e-4348-9cfa-3c0b52227055', '2025-02-21');
-
 -- --------------------------------------------------------
 
 --
@@ -178,8 +157,7 @@ CREATE TABLE `leaderboard` (
 --
 
 INSERT INTO `leaderboard` (`id`, `userID`, `wins`, `losses`, `draws`) VALUES
-('afafsasffa', '79dd2b70-259b-48dc-bf8e-49f872df6770', 31, 2, 31),
-('afsasfacscsasacsadafsaf', '05d30dda-6021-47fc-b944-7f0508d3de43', 23, 11, 34);
+('afafsasffa', '79dd2b70-259b-48dc-bf8e-49f872df6770', 31, 2, 31);
 
 -- --------------------------------------------------------
 
@@ -207,13 +185,6 @@ CREATE TABLE `quote` (
   `quote` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
---
--- A tábla adatainak kiíratása `quote`
---
-
-INSERT INTO `quote` (`id`, `categoryID`, `answer`, `quote`) VALUES
-('2124', 'asf', 'ads', 'adda');
-
 -- --------------------------------------------------------
 
 --
@@ -234,9 +205,6 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `passwd`, `role`, `profilePic`) VALUES
-('05d30dda-6021-47fc-b944-7f0508d3de43', 'Béla3', 'bela@gmail.com', '$2b$10$V7CBUXaQhKVtUuQuIOAtbO4Vi2.lxLdd3nm0ZgJOxWdCU/ktGX5dC', 'user', NULL),
-('1d9c9c5f-a535-4bc8-a8a3-a23d1617f779', 'Teszt Erik', 'teszterik@gmail.com', '$2b$10$ZxsW6QVvX.yyT/AQ41BDue9IyrCsVCcylmL6FlFdgR6rp8YBsKEjy', 'user', NULL),
-('1fabc600-f55e-4348-9cfa-3c0b52227055', 'Teszt Elek', 'tesztelek@gmail.com', '$2b$10$UHwwaNG21dhq1rqX3UHNYObgdMJ13QBm.kqNtBl9vViX5m/L0kbPi', 'user', NULL),
 ('79dd2b70-259b-48dc-bf8e-49f872df6770', 'admin', 'admin@gmail.com', '$2b$10$zUIG97njFyFgfL7eXerzqOJVlZ.1saSCBqBfiDZSC9YhJyKn5s0mO', 'admin', NULL);
 
 -- --------------------------------------------------------
@@ -330,7 +298,7 @@ ALTER TABLE `users`
 -- Megkötések a táblához `categories`
 --
 ALTER TABLE `categories`
-  ADD CONSTRAINT `Categories_fk2` FOREIGN KEY (`userID`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `categories_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
 -- Megkötések a táblához `classic`
@@ -360,7 +328,7 @@ ALTER TABLE `games`
 -- Megkötések a táblához `leaderboard`
 --
 ALTER TABLE `leaderboard`
-  ADD CONSTRAINT `Leaderboard_fk1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `leaderboard_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
 -- Megkötések a táblához `picture`

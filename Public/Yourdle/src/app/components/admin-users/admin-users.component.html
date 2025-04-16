@@ -2,11 +2,11 @@
     <p-table [value]="users" dataKey="id" editMode="row" [tableStyle]="{'min-width': '50rem'}" [paginator]="true" [rows]="10" >
         <ng-template pTemplate="header">
             <tr>
-                <th style="width:20%">Name</th>
+                <th style="width:20%">Név</th>
                 <th style="width:20%">Email</th>
-                <th style="width:20%">Role</th>
-                <th style="width:20%">Profilepicture</th>
-                <th style="width:20%">Actions</th>
+                <th style="width:20%">Rang</th>
+                <th style="width:20%">Profil kép</th>
+                <th style="width:20%">Műveletek</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-user let-editing="editing" let-ri="rowIndex">
