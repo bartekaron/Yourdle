@@ -54,6 +54,13 @@ export class RestorepassComponent implements OnInit{
       this.message.add({ severity: 'error', summary: 'Hiba', detail: 'A megadott jelszavak nem egyeznek!' });
       return;
     }
+
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+        if (!passwordRegex.test(this.newpass)) {
+            this.message.add({ severity: 'error', summary: 'Hiba', detail: 'A jelszónak legalább 8 karakter hosszúnak kell lennie, tartalmaznia kell kis- és nagybetűt, valamint számot!' });
+            return;
+
+        }
   
     this.newpass = await bcrypt.hash(this.newpass, 10);
     console.log(this.newpass);
@@ -72,7 +79,7 @@ export class RestorepassComponent implements OnInit{
   
     this.api.updatePasswd('users', 'id', 'eq', this.userID, data).subscribe(
       res => {
-        this.message.add({ severity: 'success', summary: 'Ok', detail: 'Jelszó módosítva!' });
+        this.message.add({ severity: 'success', summary: 'Siker', detail: 'Jelszó módosítva!' });
         this.router.navigate(['/']);
       },
       err => {
