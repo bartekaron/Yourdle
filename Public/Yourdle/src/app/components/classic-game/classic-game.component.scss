@@ -23,18 +23,30 @@ body {
 }
 
 /* Autocomplete mező + gomb */
-.autocomplete-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 2rem;
-  gap: 10px;
+::ng-deep p-autoComplete.custom-autocomplete {
+  width: 400px !important;
 }
 
-p-autoComplete {
-  width: 320px !important;
+::ng-deep p-autoComplete.custom-autocomplete .p-inputtext {
+  width: 100% !important;
   font-family: 'Share Tech Mono', monospace;
+  font-size: 1.1rem;
+  padding: 0.6rem;
+  color: #0ff;
+  background-color: rgba(0, 0, 0, 0.6);
+  border: 2px solid #0ff;
+  box-shadow: 0 0 10px #0ff;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
 }
+
+::ng-deep p-autoComplete.custom-autocomplete .p-inputtext:focus {
+  box-shadow: 0 0 20px #0ff;
+  border-color: #0ff;
+  outline: none;
+}
+
+
 
 .submit-button {
   background-color: transparent;
@@ -72,20 +84,12 @@ p-autoComplete {
   text-align: center;
   background-color: rgba(0, 0, 0, 0.7);
   box-shadow: 0 0 20px #0ff;
-  border-radius: 1rem;
   overflow: hidden;
 }
 
 .guess-table th, .guess-table td {
   padding: 1rem;
   border: 1px solid #0ff;
-}
-
-.guess-table th {
-  background-color: #011;
-  color: #0ff;
-  font-size: 1.1rem;
-  text-shadow: 0 0 5px #0ff;
 }
 
 .correct {

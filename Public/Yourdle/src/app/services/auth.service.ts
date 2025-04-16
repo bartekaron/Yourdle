@@ -14,7 +14,7 @@ export class AuthService {
   }
 
   private tokenName = environment.tokenName;
-
+  private logoutTimer: any = null;
   private isLoggedIn = new BehaviorSubject<boolean>(this.hasToken());
   isLoggedIn$: Observable<boolean> = this.isLoggedIn.asObservable();
 
@@ -24,6 +24,24 @@ export class AuthService {
   private hasToken():boolean{
     return !!localStorage.getItem(this.tokenName);
   }
+
+
+
+
+  private setLogoutTimer(exp: number) {
+    const now = Date.now();
+    const expirationTime = exp * 1000;
+    const timeUntilLogout = expirationTime - now;
+  
+    if (timeUntilLogout > 0) {
+      this.logoutTimer = setTimeout(() => {
+        this.logout();
+      }, timeUntilLogout);
+    } else {
+      this.logout(); 
+    }
+  }
+  
 
   decodeToken(token: string): any {
     try {
@@ -39,12 +57,20 @@ export class AuthService {
     localStorage.setItem(environment.tokenName, token);
     this.isLoggedIn.next(true);
     this.userSubject.next(this.loggedUser());
+    const decoded = this.decodeToken(token);
+    if (decoded?.exp) {
+      this.setLogoutTimer(decoded.exp);
+    }
   }
 
   logout(){
     localStorage.removeItem(environment.tokenName);
     this.isLoggedIn.next(false);
     this.userSubject.next(null);
+    if (this.logoutTimer) {
+      clearTimeout(this.logoutTimer);
+      this.logoutTimer = null;
+    }
   }
 
   loggedUser(){
@@ -77,9 +103,14 @@ export class AuthService {
   initialize() {
     const token = localStorage.getItem(this.tokenName);
     if (token) {
+      const decoded = this.decodeToken(token);
+      if (decoded?.exp) {
+        this.setLogoutTimer(decoded.exp);
+      }
       this.loadUserFromToken(token);
     }
-}
+  }
+  
 
 loadUserFromToken(token: string) {
   const payload = this.decodeToken(token); 

@@ -21,7 +21,8 @@
                 (onSelect)="onCharacterSelect($event)"
                 [suggestions]="filteredCharacters"
                 (completeMethod)="filterCharacters($event)"
-                placeholder="Írd be a karakter nevét ...">
+                placeholder="Írd be a karaktert..."
+                class="custom-autocomplete">
     </p-autoComplete>
     <button (click)="submitCharacter()" class="submit-button">
       <span class="arrow-icon">▶</span>

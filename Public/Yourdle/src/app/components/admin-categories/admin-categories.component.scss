@@ -63,7 +63,6 @@
     border: 2px solid #00ffcc;
     color: #00ffcc;
     font-family: 'Share Tech Mono', monospace;
-
     font-size: 1rem;
     border-radius: 0.5rem;
     box-shadow: 0 0 10px #00ffcc;
@@ -94,33 +93,33 @@
   }
   
   /* Dialog */
-  .p-dialog {
+  :host ::ng-deep .p-dialog {
     background-color: rgba(10, 10, 30, 0.95);
     border: 2px solid #00ffcc;
     box-shadow: 0 0 30px #00ffcc;
     border-radius: 1rem;
     font-family: 'Share Tech Mono', monospace;
-
+    max-height: 45vh;
     color: #00ffcc;
   }
   
-  .p-dialog .p-dialog-header {
+  
+  :host ::ng-deep .p-dialog .p-dialog-header {
     background-color: rgba(0, 0, 0, 0.8);
     color: #00ffcc;
+    pointer-events: none;
     text-shadow: 0 0 5px #00ffcc;
     font-size: 1.3rem;
   }
-  
-  .p-dialog .p-dialog-content p {
+
+  :host ::ng-deep .p-dialog .p-dialog-content p {
     margin-bottom: 0.5rem;
     color: #ffffff;
-    text-shadow: 0 0 4px #00ffcc;
   }
-  
-  .p-dialog img {
+
+  :host ::ng-deep .p-dialog img {
     border-radius: 0.5rem;
     border: 2px solid #00ffcc;
-    box-shadow: 0 0 10px #00ffcc;
   }
   
   /* ConfirmPopup */

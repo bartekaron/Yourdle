@@ -74,6 +74,12 @@ export class PictureGameComponent {
         if (data.data && Array.isArray(data.data)) {
           const character = data.data.find((char: any) => char.answer === characterToSubmit);
           if (character) {
+            if (this.selectedCharacter === this.targetCharacter.answer) {
+              this.blurLevel = 0; // Remove blur effect
+            } else {
+              // Decrease blur level with each incorrect guess
+              this.blurLevel = Math.max(0, this.blurLevel - 5);
+            }
             this.previousGuesses.unshift(character.answer);  // Új tipp hozzáadása a lista elejére
             this.names = this.names.filter(name => name !== character.answer);
             this.filteredCharacters = [...this.names];

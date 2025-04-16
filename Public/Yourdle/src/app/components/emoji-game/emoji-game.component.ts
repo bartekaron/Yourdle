@@ -88,7 +88,7 @@ export class EmojiGameComponent {
               this.previousGuesses.unshift(character.answer);
               
               if (this.selectedCharacter === this.targetCharacter.answer) {
-                alert("Helyes válasz!");
+               
                 this.revealedEmojis = [...this.allEmojis];
               } else if (this.revealedEmojis.length < this.allEmojis.length) {
                 this.revealedEmojis.push(this.allEmojis[this.revealedEmojis.length]);

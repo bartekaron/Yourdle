@@ -13,7 +13,10 @@ body {
   margin-top: 2rem;
   margin-bottom: 2rem;
   color: #0ff;
-  text-shadow: 0 0 5px #0ff, 0 0 15px #0ff, 0 0 30px #0ff;
+  text-shadow:
+    0 0 5px #0ff,
+    0 0 15px #0ff,
+    0 0 30px #0ff;
   animation: flicker 3s infinite alternate;
 }
 
@@ -85,9 +88,27 @@ body {
   width: 100%;
 }
 
-p-autoComplete {
-  width: 320px !important;
+::ng-deep p-autoComplete.custom-autocomplete {
+  width: 400px !important;
+}
+
+::ng-deep p-autoComplete.custom-autocomplete .p-inputtext {
+  width: 100% !important;
   font-family: 'Share Tech Mono', monospace;
+  font-size: 1.1rem;
+  padding: 0.6rem;
+  color: #0ff;
+  background-color: rgba(0, 0, 0, 0.6);
+  border: 2px solid #0ff;
+  box-shadow: 0 0 10px #0ff;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+::ng-deep p-autoComplete.custom-autocomplete .p-inputtext:focus {
+  box-shadow: 0 0 20px #0ff;
+  border-color: #0ff;
+  outline: none;
 }
 
 .submit-button {

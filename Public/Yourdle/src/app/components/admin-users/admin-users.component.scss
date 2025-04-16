@@ -26,6 +26,18 @@
     box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
   }
   
+  .p-button-danger {
+    border-color: #ff0055 !important;
+    color: #ff0055 !important;
+    box-shadow: 0 0 10px #ff0055;
+  }
+  
+  .p-button-danger:hover {
+    background-color: #ff0055 !important;
+    color: #000 !important;
+    box-shadow: 0 0 20px #ff0055;
+  }
+  
   /* Fejlécek */
   .p-table th {
     color: #00ffcc;
