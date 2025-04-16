@@ -34,17 +34,28 @@ export async function forgotPassword(req, res) {
             to: email,
             subject: "Elfelejtett jelszó visszaállítás",
             text: "Erre a linkre kattintva átirányítunk weboldalunkra, ahol megadhatod új jelszavad! : link",
-            html: `<b>Erre a linkre kattintva átirányítunk weboldalunkra, ahol megadhatod új jelszavad! : ${content}</b>`
+            html:` <div style="background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); color: #58a6ff; font-family: 'Share Tech Mono', monospace; padding: 20px; border: 2px solid #21262d; border-radius: 10px;">
+            <h1 style="text-align: center; color: #58a6ff;">Yourdle jelszó visszaállítás</h1>
+            <p style="font-size: 16px; line-height: 1.5;">
+                Erre a linkre kattintva átirányítunk weboldalunkra, ahol megadhatod új jelszavad:
+            </p>
+            <a href="${content}" style="display: inline-block; margin-top: 20px; padding: 10px 20px; background-color: #21262d; color: #58a6ff; text-decoration: none; border: 1px solid #58a6ff; border-radius: 5px; font-weight: bold;">
+                Reset Password
+            </a>
+            <p style="margin-top: 20px; font-size: 14px; color: #8b949e;">
+                Ha nem te kérted a jelszó visszaállítást, kérlek hagyd figyelmen kívül ezt az emailt.
+            </p>
+        </div>`
         });
 
         if (result.success) {
-            res.status(200).json({ message: "Email sent!", data: result.data, success: true });
+            res.status(200).json({ message: "Email elküldve!", data: result.data, success: true });
         } else {
-            res.status(500).json({ message: "Email not sent!", data: result.error, success: false });
+            res.status(500).json({ message: "Email elküldése sikertelen!", data: result.error, success: false });
         }
     } catch (err) {
         console.error(err);
-        res.status(500).json({ message: "Server error", success: false });
+        res.status(500).json({ message: "Szerver hiba", success: false });
     }
 }
 
