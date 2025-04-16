@@ -1,27 +1,59 @@
 <div class="container">
     <h1 class="title">Yourdle</h1>
     <div class="card-container">
+      
+      <!-- Show admin cards only if logged in as admin -->
+      <ng-container *ngIf="isAdmin; else userCards">
         <p-card class="custom-card">
-            <ng-template #title>
-                <span class="card-title">Egyjátékos</span>
-            </ng-template>
-            <ng-template #subtitle>
-                <span class="card-subtitle">Tedd magad próbára egyjátékos módban!</span>
-            </ng-template>
-            <ng-template #footer>
-                <p-button label="Egyjátékos" styleClass="custom-button" (click)="Egyjatekos()"></p-button>
-            </ng-template>
+          <ng-template #title>
+            <span class="card-title">Felhasználók kezelése</span>
+          </ng-template>
+          <ng-template #subtitle>
+            <span class="card-subtitle">Felhasználói fiókok kezelése és jogosultságok</span>
+          </ng-template>
+          <ng-template #footer>
+            <p-button label="Felhasználók" styleClass="custom-button" (click)="AdminFelhasznalok()"></p-button>
+          </ng-template>
         </p-card>
         <p-card class="custom-card">
-            <ng-template #title>
-                <span class="card-title">Toplista</span>
-            </ng-template>
-            <ng-template #subtitle>
-                <span class="card-subtitle">Tekintsd meg legsikeresebb játékosaink!</span>
-            </ng-template>
-            <ng-template #footer>
-                <p-button label="Toplista" styleClass="custom-button" (click)="Toplista()"></p-button>
-            </ng-template>
+          <ng-template #title>
+            <span class="card-title">Kategóriák kezelése</span>
+          </ng-template>
+          <ng-template #subtitle>
+            <span class="card-subtitle">Játékkategóriák hozzáadása és szerkesztése</span>
+          </ng-template>
+          <ng-template #footer>
+            <p-button label="Kategóriák" styleClass="custom-button" (click)="AdminKategoriak()"></p-button>
+          </ng-template>
         </p-card>
+      </ng-container>
+  
+      <!-- Default user cards shown when not admin -->
+      <ng-template #userCards>
+        <p-card class="custom-card">
+          <ng-template #title>
+            <span class="card-title">Egyjátékos</span>
+          </ng-template>
+          <ng-template #subtitle>
+            <span class="card-subtitle">Tedd magad próbára egyjátékos módban!</span>
+          </ng-template>
+          <ng-template #footer>
+            <p-button label="Egyjátékos" styleClass="custom-button" (click)="Egyjatekos()"></p-button>
+          </ng-template>
+        </p-card>
+        <p-card class="custom-card">
+          <ng-template #title>
+            <span class="card-title">Toplista</span>
+          </ng-template>
+          <ng-template #subtitle>
+            <span class="card-subtitle">Tekintsd meg legsikeresebb játékosaink!</span>
+          </ng-template>
+          <ng-template #footer>
+            <p-button label="Toplista" styleClass="custom-button" (click)="Toplista()"></p-button>
+          </ng-template>
+        </p-card>
+      </ng-template>
+  
     </div>
-</div>
+  </div>
+  
