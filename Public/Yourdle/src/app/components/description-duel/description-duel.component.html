@@ -1,0 +1,84 @@
+<h3 class="title">Leírás - Párbaj</h3>
+
+<div class="game-container">
+  <!-- Debug information -->
+  <div *ngIf="loading" class="debug-info">
+    <p>Room name: {{ roomName }}</p>
+    <p>Category: {{ categoryName }}</p>
+    <p>Category ID: {{ categoryId }}</p>
+    <p>Target character loaded: {{ targetCharacter ? 'Yes' : 'No' }}</p>
+    <p>Characters loaded: {{ characters.length }}</p>
+    <p>Players: {{ players.length }}</p>
+  </div>
+  
+  <!-- Loading indicator -->
+  <div *ngIf="loading" class="loading">
+    <p>Játék betöltése...</p>
+    <button (click)="reloadGame()" class="submit-button">
+      Újrapróbál
+    </button>
+  </div>
+  
+  <!-- Error message -->
+  <div *ngIf="error" class="error-message">
+    <p>Hiba történt: {{ error }}</p>
+    <button (click)="router.navigate(['/parbaj'])" class="nav-button">Vissza a párbajokhoz</button>
+  </div>
+  
+  <!-- Game content -->
+  <div *ngIf="!loading && !error" class="game-content">
+    <!-- Players box like in quote-duel -->
+    <div class="players-box" *ngIf="players.length > 0">
+      <h4 class="players-title">Játékosok</h4>
+      <ul class="players-list">
+        <li *ngFor="let player of players" 
+            class="player-item" 
+            [class.current-turn]="player.name === currentPlayer">
+          {{ player.name }}
+        </li>
+      </ul>
+    </div>
+    
+    <div class="descprion-container" *ngIf="targetCharacter">
+      <h3 class="category-name" *ngIf="categoryName">Melyik {{ categoryName }} karakterre illik a leírás?</h3>
+      <h4 class="description">{{ targetCharacter?.description }}</h4>
+    </div>
+
+    <div class="guesses-container">
+      <p *ngFor="let guess of previousGuesses" 
+         [ngClass]="{'correct-guess': guess.isCorrect, 'incorrect-guess': !guess.isCorrect}" 
+         class="guess">
+        {{ guess.answer }} <span *ngIf="guess.player">({{ guess.player }})</span>
+      </p>
+    </div>
+
+    <!-- Autocomplete mező a karakter kiválasztásához -->
+    <div class="autocomplete-wrapper" *ngIf="characters.length > 0 && targetCharacter">
+      <p-autoComplete [(ngModel)]="selectedCharacter"
+                  (keyup.enter)="submitCharacter()"
+                  (onSelect)="onCharacterSelect($event)"
+                  [suggestions]="filteredCharacters"
+                  (completeMethod)="filterCharacters($event)"
+                  placeholder="{{currentPlayer === user.name ? 'Írd be a karaktert...' : 'Várd meg a köröd...'}}"
+                  [disabled]="currentPlayer !== user.name"
+                  field="answer" 
+                  class="custom-autocomplete">
+      </p-autoComplete>
+      <button (click)="submitCharacter()" 
+              class="submit-button" 
+              [disabled]="currentPlayer !== user.name">
+        <span class="arrow-icon">▶</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Navigation buttons -->
+  <div class="navigation-buttons-container">
+    <div class="navigation-buttons">
+      <button (click)="router.navigate(['/parbaj'])" class="nav-button">Vissza a párbajokhoz</button>
+      <button (click)="reloadGame()" class="nav-button">Újratöltés</button>
+    </div>
+  </div>
+</div>
+
+

@@ -31,4 +31,27 @@ export class SocketService {
   get connected(): boolean {
     return this.socket.connected;
   }
+  
+  // Add these new methods
+  
+  isConnected(): boolean {
+    return this.socket.connected;
+  }
+  
+  connect() {
+    if (!this.socket.connected) {
+      // Close existing socket if needed
+      if (this.socket) {
+        this.socket.close();
+      }
+      // Create a new socket connection
+      this.socket = io('http://localhost:3000');
+    }
+    return this.socket;
+  }
+  
+  // Make the socket accessible when needed
+  get socketInstance(): Socket {
+    return this.socket;
+  }
 }

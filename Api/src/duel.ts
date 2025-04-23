@@ -108,5 +108,89 @@ export function initializeSocketIO(io: Server) {
                 }
             });
         });
+
+        socket.on("submitGuess", ({ roomName, guess, player }) => {
+            if (rooms.has(roomName)) {
+                // Broadcast the guess to all players in the room
+                io.to(roomName).emit("newGuess", {
+                    guess,
+                    player
+                });
+                
+                // Change turn to next player
+                const room = rooms.get(roomName);
+                if (room && room.members.length > 1) {
+                    const currentPlayerIndex = room.members.findIndex(member => member.name === player);
+                    const nextPlayerIndex = (currentPlayerIndex + 1) % room.members.length;
+                    const nextPlayer = room.members[nextPlayerIndex].name;
+                    
+                    io.to(roomName).emit("playerTurn", nextPlayer);
+                }
+            }
+        });
+
+        socket.on("gameCompleted", ({ roomName, winner }) => {
+            if (rooms.has(roomName)) {
+                const room = rooms.get(roomName);
+                io.to(roomName).emit("gameOver", {
+                    winner,
+                    targetCharacter: room.targetCharacter
+                });
+            }
+        });
+
+        socket.on("setTargetCharacter", ({ roomName, target }) => {
+            if (rooms.has(roomName)) {
+                const room = rooms.get(roomName);
+                // Store the target character in the room object
+                room.targetCharacter = target;
+                
+                // Broadcast to all players
+                io.to(roomName).emit("targetCharacter", {
+                    target
+                });
+
+                // When sending room info, include the target character
+                socket.on("getRoomInfo", ({ roomName }) => {
+                    if (rooms.has(roomName)) {
+                        const room = rooms.get(roomName);
+                        socket.emit("roomInfo", {
+                            owner: room.owner,
+                            category: room.category,
+                            categoryId: room.categoryId,
+                            gameTypes: room.gameTypes,
+                            targetCharacter: room.targetCharacter // Include target character
+                        });
+                    }
+                });
+            }
+        });
+
+        socket.on("playerTurn", ({ roomName, playerName }) => {
+            if (rooms.has(roomName)) {
+                // Broadcast to everyone in the room who's turn it is
+                io.to(roomName).emit("playerTurn", playerName);
+            }
+        });
+
+        socket.on("getRoomInfo", ({ roomName }) => {
+            if (rooms.has(roomName)) {
+                const room = rooms.get(roomName);
+                socket.emit("roomInfo", {
+                    owner: room.owner,
+                    category: room.category,
+                    categoryId: room.categoryId,
+                    gameTypes: room.gameTypes,
+                    targetCharacter: room.targetCharacter // Include target character
+                });
+            }
+        });
+
+        socket.on("getPlayers", ({ roomName }) => {
+            if (rooms.has(roomName)) {
+                const room = rooms.get(roomName);
+                socket.emit("playerList", room.members);
+            }
+        });
     });
 }

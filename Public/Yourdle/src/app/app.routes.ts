@@ -15,6 +15,7 @@ import { PictureGameComponent } from './components/picture-game/picture-game.com
 import { DescriptionGameComponent } from './components/description-game/description-game.component';
 import { AdminCategoriesComponent } from './components/admin-categories/admin-categories.component';
 import { LeaderboardComponent } from './components/leaderboard/leaderboard.component';
+import { DescriptionDuelComponent } from './components/description-duel/description-duel.component';
 
 export const routes: Routes = [
     {
@@ -59,4 +60,7 @@ export const routes: Routes = [
     { path: 'emoji-game/:id/:modeIndex', component: EmojiGameComponent },
     { path: 'picture-game/:id/:modeIndex', component: PictureGameComponent },
     { path: 'description-game/:id/:modeIndex', component: DescriptionGameComponent },
+    
+    // Add dedicated route for description duel
+    { path: 'description-duel/:roomName', component: DescriptionDuelComponent, canActivate: [UserAuthGuard] },
 ];
