@@ -4,11 +4,12 @@ const rooms = new Map();
  
 export function initializeSocketIO(io: Server) {
     io.on("connection", (socket) => {
-        socket.on("createRoom", ({ roomName, category, gameTypes, owner }) => {
+        socket.on("createRoom", ({ roomName, category, gameTypes, owner, categoryId }) => {
             if (!rooms.has(roomName)) {
                 rooms.set(roomName, {
                     owner,
                     category,
+                    categoryId,
                     gameTypes,
                     members: [{ id: socket.id, name: owner }],
                 });
@@ -18,10 +19,10 @@ export function initializeSocketIO(io: Server) {
                     roomName,
                     owner: data.owner,
                     category: data.category,
+                    categoryId: data.categoryId,
                     gameTypes: data.gameTypes,
                 })));
-               
-                io.to(roomName).emit("playerList", rooms.get(roomName).members);
+                
                 socket.emit("roomCreated", { roomName, owner, redirect: true });
             } else {
                 socket.emit("roomCreated", { success: false, message: "Ez a szoba már létezik!" });
@@ -45,15 +46,28 @@ export function initializeSocketIO(io: Server) {
                     socket.join(roomName);
                 }
                 io.to(roomName).emit("playerList", room.members);
+                socket.emit("roomInfo", {
+                    owner: room.owner,
+                    category: room.category,
+                    categoryId: room.categoryId,
+                    gameTypes: room.gameTypes
+                });
             }
         });
  
         socket.on("startGame", ({ roomName }) => {
             const room = rooms.get(roomName);
             if (room && room.members.length >= 2) {
-                io.to(roomName).emit("gameStarted", { success: true, message: "Játék elindítva!" });
+                io.to(roomName).emit("gameStarted", { 
+                    success: true, 
+                    message: "Játék elindítva!",
+                    gameTypes: room.gameTypes
+                });
             } else {
-                io.to(roomName).emit("gameStarted", { success: false, message: "Legalább két játékosnak kell lenni a játék indításához." });
+                io.to(roomName).emit("gameStarted", { 
+                    success: false, 
+                    message: "Legalább két játékosnak kell lenni a játék indításához." 
+                });
             }
         });
  
@@ -75,7 +89,7 @@ export function initializeSocketIO(io: Server) {
               }
             }
          
-            if (callback) callback(); // << meghívjuk a klienst, hogy kész vagyunk
+            if (callback) callback();
           });
  
         socket.on("disconnect", () => {

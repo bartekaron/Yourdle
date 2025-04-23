@@ -49,6 +49,7 @@ export class DuelComponent implements OnInit {
     this.api.select("categories", "allPublicCategories").subscribe((res: any) => {
       if (res) {
         this.categories = res.map((category: any) => ({
+          id: category.id,
           label: category.categoryName,
           value: category.categoryName,
           classic: category.classic,
@@ -92,7 +93,20 @@ export class DuelComponent implements OnInit {
   }
 
   createRoom() {
+    console.log("Categories:", this.categories);
     if (this.selectedCategory && this.availableGameTypes.some(gt => gt.checked)) {
+      const selectedCategory:any = this.categories.find((cat: any) => cat.value === this.selectedCategory);
+      
+      if (!selectedCategory) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Hiba',
+          detail: 'A kiválasztott kategória nem található!',
+          life: 2000
+        });
+        return;
+      }
+
       const selectedGameTypes = this.availableGameTypes
         .filter(gt => gt.checked)
         .map(gt => gt.value);
@@ -100,6 +114,7 @@ export class DuelComponent implements OnInit {
       this.socketService.emit("createRoom", {
         roomName: this.user.name,
         category: this.selectedCategory,
+        categoryId: selectedCategory.id,
         gameTypes: selectedGameTypes,
         owner: this.user.name
       });

@@ -223,11 +223,11 @@ import { throwError } from 'rxjs';
     return this.http.get(this.server + '/games/allQuote/' + id);
   }
 
-  getSolutionQuote(id: string): Observable<any> {
-    return this.http.get<any>(this.server + '/games/solutionQuote/' + id).pipe(
-      catchError((error: any) => {
+  getSolutionQuote(categoryId: string): Observable<any> {
+    return this.http.get(`${this.server}/games/solutionQuote/${categoryId}`).pipe(
+      catchError(error => {
         console.error('Error in getSolutionQuote:', error);
-        return throwError(error);
+        throw error;
       })
     );
   }
