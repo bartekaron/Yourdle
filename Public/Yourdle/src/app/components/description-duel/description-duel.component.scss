@@ -426,3 +426,40 @@ body {
       box-shadow: 0 0 15px #ff00ff;
     }
   }
+
+  /* Game sequence list */
+  .game-sequence {
+    margin-top: 1rem;
+    padding: 0.5rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 0.5rem;
+  }
+  
+  .game-sequence-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  
+  .game-sequence-list li {
+    padding: 0.3rem 0.5rem;
+    border-radius: 0.3rem;
+    background: rgba(0, 0, 0, 0.2);
+    color: #888;
+  }
+  
+  .game-sequence-list li.current-game {
+    background: rgba(255, 0, 255, 0.2);
+    color: #fff;
+    border: 1px solid #ff00ff;
+    font-weight: bold;
+  }
+  
+  .game-sequence-list li.completed-game {
+    background: rgba(0, 255, 0, 0.2);
+    color: #fff;
+    text-decoration: line-through;
+  }

@@ -240,6 +240,8 @@ import { throwError } from 'rxjs';
     return this.http.get(this.server + '/games/solutionPicture/' + id);
   }
 
-
+  saveMatchResult(matchData: object): Observable<any> {
+    return this.http.post(this.server + '/games/saveMatchResult', matchData, this.tokenHeader());
+  }
 
 }

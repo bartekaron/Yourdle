@@ -28,13 +28,17 @@ export class DescriptionDuelComponent implements OnInit, OnDestroy {
   selectedCharacter: any = null;
   targetCharacter: any = null;
   previousGuesses: any[] = [];
-  currentGame: string = 'description-game';
   loading: boolean = true;
   error: string = '';
   private roomInfoInterval: any;
   private connectionRetryCount: number = 0;
   private maxRetries: number = 5;
   private socketReconnecting: boolean = false;
+  
+  // Game sequence properties
+  gameSequence: string[] = [];
+  currentGameIndex: number = 0;
+  currentGame: string = 'description';
   
   constructor(
     private route: ActivatedRoute,
@@ -45,10 +49,8 @@ export class DescriptionDuelComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    console.log("Description Duel component initialized");
     this.user = this.auth.loggedUser().data;
     this.roomName = this.route.snapshot.paramMap.get('roomName') || '';
-    console.log("Room name:", this.roomName);
     
     // Don't set current player to self initially - wait for server confirmation
     this.currentPlayer = ''; 
@@ -63,7 +65,6 @@ export class DescriptionDuelComponent implements OnInit, OnDestroy {
     
     // Check if socket is connected
     if (!this.socketService.isConnected()) {
-      console.error("Socket not connected! Attempting to reconnect...");
       this.attemptReconnection();
     } else {
       // Only join room if socket is connected
@@ -133,6 +134,7 @@ export class DescriptionDuelComponent implements OnInit, OnDestroy {
     this.socketService.off("newGuess");
     this.socketService.off("playerTurn");
     this.socketService.off("gameOver");
+    this.socketService.off("gameSequence");
     this.socketService.off("disconnect");
     this.socketService.off("connect");
 
@@ -201,6 +203,30 @@ export class DescriptionDuelComponent implements OnInit, OnDestroy {
         this.categoryId = info.categoryId;
         this.categoryData = info;
 
+        // Process game sequence information
+        if (info.gameTypes && Array.isArray(info.gameTypes)) {
+          // Map game types to their internal names
+          const gameTypeMapping: { [key: string]: string } = {
+            'klasszikus': 'classic',
+            'leiras': 'description',
+            'emoji': 'emoji',
+            'idezet': 'quote',
+            'kep': 'picture'
+          };
+          
+          // Sort game types in the correct order
+          const orderedTypes = ['klasszikus', 'leiras', 'emoji', 'idezet', 'kep'];
+          
+          // Filter and sort game types based on what's available in this room
+          this.gameSequence = orderedTypes
+            .filter(type => info.gameTypes.includes(type))
+            .map(type => gameTypeMapping[type]);
+            
+          // Find our current position in the sequence
+          this.currentGameIndex = this.gameSequence.indexOf('description');
+          console.log("Game sequence:", this.gameSequence, "Current index:", this.currentGameIndex);
+        }
+
         // Try to get target character from room data
         if (info.targetCharacter) {
           console.log("Using target character from room info");
@@ -244,9 +270,24 @@ export class DescriptionDuelComponent implements OnInit, OnDestroy {
 
     // Listen for game over events
     this.socketService.on("gameOver", (data: any) => {
-      console.log("Game over:", data);
-      if (data.winner !== this.user.name) {
-        alert(`${data.winner} nyert! A helyes válasz: ${data.targetCharacter?.answer || this.targetCharacter?.answer}`);
+      // If there's a next game in the sequence, navigate to it after a short delay
+      setTimeout(() => {
+        if (data.isLastGame) {
+          this.router.navigate(['/summary-duel', this.roomName]);
+        } else if (data.nextGame) {
+          this.router.navigate([`/${data.nextGame}-duel`, this.roomName]);
+        } else {
+          this.router.navigate(['/parbaj']);
+        }
+      }, 2000);
+    });
+    
+    // Listen for game sequence updates
+    this.socketService.on("gameSequence", (data: any) => {
+      if (data && data.sequence) {
+        this.gameSequence = data.sequence;
+        this.currentGameIndex = data.currentIndex || 0;
+        console.log("Updated game sequence:", this.gameSequence, "Current index:", this.currentGameIndex);
       }
     });
   }
@@ -370,7 +411,6 @@ export class DescriptionDuelComponent implements OnInit, OnDestroy {
   submitCharacter() {
     // Only allow the current player to submit guesses
     if (this.currentPlayer !== this.user.name) {
-      alert('Nem a te köröd!');
       return;
     }
     
@@ -389,7 +429,6 @@ export class DescriptionDuelComponent implements OnInit, OnDestroy {
     );
     
     if (!selectedCharacterObj) {
-      console.warn("Selected character not found in list:", this.selectedCharacter);
       return;
     }
     
@@ -417,14 +456,17 @@ export class DescriptionDuelComponent implements OnInit, OnDestroy {
     
     // Check if the game is won
     if (isCorrect) {
+      // Find the next game in sequence, if any
+      const nextGameIndex = this.currentGameIndex + 1;
+      const nextGame = nextGameIndex < this.gameSequence.length ? this.gameSequence[nextGameIndex] : null;
+      
       this.socketService.emit("gameCompleted", {
         roomName: this.roomName,
         winner: this.user.name,
-        targetCharacter: this.targetCharacter
+        targetCharacter: this.targetCharacter,
+        currentGame: 'description',
+        nextGame: nextGame
       });
-      
-      // Show win message or redirect
-      alert(`Nyertél! A helyes válasz: ${this.targetCharacter.answer}`);
     }
     
     this.selectedCharacter = null;
@@ -441,5 +483,17 @@ export class DescriptionDuelComponent implements OnInit, OnDestroy {
     }
     
     this.joinRoom();
+  }
+
+  // Get display name for a game type
+  getGameDisplayName(gameType: string): string {
+    const displayNames: { [key: string]: string } = {
+      'classic': 'Klasszikus',
+      'description': 'Leírás',
+      'emoji': 'Emoji',
+      'quote': 'Idézet',
+      'picture': 'Kép'
+    };
+    return displayNames[gameType] || gameType;
   }
 }

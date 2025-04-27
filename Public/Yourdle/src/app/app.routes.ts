@@ -16,6 +16,9 @@ import { DescriptionGameComponent } from './components/description-game/descript
 import { AdminCategoriesComponent } from './components/admin-categories/admin-categories.component';
 import { LeaderboardComponent } from './components/leaderboard/leaderboard.component';
 import { DescriptionDuelComponent } from './components/description-duel/description-duel.component';
+import { PictureDuelComponent } from './components/picture-duel/picture-duel.component';
+import { SummaryDuelComponent } from './components/summary-duel/summary-duel.component';
+// Import any other needed duel components (if they exist)
 
 export const routes: Routes = [
     {
@@ -61,6 +64,14 @@ export const routes: Routes = [
     { path: 'picture-game/:id/:modeIndex', component: PictureGameComponent },
     { path: 'description-game/:id/:modeIndex', component: DescriptionGameComponent },
     
-    // Add dedicated route for description duel
+    // Add dedicated routes for all duel types
     { path: 'description-duel/:roomName', component: DescriptionDuelComponent, canActivate: [UserAuthGuard] },
+    { path: 'picture-duel/:roomName', component: PictureDuelComponent, canActivate: [UserAuthGuard] },
+    { path: 'summary-duel/:roomName', component: SummaryDuelComponent, canActivate: [UserAuthGuard] },
+    
+    // Add placeholder routes for the other duel games to complete the sequence system
+    // These component references will need to be replaced with actual components when they're created
+    { path: 'classic-duel/:roomName', redirectTo: '/description-duel/:roomName', pathMatch: 'prefix' },
+    { path: 'quote-duel/:roomName', redirectTo: '/description-duel/:roomName', pathMatch: 'prefix' },
+    { path: 'emoji-duel/:roomName', redirectTo: '/description-duel/:roomName', pathMatch: 'prefix' },
 ];

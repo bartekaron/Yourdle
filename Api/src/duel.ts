@@ -6,12 +6,25 @@ export function initializeSocketIO(io: Server) {
     io.on("connection", (socket) => {
         socket.on("createRoom", ({ roomName, category, gameTypes, owner, categoryId }) => {
             if (!rooms.has(roomName)) {
+                // Create game sequence with correct order
+                const orderedGameTypes = [];
+                const gameOrder = ['klasszikus', 'leiras', 'emoji', 'idezet', 'kep'];
+                
+                // Filter game types in the correct order
+                gameOrder.forEach(type => {
+                    if (gameTypes.includes(type)) {
+                        orderedGameTypes.push(type);
+                    }
+                });
+                
                 rooms.set(roomName, {
                     owner,
                     category,
                     categoryId,
-                    gameTypes,
+                    gameTypes: orderedGameTypes,
                     members: [{ id: socket.id, name: owner }],
+                    currentGameIndex: 0,  // Track which game in the sequence we're on
+                    gameResults: [], // Track game results
                 });
                 socket.join(roomName);
  
@@ -54,14 +67,31 @@ export function initializeSocketIO(io: Server) {
                 });
             }
         });
- 
+        
         socket.on("startGame", ({ roomName }) => {
             const room = rooms.get(roomName);
+            
             if (room && room.members.length >= 2) {
+                // Get the first game type in sequence
+                const firstGameType = room.gameTypes && room.gameTypes.length > 0 ? 
+                    room.gameTypes[0] : null;
+                    
+                // Map from display names to component names
+                const gameTypeMapping = {
+                    'klasszikus': 'classic',
+                    'leiras': 'description',
+                    'emoji': 'emoji',
+                    'idezet': 'quote',
+                    'kep': 'picture'
+                };
+                
+                const firstGame = firstGameType ? gameTypeMapping[firstGameType] : null;
+                
                 io.to(roomName).emit("gameStarted", { 
                     success: true, 
                     message: "Játék elindítva!",
-                    gameTypes: room.gameTypes
+                    gameTypes: room.gameTypes,
+                    firstGame: firstGame
                 });
             } else {
                 io.to(roomName).emit("gameStarted", { 
@@ -129,12 +159,116 @@ export function initializeSocketIO(io: Server) {
             }
         });
 
-        socket.on("gameCompleted", ({ roomName, winner }) => {
+        socket.on("gameCompleted", ({ roomName, winner, targetCharacter, currentGame, nextGame }) => {
             if (rooms.has(roomName)) {
                 const room = rooms.get(roomName);
+                
+                // Map display game types to their internal socket names
+                const gameTypeMapping = {
+                    'klasszikus': 'classic',
+                    'leiras': 'description',
+                    'emoji': 'emoji',
+                    'idezet': 'quote', 
+                    'kep': 'picture'
+                };
+                
+                // Map internal names to display types
+                const reverseMapping = {};
+                Object.keys(gameTypeMapping).forEach(key => {
+                    reverseMapping[gameTypeMapping[key]] = key;
+                });
+                
+                // Save game result
+                if (!room.gameResults) room.gameResults = [];
+                room.gameResults.push({
+                    gameType: currentGame,
+                    winner: winner
+                });
+                
+                // Increment the game index in the sequence
+                if (typeof room.currentGameIndex === 'undefined') {
+                    room.currentGameIndex = 0;
+                } else {
+                    room.currentGameIndex++;
+                }
+                
+                // Check if we have more games
+                const hasMoreGames = room.currentGameIndex < room.gameTypes.length;
+                
+                // Find the next game type from the sequence
+                const nextGameType = hasMoreGames ? 
+                    gameTypeMapping[room.gameTypes[room.currentGameIndex]] : null;
+                
+                // If there are no more games, go to summary page
+                const targetPage = hasMoreGames ? nextGameType + "-duel" : "summary-duel";
+                
+                // Broadcast completion to all players
                 io.to(roomName).emit("gameOver", {
                     winner,
-                    targetCharacter: room.targetCharacter
+                    targetCharacter,
+                    nextGame: hasMoreGames ? nextGameType : null,
+                    isLastGame: !hasMoreGames,
+                    summaryPage: !hasMoreGames ? "summary-duel" : null
+                });
+                
+                // Clear the target character for the next game
+                delete room.targetCharacter;
+                
+                // Broadcast updated game sequence
+                io.to(roomName).emit("gameSequence", {
+                    sequence: room.gameTypes.map(type => gameTypeMapping[type]),
+                    currentIndex: room.currentGameIndex
+                });
+            }
+        });
+
+        // Add a new handler for getting duel summary
+        socket.on("getDuelSummary", ({ roomName }) => {
+            if (rooms.has(roomName)) {
+                const room = rooms.get(roomName);
+                
+                // Calculate points for each player
+                const scores = {}; 
+                
+                // Initialize scores for all players
+                room.members.forEach(member => {
+                    scores[member.name] = 0;
+                });
+                
+                // Add up scores from all games
+                if (room.gameResults) {
+                    room.gameResults.forEach(result => {
+                        if (result.winner && scores.hasOwnProperty(result.winner)) {
+                            scores[result.winner] += 1;
+                        }
+                    });
+                }
+                
+                // Determine the winner
+                let maxScore = 0;
+                let winners = [];
+                
+                // Find highest score
+                Object.keys(scores).forEach(player => {
+                    if (scores[player] > maxScore) {
+                        maxScore = scores[player];
+                        winners = [player];
+                    } else if (scores[player] === maxScore && maxScore > 0) {
+                        winners.push(player);
+                    }
+                });
+                
+                // Create the final result object
+                const finalResult = {
+                    isDraw: winners.length !== 1,
+                    winner: winners.length === 1 ? winners[0] : undefined,
+                    scores: scores
+                };
+                
+                // Send data back to client
+                socket.emit("duelSummary", {
+                    results: room.gameResults || [],
+                    finalResult: finalResult
                 });
             }
         });
@@ -181,7 +315,8 @@ export function initializeSocketIO(io: Server) {
                     category: room.category,
                     categoryId: room.categoryId,
                     gameTypes: room.gameTypes,
-                    targetCharacter: room.targetCharacter // Include target character
+                    targetCharacter: room.targetCharacter, // Include target character
+                    currentGameIndex: room.currentGameIndex || 0
                 });
             }
         });
