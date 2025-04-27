@@ -1,0 +1,89 @@
+<h3 class="title">Kép - Párbaj</h3>
+
+<div class="game-container">
+  <!-- Loading indicator -->
+  <div *ngIf="loading" class="loading">
+    <p>Játék betöltése...</p>
+    <button (click)="reloadGame()" class="submit-button">
+      Újrapróbál
+    </button>
+  </div>
+  
+  <!-- Error message -->
+  <div *ngIf="error" class="error-message">
+    <p>Hiba történt: {{ error }}</p>
+    <button (click)="reloadGame()" class="submit-button">
+      Újrapróbál
+    </button>
+  </div>
+  
+  <!-- Game content -->
+  <div *ngIf="!loading && !error">
+    <!-- Players box - duel specific feature -->
+    <div class="players-box" *ngIf="players.length > 0">
+      <h4 class="players-title">Játékosok</h4>
+      <ul class="players-list">
+        <li *ngFor="let player of players" 
+            class="player-item" 
+            [class.current-turn]="player.name === currentPlayer">
+          {{ player.name }}
+        </li>
+      </ul>
+      
+      <!-- Game sequence information -->
+      <div class="game-sequence" *ngIf="gameSequence.length > 1">
+        <h4>Játék sorrend:</h4>
+        <ul class="game-sequence-list">
+          <li *ngFor="let game of gameSequence; let i = index" 
+              [class.current-game]="game === currentGame"
+              [class.completed-game]="i < currentGameIndex">
+            {{ getGameDisplayName(game) }}
+          </li>
+        </ul>
+      </div>
+    </div>
+    
+    <!-- PICTURE CONTAINER - match picture-game structure -->
+    <div class="picture-container">
+      <h3 class="category-name" *ngIf="categoryName">Melyik {{ categoryName }} karaktert ábrázolja a kép?</h3>
+      <img *ngIf="revealedPicture" [src]="revealedPicture" [style.filter]="'blur(' + blurLevel + 'px)'" alt="Karakter képe" class="revealed-picture">
+    </div>
+
+    <div class="guesses-container">
+      <p *ngFor="let guess of previousGuesses" 
+         [ngClass]="{'correct-guess': guess.isCorrect, 'incorrect-guess': !guess.isCorrect}" 
+         class="guess">
+        {{ guess.answer }} <span *ngIf="guess.player">({{ guess.player }})</span>
+      </p>
+    </div>
+
+    <!-- Autocomplete field for character selection - fixed spacing -->
+    <div class="input-container">
+      <div class="autocomplete-wrapper" *ngIf="characters.length > 0 && targetCharacter">
+        <p-autoComplete [(ngModel)]="selectedCharacter"
+                    (keyup.enter)="submitCharacter()"
+                    (onSelect)="onCharacterSelect($event)"
+                    [suggestions]="filteredCharacters"
+                    (completeMethod)="filterCharacters($event)"
+                    placeholder="{{currentPlayer === user.name ? 'Írd be a karaktert...' : 'Várd meg a köröd...'}}"
+                    [disabled]="currentPlayer !== user.name"
+                    field="answer" 
+                    class="custom-autocomplete">
+        </p-autoComplete>
+        <button (click)="submitCharacter()" 
+                class="submit-button" 
+                [disabled]="currentPlayer !== user.name">
+          <span class="arrow-icon">▶</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation buttons -->
+  <div class="navigation-buttons-container">
+    <div class="navigation-buttons">
+      <button (click)="router.navigate(['/parbaj'])" class="nav-button">Vissza a párbajokhoz</button>
+      <button (click)="reloadGame()" class="nav-button">Újratöltés</button>
+    </div>
+  </div>
+</div>
