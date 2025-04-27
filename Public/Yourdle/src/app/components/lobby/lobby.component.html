@@ -1,24 +1,23 @@
 <div class="lobby-container">
   <div class="room-header">
     <h2 class="room-title">{{ roomName }} szobája</h2>
-    <button class="leave-button" (click)="handleLeave()">Kilépés</button>
+    <button class="leave-button" (click)="leaveRoom()">Kilépés</button>
   </div>
   
   
-    <div *ngIf="players.length > 0" class="player-list">
+    <div *ngIf="members.length > 0" class="player-list">
       <h3>Játékosok:</h3>
       <ul>
-        <li *ngFor="let player of players">
+        <li *ngFor="let player of members">
           <span class="player-name">{{ player.name }}</span>
         </li>
       </ul>
     </div>
-    <div *ngIf="players.length === 0" class="no-players">
+    <div *ngIf="members.length === 0" class="no-players">
       <p>Nincsenek jelen játékosok.</p>
     </div>
   
     <div class="start-game-button">
-      <button pButton label="Játék indítása" icon="pi pi-play" (click)="startGame()" [disabled]="players.length < 2 "></button>
+      <button pButton label="Játék indítása" icon="pi pi-play" (click)="startGame()" [disabled]="members.length < 2 || !isOwner"></button>
     </div>
 </div>
-  

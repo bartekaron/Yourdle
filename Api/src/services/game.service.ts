@@ -1,5 +1,6 @@
-const { pool } = require ("../config/database")
+const { pool } = require("../config/database");
 const { decrypt } = require("../utils/decrypt");
+const { v4: uuidv4 } = require('uuid');
 
 export const getAllClassicService = async (id) => {
     try {
@@ -288,5 +289,33 @@ export const getLeaderboardOneUserService = async (id) => {
         console.error("Leaderboard lekérési hiba:", error);
         return { success: false, message: "Nem sikerült a toplistát lekérni!" };
     }
+};
+
+export const saveMatchResultService = async (matchData: { player1ID: string; player2ID: string; winnerID?: string; categoryId: number }) => {
+  try {
+    const { player1ID, player2ID, winnerID, categoryId } = matchData;
+    
+    // Generate a UUID for the game ID
+    const gameId = uuidv4();
+    
+    // Insert to games table using the exact table structure - without gameType
+    await new Promise<{affectedRows: number}>((resolve, reject) => {
+      pool.query(
+        `INSERT INTO games 
+        (id, categoryID, player1ID, player2ID, winnerID, finishedAt)
+        VALUES (?, ?, ?, ?, ?, NOW())`,
+        [gameId, categoryId, player1ID, player2ID, winnerID || null],
+        (err: Error, results: {affectedRows: number}) => {
+          if (err) return reject(err);
+          resolve(results);
+        }
+      );
+    });
+    
+    return { success: true, gameId, message: 'Match result saved successfully' };
+  } catch (error) {
+    console.error('Error in saveMatchResultService:', error);
+    return { success: false, message: 'Database error occurred' };
+  }
 };
 

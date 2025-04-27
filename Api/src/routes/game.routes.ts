@@ -1,30 +1,31 @@
 import { Router } from "express";
-import { authMiddleware } from "../middleware/AuthMiddleware";
-import * as gameController from "../controllers/game.controller";
+import { getAllClassic, getAllEmoji, getSolutionClassic, getSolutionEmoji, getAllDescription, getSolutionDescription, getSolutionQuote, getAllQuote, getAllPicture, getSolutionPicture, getAllLeaderboard, getLeaderboardOneUser, saveMatchResult } from "../controllers/game.controller";
 const router = Router();
 
-router.get("/allClassic/:id", gameController.getAllClassic);
+router.get("/allClassic/:id", getAllClassic);
 
-router.get("/solutionClassic/:id", gameController.getSolutionClassic);
+router.get("/solutionClassic/:id", getSolutionClassic);
 
-router.get("/allEmoji/:id", gameController.getAllEmoji);
+router.get("/allEmoji/:id", getAllEmoji);
 
-router.get("/solutionEmoji/:id", gameController.getSolutionEmoji);
+router.get("/solutionEmoji/:id", getSolutionEmoji);
 
-router.get("/allDescription/:id", gameController.getAllDescription);
+router.get("/allDescription/:id", getAllDescription);
 
-router.get("/solutionDescription/:id", gameController.getSolutionDescription);
+router.get("/solutionDescription/:id", getSolutionDescription);
 
-router.get("/allQuote/:id", gameController.getAllQuote);
+router.get("/allQuote/:id", getAllQuote);
 
-router.get("/solutionQuote/:id", gameController.getSolutionQuote);
+router.get("/solutionQuote/:id", getSolutionQuote);
 
-router.get("/allPicture/:id", gameController.getAllPicture);
+router.get("/allPicture/:id", getAllPicture);
 
-router.get("/solutionPicture/:id", gameController.getSolutionPicture);
+router.get("/solutionPicture/:id", getSolutionPicture);
 
-router.get("/leaderboard", gameController.getAllLeaderboard);
+router.get("/leaderboard", getAllLeaderboard);
 
-router.get("/leaderboard/:id", authMiddleware,gameController.getLeaderboardOneUser);
+router.get("/leaderboard/:id",  getLeaderboardOneUser);
+
+router.post("/saveMatchResult",  saveMatchResult);
 
 export default router;
