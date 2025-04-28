@@ -1,0 +1,465 @@
+/* Alap stílus */
+body {
+    background-color: #0f0f0f;
+    color: #ffffff;
+    font-family: 'Share Tech Mono', monospace;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Cím */
+  .title {
+    font-size: 5rem;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    color: #0ff;
+    text-shadow:
+      0 0 5px #0ff,
+      0 0 15px #0ff,
+      0 0 30px #0ff;
+    animation: flicker 3s infinite alternate;
+  }
+  
+  /* Kategória név */
+  .category-name {
+    font-size: 1.7rem;
+    font-weight: bold;
+    color: #ffffff;
+    text-align: center;
+    margin-bottom: 15px;
+    text-shadow: 0 0 10px #ff00ff;
+  }
+  
+  /* Leírás konténer */
+  .descprion-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 30px;
+    width: 80%;
+    padding: 10px;
+  }
+  
+  /* Kategória név (speciális stílus) */
+  .category-name {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #00ffff;
+    text-align: center;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px #ff00ff;
+    letter-spacing: 1px;
+  }
+  
+  /* Leírás box */
+  .description {
+    font-size: 2rem;
+    color: #ffffff;
+    background: rgba(0, 255, 255, 0.05);
+    border: 1px solid #ff00ff;
+    box-shadow: 0 0 12px #ff00ff;
+    border-radius: 10px;
+    padding: 25px;
+    text-align: center;
+    margin: 20px auto;
+    width: 80%;
+    max-width: 900px;
+    font-family: 'Share Tech Mono', monospace;
+  }
+  
+  /* Players container */
+  .players-container {
+    background: rgba(0, 255, 255, 0.05);
+    border: 1px solid #ff00ff;
+    box-shadow: 0 0 12px #ff00ff;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+    text-align: center;
+    width: 80%;
+    max-width: 900px;
+  }
+  
+  .player-list {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .player-list li {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid #0ff;
+    box-shadow: 0 0 8px #0ff;
+    border-radius: 5px;
+    padding: 8px 15px;
+    font-size: 1rem;
+    color: #0ff;
+  }
+  
+  /* Találatok */
+  .guesses-container {
+    margin-top: 20px;
+    text-align: center;
+    min-width: 200px;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  
+  .guess {
+    margin: 10px auto;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #222;
+    color: #fff;
+    width: 60%;
+    box-shadow: 0 0 5px #555;
+  }
+  
+  .correct-guess {
+    background-color: #359e6d;
+    box-shadow: 0 0 10px #00ff88;
+    width: 80%;
+  }
+  
+  .incorrect-guess {
+    background-color: #ff004c;
+    box-shadow: 0 0 10px #ff004c;
+    width: 80%;
+  }
+  
+  /* Autocomplete szűrő és gombok */
+  ::ng-deep p-autoComplete.custom-autocomplete {
+    width: 400px !important;
+  }
+  
+  ::ng-deep p-autoComplete.custom-autocomplete .p-inputtext {
+    width: 100% !important;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 1.1rem;
+    padding: 0.6rem;
+    color: #0ff;
+    background-color: rgba(0, 0, 0, 0.6);
+    border: 2px solid #0ff;
+    box-shadow: 0 0 10px #0ff;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+  }
+  
+  ::ng-deep p-autoComplete.custom-autocomplete .p-inputtext:focus {
+    box-shadow: 0 0 20px #0ff;
+    border-color: #0ff;
+    outline: none;
+  }
+  
+  .submit-button {
+    background-color: transparent;
+    border: 2px solid #0ff;
+    border-radius: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    font-size: 1.2rem;
+    color: #0ff;
+    box-shadow: 0 0 10px #0ff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .submit-button:hover {
+    background-color: #0ff;
+    color: #000;
+    box-shadow: 0 0 20px #0ff;
+  }
+  
+  .arrow-icon {
+    font-weight: bold;
+  }
+  
+  /* Navigációs gombok */
+  .navigation-buttons-container {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.95);
+    box-shadow: 0 -2px 10px #0ff;
+    padding: 1rem 0;
+    display: flex;
+    justify-content: center;
+    z-index: 10;
+    backdrop-filter: blur(4px);
+  }
+  
+  .navigation-buttons {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .nav-button {
+    background-color: transparent;
+    color: #0ff;
+    border: 2px solid #0ff;
+    border-radius: 0.5rem;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    font-family: 'Share Tech Mono', monospace;
+    box-shadow: 0 0 10px #0ff;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .nav-button:hover {
+    background-color: #0ff;
+    color: #000;
+    box-shadow: 0 0 20px #0ff;
+  }
+  
+  .nav-button:active {
+    transform: scale(0.95);
+    background-color: #0cf;
+    color: #000;
+  }
+  
+  /* Játék konténer */
+  .game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    padding-bottom: 100px;
+  }
+  
+  .input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+  }
+  
+  /* Kép alapú megjelenítés */
+  img {
+    max-width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(255, 0, 255, 0.3);
+    transition: transform 0.3s ease;
+  }
+  
+  img:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Flicker animation */
+  @keyframes flicker {
+    0%, 18%, 22%, 25%, 53%, 57%, 100% {
+      opacity: 1;
+    }
+    20%, 24%, 55% {
+      opacity: 0.4;
+    }
+  }
+
+  /* Loading and error messages */
+  .loading, .error-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid #ff00ff;
+    box-shadow: 0 0 15px #ff00ff;
+    border-radius: 10px;
+    text-align: center;
+  }
+  
+  .loading p {
+    font-size: 1.5rem;
+    color: #0ff;
+    text-shadow: 0 0 10px #0ff;
+    animation: pulse 1.5s infinite alternate;
+  }
+  
+  .error-message p {
+    font-size: 1.5rem;
+    color: #ff5252;
+    text-shadow: 0 0 10px #ff0000;
+    margin-bottom: 1.5rem;
+  }
+  
+  @keyframes pulse {
+    0% {
+      opacity: 0.6;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  /* Game content container */
+  .game-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  
+  .loading, .error-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid #ff00ff;
+    box-shadow: 0 0 15px #ff00ff;
+    border-radius: 10px;
+    text-align: center;
+    width: 80%;
+    max-width: 600px;
+  }
+  
+  .loading p {
+    font-size: 1.5rem;
+    color: #0ff;
+    text-shadow: 0 0 10px #0ff;
+    animation: pulse 1.5s infinite alternate;
+  }
+  
+  .error-message p {
+    font-size: 1.5rem;
+    color: #ff5252;
+    text-shadow: 0 0 10px #ff0000;
+    margin-bottom: 1.5rem;
+  }
+  
+  @keyframes pulse {
+    0% {
+      opacity: 0.6;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  /* Debug information */
+  .debug-info {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(0,0,0,0.7);
+    color: #0f0;
+    padding: 10px;
+    border-radius: 5px;
+    font-family: monospace;
+    font-size: 12px;
+    z-index: 9999;
+  }
+
+  /* Players box */
+  .players-box {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(15, 15, 30, 0.95);
+    border: 2px solid #ff00ff;
+    border-radius: 1rem;
+    box-shadow: 0 0 20px #ff00ff;
+    padding: 1.5rem;
+    min-width: 200px;
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+  }
+    
+  .players-title {
+    color: #ff00ff;
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 10px #ff00ff;
+    font-family: 'Share Tech Mono', monospace;
+  }
+    
+  .players-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+    
+  .player-item {
+    color: #fff;
+    padding: 0.8rem;
+    margin: 0.5rem 0;
+    border-radius: 0.5rem;
+    background: rgba(255, 0, 255, 0.1);
+    text-align: center;
+    font-family: 'Share Tech Mono', monospace;
+    text-shadow: 0 0 5px #ff00ff;
+    transition: all 0.3s ease;
+  }
+    
+  .player-item.current-turn {
+    border: 1px solid #ff00ff;
+    background: rgba(255, 0, 255, 0.2);
+    box-shadow: 0 0 15px #ff00ff;
+    animation: pulse 2s infinite;
+  }
+  
+  @keyframes pulse {
+    0% {
+      box-shadow: 0 0 15px #ff00ff;
+    }
+    50% {
+      box-shadow: 0 0 25px #ff00ff;
+    }
+    100% {
+      box-shadow: 0 0 15px #ff00ff;
+    }
+  }
+
+  /* Game sequence list */
+  .game-sequence {
+    margin-top: 1rem;
+    padding: 0.5rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 0.5rem;
+  }
+  
+  .game-sequence-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  
+  .game-sequence-list li {
+    padding: 0.3rem 0.5rem;
+    border-radius: 0.3rem;
+    background: rgba(0, 0, 0, 0.2);
+    color: #888;
+  }
+  
+  .game-sequence-list li.current-game {
+    background: rgba(255, 0, 255, 0.2);
+    color: #fff;
+    border: 1px solid #ff00ff;
+    font-weight: bold;
+  }
+  
+  .game-sequence-list li.completed-game {
+    background: rgba(0, 255, 0, 0.2);
+    color: #fff;
+    text-decoration: line-through;
+  }

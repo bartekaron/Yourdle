@@ -1,0 +1,74 @@
+<h3 class="title">Párbaj Eredmény</h3>
+
+<div class="summary-container">
+  <!-- Loading indicator -->
+  <div *ngIf="isLoading" class="loading">
+    <p>Eredmény betöltése...</p>
+  </div>
+  
+  <!-- Error message -->
+  <div *ngIf="error" class="error-message">
+    <p>Hiba történt: {{ error }}</p>
+    <button (click)="router.navigate(['/parbaj'])" class="nav-button">Vissza a párbajokhoz</button>
+  </div>
+  
+  <!-- Summary content -->
+  <div *ngIf="!isLoading && !error" class="summary-content">
+    <div class="category-info" *ngIf="categoryName">
+      <h3>{{ categoryName }}</h3>
+    </div>
+    
+    <!-- Players -->
+    <div class="players-section">
+      <div class="player" *ngFor="let player of players">
+        <h4 [class.winner]="finalResult.winner === player.name">
+          {{ player.name }} 
+          <span *ngIf="finalResult.winner === player.name" class="winner-badge">Győztes</span>
+          <span *ngIf="finalResult.isDraw" class="draw-badge">Döntetlen</span>
+        </h4>
+        <div class="score">Pontszám: {{ finalResult.scores[player.name] || 0 }}</div>
+      </div>
+    </div>
+    
+    <!-- Game Results Table -->
+    <div class="results-table">
+      <h4>Játék eredmények</h4>
+      <table>
+        <thead>
+          <tr>
+            <th>Játék</th>
+            <th>Győztes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let result of gameResults">
+            <td>{{ getGameDisplayName(result.gameType) }}</td>
+            <td [class.highlight]="result.winner === user.name">{{ result.winner }}</td>
+          </tr>
+          <tr *ngIf="gameResults.length === 0">
+            <td colspan="2" class="no-results">Nincsenek játék eredmények</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <!-- Final Result -->
+    <div class="final-result">
+      <div *ngIf="finalResult.isDraw" class="draw-result">
+        <h3>Döntetlen!</h3>
+        <p>Mindkét játékos egyforma pontszámot ért el.</p>
+      </div>
+      
+      <div *ngIf="!finalResult.isDraw" class="win-result">
+        <h3 [class.user-won]="finalResult.winner === user.name">
+          {{ finalResult.winner === user.name ? 'Nyertél!' : finalResult.winner + ' nyert!' }}
+        </h3>
+      </div>
+    </div>
+    
+    <!-- Navigation -->
+    <div class="navigation">
+      <button pButton (click)="returnToDuelLobby()" label="Vissza a párbaj menübe" class="return-button"></button>
+    </div>
+  </div>
+</div>

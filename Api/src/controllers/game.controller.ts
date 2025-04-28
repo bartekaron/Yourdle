@@ -1,4 +1,5 @@
-import { getAllClassicService, getAllEmojiService, getSolutionClassicService, getSolutionEmojiService, getAllDescriptionService, getSolutionDescriptionService, getAllQuoteService, getSolutionQuoteService, getAllPictureService, getSolutionPictureService, getAllLeaderboardService, getLeaderboardOneUserService } from "../services/game.service";
+import { getAllClassicService, getAllEmojiService, getSolutionClassicService, getSolutionEmojiService, getAllDescriptionService, getSolutionDescriptionService, getAllQuoteService, getSolutionQuoteService, getAllPictureService, getSolutionPictureService, getAllLeaderboardService, getLeaderboardOneUserService, saveMatchResultService } from "../services/game.service";
+
 
 export const getAllClassic = async (req, res, next) => {
     try {
@@ -39,8 +40,6 @@ export const getSolutionClassic = async (req, res, next) => {
         next(error);
     }
 };
-
-
 
 export const getAllEmoji = async (req, res, next) => {
     try {
@@ -138,7 +137,6 @@ export const getAllQuote = async (req, res, next) => {
         }
 
     } catch (error) {
-
         next(error);
     }
 }
@@ -163,7 +161,6 @@ export const getSolutionQuote = async (req, res, next) => {
     }
 };
 
-
 export const getAllPicture = async (req, res, next) => {
     try {
         const { id } = req.params;
@@ -184,7 +181,6 @@ export const getAllPicture = async (req, res, next) => {
     }
 }
 
-
 export const getSolutionPicture = async (req, res, next) => {
     try {
         const { id } = req.params;
@@ -204,7 +200,6 @@ export const getSolutionPicture = async (req, res, next) => {
         next(error);
     }
 }
-
 
 export const getAllLeaderboard = async (req, res, next) =>{
     try {
@@ -239,4 +234,32 @@ export const getLeaderboardOneUser = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
+};
+
+export const saveMatchResult = async (req, res, next) => {
+  try {
+    const { player1ID, player2ID, winnerID, categoryId } = req.body;
+    
+    // Validate required fields for games table
+    if (!player1ID || !player2ID || !categoryId) {
+      return res.status(400).json({ success: false, message: 'Missing required fields' });
+    }
+    
+    // Call the service function with only the fields needed for the games table
+    const result = await saveMatchResultService({
+      player1ID,
+      player2ID,
+      winnerID,
+      categoryId
+    });
+    
+    if (result.success) {
+      return res.json(result);
+    } else {
+      return res.status(500).json(result);
+    }
+  } catch (error) {
+    console.error('Error saving match result:', error);
+    return res.status(500).json({ success: false, message: 'Internal server error' });
+  }
 };
