@@ -39,6 +39,59 @@ export class SummaryDuelComponent implements OnInit {
     private socketService: SocketService
   ) {}
   
+  private setupSocketListeners() {
+    // Clean up previous listeners
+    this.socketService.off("playerList");
+    this.socketService.off("duelSummary");
+    this.socketService.off("roomInfo");
+    
+    // Get players list
+    this.socketService.on("playerList", (members: any) => {
+      console.log('Received players:', members);
+      this.players = Array.from(new Map(members.map((item: any) => [item.name, item])).values());
+    });
+    
+    // Get room info for category name
+    this.socketService.on("roomInfo", (info: any) => {
+      console.log('Received room info:', info);
+      if (info && info.category) {
+        this.categoryName = info.category;
+        this.categoryId = info.categoryId || '';
+        
+        // Request summary data after receiving room info
+        this.socketService.emit("getDuelSummary", { roomName: this.roomName });
+      }
+    });
+    
+    // Get duel summary data
+    this.socketService.on("duelSummary", (data: any) => {
+      console.log('Received duel summary:', data);
+      if (data) {
+        this.gameResults = data.results || [];
+        this.finalResult = data.finalResult || { 
+          isDraw: false, 
+          scores: {},
+          winner: undefined
+        };
+        
+        // Save match result only if we have all required data
+        if (this.user.name === this.roomName && 
+            this.categoryId && 
+            this.players.length >= 2) {
+          setTimeout(() => {
+            this.saveMatchResult();
+          }, 500);
+        }
+        
+        this.isLoading = false;
+      } else {
+        console.error('Received invalid duel summary data');
+        this.error = 'Hiba történt az eredmények betöltésekor';
+        this.isLoading = false;
+      }
+    });
+  }
+
   ngOnInit() {
     this.user = this.auth.loggedUser().data;
     this.roomName = this.route.snapshot.paramMap.get('roomName') || '';
@@ -49,7 +102,7 @@ export class SummaryDuelComponent implements OnInit {
       return;
     }
     
-    // Ensure socket is connected before setting up listeners
+    // Ensure socket is connected
     if (!this.socketService.isConnected()) {
       this.socketService.connect();
     }
@@ -63,112 +116,60 @@ export class SummaryDuelComponent implements OnInit {
       name: this.user.name
     });
     
-    // First get room info for category name and ID
+    // Get room info - this will trigger the summary request
     this.socketService.emit("getRoomInfo", { roomName: this.roomName });
-    
-    // Then request summary data after a short delay to ensure everything is loaded
-    setTimeout(() => {
-      this.socketService.emit("getDuelSummary", { roomName: this.roomName });
-    }, 300);
   }
-  
-  private setupSocketListeners() {
-    // Clean up previous listeners
-    this.socketService.off("playerList");
-    this.socketService.off("duelSummary");
-    this.socketService.off("roomInfo");
-    
-    // Get players list
-    this.socketService.on("playerList", (members: any) => {
-      this.players = Array.from(new Map(members.map((item: any) => [item.name, item])).values());
-    });
-    
-    // Get room info for category name
-    this.socketService.on("roomInfo", (info: any) => {
-      if (info && info.category) {
-        this.categoryName = info.category;
-        
-        // Store categoryId for later use
-        if (info.categoryId) {
-          this.categoryId = info.categoryId;
-        }
-      }
-    });
-    
-    // Get duel summary data
-    this.socketService.on("duelSummary", (data: any) => {
-      if (data) {
-        this.gameResults = data.results || [];
-        this.finalResult = data.finalResult || { isDraw: false, scores: {} };
-        
-        // Add a delay to make sure room info and players are loaded
-        setTimeout(() => {
-          // Save match result to database if user is room owner
-          if (this.user.name === this.roomName) {
-            this.saveMatchResult();
-          }
-        }, 500);
-        
-        this.isLoading = false;
-      }
-    });
-  }
-  
-  saveMatchResult() {
-    console.warn('Saving match result...');
-    // Only room owner saves the match result to avoid duplicates
-    if (!this.finalResult || !this.players || this.players.length < 2) return;
-    
-    // We need to fetch actual user IDs since the players array might only have socket IDs
-    // Get player info for the room owner
-    const player1Name = this.roomName;
-    
-    // Find any other player for player 2
-    const player2Name = this.players.find(p => p.name !== this.roomName)?.name;
-    
-    if (!player1Name || !player2Name) {
-      console.error('Cannot identify both players:', this.players);
-      return;
-    }
-    
-    // Fetch all users at once and find player IDs
-    this.fetchUserIds([player1Name, player2Name]).then(userMap => {
-      const player1Id = userMap.get(player1Name);
-      const player2Id = userMap.get(player2Name);
-      
-      if (!player1Id || !player2Id) {
-        console.error('Could not get valid IDs for one or more players');
+
+  private async saveMatchResult() {
+    try {
+      if (!this.finalResult || !this.players || this.players.length < 2) {
+        console.warn('Not enough data to save match result');
         return;
       }
-      
-      // Determine match winner's ID
+
+      const player1Name = this.roomName;
+      const player2Name = this.players.find(p => p.name !== this.roomName)?.name;
+
+      if (!player1Name || !player2Name) {
+        console.error('Cannot identify players:', this.players);
+        return;
+      }
+
+      const userMap = await this.fetchUserIds([player1Name, player2Name]);
+      const player1Id = userMap.get(player1Name);
+      const player2Id = userMap.get(player2Name);
+
+      if (!player1Id || !player2Id) {
+        console.error('Could not get valid IDs for players');
+        return;
+      }
+
+      // Determine winner ID
       let winnerId = null;
       if (!this.finalResult.isDraw && this.finalResult.winner) {
-        // Map winner name to the corresponding user ID
         winnerId = this.finalResult.winner === player1Name ? player1Id : 
                   this.finalResult.winner === player2Name ? player2Id : null;
       }
-      
-      // Prepare data to match games table schema exactly
+
       const matchData = {
         player1ID: player1Id,
         player2ID: player2Id,
-        winnerID: winnerId, // null if draw
-        categoryId: this.categoryId  // Match the expected field
+        winnerID: winnerId,
+        categoryId: this.categoryId
       };
-      
-      console.warn('Saving match result with data:', matchData);
-      
-      // Save the match result
+
+      console.log('Saving match result:', matchData);
+
       this.api.saveMatchResult(matchData).subscribe({
-        next: (response) => console.warn('Match result saved:', response),
+        next: (response) => console.log('Match result saved:', response),
         error: (err) => console.error('Error saving match result:', err)
       });
-    }).catch(error => {
-      console.error('Error fetching user data:', error);
-    });
+
+    } catch (error) {
+      console.error('Error in saveMatchResult:', error);
+    }
   }
-  
+
   // Helper method to fetch user IDs for multiple usernames at once
   private fetchUserIds(usernames: string[]): Promise<Map<string, string>> {
     return new Promise((resolve, reject) => {

@@ -1,0 +1,123 @@
+<h3 class="title">Klasszikus - Párbaj</h3>
+
+<div class="game-container">
+  <!-- Loading indicator -->
+  <div *ngIf="loading" class="loading">
+    <p>Játék betöltése...</p>
+    <button (click)="reloadGame()" class="submit-button">
+      Újrapróbál
+    </button>
+  </div>
+  
+  <!-- Error message -->
+  <div *ngIf="error" class="error-message">
+    <p>Hiba történt: {{ error }}</p>
+    <button (click)="router.navigate(['/parbaj'])" class="nav-button">Vissza a párbajokhoz</button>
+  </div>
+  
+  <!-- Game content -->
+  <div *ngIf="!loading && !error" class="game-content">
+    <!-- Players box -->
+    <div class="players-box" *ngIf="players.length > 0">
+      <h4 class="players-title">Játékosok</h4>
+      <ul class="players-list">
+        <li *ngFor="let player of players" 
+            class="player-item" 
+            [class.current-turn]="player.name === currentPlayer">
+          {{ player.name }}
+        </li>
+      </ul>
+      
+      <!-- Game sequence information -->
+      <div class="game-sequence" *ngIf="gameSequence.length > 1">
+        <h4>Játék sorrend:</h4>
+        <ul class="game-sequence-list">
+          <li *ngFor="let game of gameSequence; let i = index" 
+              [class.current-game]="game === currentGame"
+              [class.completed-game]="i < currentGameIndex">
+            {{ getGameDisplayName(game) }}
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Autocomplete input -->
+    <div class="autocomplete-wrapper">
+      <p-autoComplete [(ngModel)]="selectedCharacter"
+                    (completeMethod)="filterCharacters($event)"
+                    [suggestions]="filteredCharacters"
+                    (onSelect)="onCharacterSelect($event)"
+                    (keyup.enter)="submitCharacter()"
+                    [disabled]="currentPlayer !== user.name"
+                    placeholder="{{currentPlayer === user.name ? 'Írd be a karaktert...' : 'Várd meg a köröd...'}}"
+                    class="custom-autocomplete">
+      </p-autoComplete>
+      <button (click)="submitCharacter()" 
+              class="submit-button"
+              [disabled]="currentPlayer !== user.name">
+        <span class="arrow-icon">▶</span>
+      </button>
+    </div>
+
+    <!-- Guesses table -->
+    <div class="guess-container" *ngIf="previousGuesses.length > 0">
+      <table class="guess-table">
+        <thead>
+          <tr>
+            <th>Név</th>
+            <th>Nem</th>
+            <th>Magasság</th>
+            <th>Súly</th>
+            <th>Hajszín</th>
+            <th>Származás</th>
+            <th>Életkor</th>
+            <th>Játékos</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let guess of previousGuesses">
+            <td [ngClass]="{'correct': guess.answer === targetCharacter?.answer}">
+              {{ guess.answer }}
+            </td>
+            <td [ngClass]="{'correct': isPropertyCorrect('gender', guess)}">
+              {{ guess.gender }}
+            </td>
+            <td [ngClass]="{'correct': isPropertyCorrect('height', guess)}">
+              {{ guess.height }}
+              <span *ngIf="showPropertyHint('height', guess)" class="hint-arrow">
+                {{ getPropertyHint('height', guess) }}
+              </span>
+            </td>
+            <td [ngClass]="{'correct': isPropertyCorrect('weight', guess)}">
+              {{ guess.weight }}
+              <span *ngIf="showPropertyHint('weight', guess)" class="hint-arrow">
+                {{ getPropertyHint('weight', guess) }}
+              </span>
+            </td>
+            <td [ngClass]="{'correct': isPropertyCorrect('hairColor', guess)}">
+              {{ guess.hairColor }}
+            </td>
+            <td [ngClass]="{'correct': isPropertyCorrect('address', guess)}">
+              {{ guess.address }}
+            </td>
+            <td [ngClass]="{'correct': isPropertyCorrect('age', guess)}">
+              {{ guess.age }}
+              <span *ngIf="showPropertyHint('age', guess)" class="hint-arrow">
+                {{ getPropertyHint('age', guess) }}
+              </span>
+            </td>
+            <td>{{ guess.player }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Navigation buttons -->
+  <div class="navigation-buttons-container">
+    <div class="navigation-buttons">
+      <button (click)="router.navigate(['/parbaj'])" class="nav-button">Vissza a párbajokhoz</button>
+      <button (click)="reloadGame()" class="nav-button">Újratöltés</button>
+    </div>
+  </div>
+</div>

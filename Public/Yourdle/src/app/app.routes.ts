@@ -19,6 +19,7 @@ import { DescriptionDuelComponent } from './components/description-duel/descript
 import { PictureDuelComponent } from './components/picture-duel/picture-duel.component';
 import { SummaryDuelComponent } from './components/summary-duel/summary-duel.component';
 import { QuoteDuelComponent } from './components/quote-duel/quote-duel.component';
+import { ClassicDuelComponent } from './components/classic-duel/classic-duel.component';
 // Import any other needed duel components (if they exist)
 
 export const routes: Routes = [
@@ -63,14 +64,17 @@ export const routes: Routes = [
     { path: 'quote-game/:id/:modeIndex', component: QuoteGameComponent },
     { path: 'emoji-game/:id/:modeIndex', component: EmojiGameComponent },
     { path: 'picture-game/:id/:modeIndex', component: PictureGameComponent },
-    { path: 'description-game/:id/:modeIndex', component: DescriptionGameComponent },    
-    //Duel játékmódok:
+    { path: 'description-game/:id/:modeIndex', component: DescriptionGameComponent },
+    
+    // Add dedicated routes for all duel types
     { path: 'description-duel/:roomName', component: DescriptionDuelComponent, canActivate: [UserAuthGuard] },
     { path: 'picture-duel/:roomName', component: PictureDuelComponent, canActivate: [UserAuthGuard] },
     { path: 'summary-duel/:roomName', component: SummaryDuelComponent, canActivate: [UserAuthGuard] },
-    { path: 'quote-duel/:roomName', redirectTo: '/description-duel/:roomName', pathMatch: 'prefix' },
+    { path: 'quote-duel/:roomName', component: QuoteDuelComponent, canActivate: [UserAuthGuard] },
+    { path: 'classic-duel/:roomName', component: ClassicDuelComponent, canActivate: [UserAuthGuard] },
     
-    //Ezek még nincsenek megcsinálva:
-    { path: 'classic-duel/:roomName', redirectTo: '/description-duel/:roomName', pathMatch: 'prefix' },
+    // Add placeholder routes for the other duel games to complete the sequence system
+    // These component references will need to be replaced with actual components when they're created
+    { path: 'quote-duel/:roomName', redirectTo: '/description-duel/:roomName', pathMatch: 'prefix' },
     { path: 'emoji-duel/:roomName', redirectTo: '/description-duel/:roomName', pathMatch: 'prefix' },
 ];
