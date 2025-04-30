@@ -1,4 +1,4 @@
-import { getAllClassicService, getAllEmojiService, getSolutionClassicService, getSolutionEmojiService, getAllDescriptionService, getSolutionDescriptionService, getAllQuoteService, getSolutionQuoteService, getAllPictureService, getSolutionPictureService, getAllLeaderboardService, getLeaderboardOneUserService, saveMatchResultService } from "../services/game.service";
+import { getAllClassicService, getAllEmojiService, getSolutionClassicService, getSolutionEmojiService, getAllDescriptionService, getSolutionDescriptionService, getAllQuoteService, getSolutionQuoteService, getAllPictureService, getSolutionPictureService, getAllLeaderboardService, getLeaderboardOneUserService, saveMatchResultService, uploadLeaderboardService } from "../services/game.service";
 
 
 export const getAllClassic = async (req, res, next) => {
@@ -199,6 +199,29 @@ export const getSolutionPicture = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
+}
+
+export const uploadLeaderboard = async (req, res, next) =>{
+
+    try {
+        const {player1ID, player2ID, winnerID} = req.body
+        if (!player1ID || !player2ID){
+            return res.status(400).json({success:false, message: "Hiányzó adatok!"});
+        }
+
+        const result = await uploadLeaderboardService(player1ID, player2ID, winnerID);
+        
+        if (result.success) {
+            return res.status(200).json(result);
+        } else {
+            return res.status(400).json(result);
+        }
+
+
+    } catch (error) {
+        next(error)
+    }
+
 }
 
 export const getAllLeaderboard = async (req, res, next) =>{

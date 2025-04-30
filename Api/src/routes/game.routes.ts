@@ -1,5 +1,6 @@
 import { Router } from "express";
-import { getAllClassic, getAllEmoji, getSolutionClassic, getSolutionEmoji, getAllDescription, getSolutionDescription, getSolutionQuote, getAllQuote, getAllPicture, getSolutionPicture, getAllLeaderboard, getLeaderboardOneUser, saveMatchResult } from "../controllers/game.controller";
+import { getAllClassic, getAllEmoji, getSolutionClassic, getSolutionEmoji, getAllDescription, getSolutionDescription, getSolutionQuote, getAllQuote, getAllPicture, getSolutionPicture, getAllLeaderboard, getLeaderboardOneUser, saveMatchResult, uploadLeaderboard } from "../controllers/game.controller";
+import { authMiddleware } from "../middleware/AuthMiddleware";
 const router = Router();
 
 router.get("/allClassic/:id", getAllClassic);
@@ -22,7 +23,9 @@ router.get("/allPicture/:id", getAllPicture);
 
 router.get("/solutionPicture/:id", getSolutionPicture);
 
-router.get("/leaderboard", getAllLeaderboard);
+router.post("/leaderboard", authMiddleware ,uploadLeaderboard);
+
+router.get("/leaderboard" ,getAllLeaderboard);
 
 router.get("/leaderboard/:id",  getLeaderboardOneUser);
 

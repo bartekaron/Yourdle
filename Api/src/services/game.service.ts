@@ -215,6 +215,58 @@ export const getSolutionPictureService = async (id) => {
     }
 }
 
+export const uploadLeaderboardService = async (player1ID, player2ID, winnerID) => {
+    try {
+        const players = [player1ID, player2ID];
+
+        for (const userID of players) {
+            await new Promise<void>((resolve, reject) => {
+                pool.query(
+                    `INSERT INTO leaderboard (id, userID, wins, losses, draws)
+                     SELECT ?, ?, 0, 0, 0 FROM DUAL
+                     WHERE NOT EXISTS (
+                         SELECT 1 FROM leaderboard WHERE userID = ?
+                     )`,
+                    [uuidv4(), userID, userID],
+                    (err) => {
+                        if (err) return reject(err);
+                        resolve();
+                    }
+                );
+            });
+        }
+
+        if (winnerID === player1ID) {
+            await updateStats(player1ID, "wins");
+            await updateStats(player2ID, "losses");
+        } else if (winnerID === player2ID) {
+            await updateStats(player2ID, "wins");
+            await updateStats(player1ID, "losses");
+        } else {
+            await updateStats(player1ID, "draws");
+            await updateStats(player2ID, "draws");
+        }
+
+        return { success: true, message: "Leaderboard frissítve!" };
+    } catch (error) {
+        console.error("uploadLeaderboardService hiba:", error);
+        return { success: false, message: "Nem sikerült frissíteni a toplistát!" };
+    }
+};
+
+const updateStats = async (userID: string, field: "wins" | "losses" | "draws") => {
+    return new Promise<void>((resolve, reject) => {
+        pool.query(
+            `UPDATE leaderboard SET ${field} = ${field} + 1 WHERE userID = ?`,
+            [userID],
+            (err) => {
+                if (err) return reject(err);
+                resolve();
+            }
+        );
+    });
+};
+
 export const getAllLeaderboardService = async () => {
     try {
         const leaderboard:any = await new Promise((resolve, reject) => {

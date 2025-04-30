@@ -46,6 +46,10 @@ import { throwError } from 'rxjs';
       return this.http.patch(this.server + '/public/'+table+'/'+field+'/'+op+'/'+value, data);
     }
 
+    uploadLeaderboard(data: object){
+      return this.http.post(this.server + "/games/leaderboard", data, this.tokenHeader())
+    }
+
     getLeaderboard(){
       return this.http.get(this.server + "/games/leaderboard")
     }

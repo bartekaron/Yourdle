@@ -21,7 +21,10 @@ export class SummaryDuelComponent implements OnInit {
   categoryName: string = '';
   categoryId: string = '';
   isLoading: boolean = true;
+  savedResult = false;
+  private summaryReceived = false;
   error: string = '';
+
   finalResult: {
     winner?: string;
     isDraw: boolean;
@@ -37,6 +40,7 @@ export class SummaryDuelComponent implements OnInit {
     private api: ApiService,
     private auth: AuthService,
     private socketService: SocketService
+    
   ) {}
   
   private setupSocketListeners() {
@@ -53,18 +57,29 @@ export class SummaryDuelComponent implements OnInit {
     
     // Get room info for category name
     this.socketService.on("roomInfo", (info: any) => {
-      console.log('Received room info:', info);
-      if (info && info.category) {
-        this.categoryName = info.category;
-        this.categoryId = info.categoryId || '';
-        
-        // Request summary data after receiving room info
-        this.socketService.emit("getDuelSummary", { roomName: this.roomName });
+      this.categoryName = info.category;
+      this.categoryId = info.categoryId || '';
+      if (info.targetCharacter) {
+        console.log('Target character:', info.targetCharacter);
       }
+      this.socketService.emit("getDuelSummary", { roomName: this.roomName });
     });
+    
+    this.socketService.on("targetCharacter", ({ target }) => {
+      console.log('Received targetCharacter:', target);
+    });
+    
     
     // Get duel summary data
     this.socketService.on("duelSummary", (data: any) => {
+
+      if (this.summaryReceived) {
+        console.warn('Summary already received, ignoring duplicate.');
+        return;
+      }
+      this.summaryReceived = true;
+
+
       console.log('Received duel summary:', data);
       if (data) {
         this.gameResults = data.results || [];
@@ -93,6 +108,7 @@ export class SummaryDuelComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log('[SummaryDuelComponent] ngOnInit called');
     this.user = this.auth.loggedUser().data;
     this.roomName = this.route.snapshot.paramMap.get('roomName') || '';
     
@@ -122,6 +138,12 @@ export class SummaryDuelComponent implements OnInit {
 
   private async saveMatchResult() {
     try {
+
+      if (this.savedResult) {
+        console.warn('Match result already saved. Skipping duplicate.');
+        return;
+      }
+
       if (!this.finalResult || !this.players || this.players.length < 2) {
         console.warn('Not enough data to save match result');
         return;
@@ -159,11 +181,18 @@ export class SummaryDuelComponent implements OnInit {
       };
 
       console.log('Saving match result:', matchData);
+      this.savedResult = true;
 
       this.api.saveMatchResult(matchData).subscribe({
         next: (response) => console.log('Match result saved:', response),
-        error: (err) => console.error('Error saving match result:', err)
+        error: (err) => 
+          {
+          console.error('Error saving match result:', err)
+        this.savedResult = false;
+      }
       });
+
+      this.api.uploadLeaderboard(matchData).subscribe();
 
     } catch (error) {
       console.error('Error in saveMatchResult:', error);

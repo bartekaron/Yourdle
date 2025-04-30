@@ -284,19 +284,6 @@ export function initializeSocketIO(io: Server) {
                     target
                 });
 
-                // When sending room info, include the target character
-                socket.on("getRoomInfo", ({ roomName }) => {
-                    if (rooms.has(roomName)) {
-                        const room = rooms.get(roomName);
-                        socket.emit("roomInfo", {
-                            owner: room.owner,
-                            category: room.category,
-                            categoryId: room.categoryId,
-                            gameTypes: room.gameTypes,
-                            targetCharacter: room.targetCharacter // Include target character
-                        });
-                    }
-                });
             }
         });
 
