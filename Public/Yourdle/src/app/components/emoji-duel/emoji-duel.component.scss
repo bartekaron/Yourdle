@@ -1,0 +1,60 @@
+@use '../emoji-game/emoji-game.component.scss' as emoji-game;
+
+/* Additional styles for duel mode */
+.players-box {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(15, 15, 30, 0.95);
+  border: 2px solid #ff00ff;
+  border-radius: 1rem;
+  box-shadow: 0 0 20px #ff00ff;
+  padding: 1.5rem;
+  min-width: 200px;
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+}
+
+.players-title {
+  color: #ff00ff;
+  font-size: 1.5rem;    
+  text-align: center;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 10px #ff00ff;
+}
+
+.players-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.player-item {
+  color: #fff;
+  padding: 0.8rem;
+  margin: 0.5rem 0;
+  border-radius: 0.5rem;
+  background: rgba(255, 0, 255, 0.1);
+  text-align: center;
+  text-shadow: 0 0 5px #ff00ff;
+  transition: all 0.3s ease;
+}
+
+.player-item.current-turn {
+  border: 1px solid #ff00ff;
+  background: rgba(255, 0, 255, 0.2);
+  box-shadow: 0 0 15px #ff00ff;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 15px #ff00ff;
+  }
+  50% {
+    box-shadow: 0 0 25px #ff00ff;
+  }
+  100% {
+    box-shadow: 0 0 15px #ff00ff;
+  }
+}
