@@ -1,0 +1,74 @@
+<h3 class="title">Emoji - Párbaj</h3>
+
+<div class="game-container">
+  <!-- Loading indicator -->
+  <div *ngIf="loading" class="loading">
+    <p>Játék betöltése...</p>
+  </div>
+  
+  <!-- Error message -->
+  <div *ngIf="error" class="error-message">
+    <p>Hiba történt: {{ error }}</p>
+    <button (click)="router.navigate(['/parbaj'])" class="nav-button">Vissza a párbajokhoz</button>
+  </div>
+
+  <div *ngIf="!loading && !error" class="game-content">
+    <!-- Players box -->
+    <div class="players-box" *ngIf="players.length > 0">
+      <h4 class="players-title">Játékosok</h4>
+      <ul class="players-list">
+        <li *ngFor="let player of players" 
+            class="player-item" 
+            [class.current-turn]="player.name === currentPlayer">
+          {{ player.name }}
+        </li>
+      </ul>
+    </div>
+
+    <!-- Emoji container -->
+    <div class="emoji-container">
+      <ng-container *ngIf="allEmojis.length > 0; else noEmojis">
+        <span *ngFor="let emoji of allEmojis; let i = index" class="emoji">
+          {{ i < revealedEmojis.length ? revealedEmojis[i] : '?' }}
+        </span>
+      </ng-container>
+      <ng-template #noEmojis>
+        <p>Nincsenek elérhető emojik</p>
+      </ng-template>
+    </div>
+
+    <!-- Guesses container -->
+    <div class="guesses-container">
+      <p *ngFor="let guess of previousGuesses" 
+         [ngClass]="{'correct-guess': guess.isCorrect, 'incorrect-guess': !guess.isCorrect}" 
+         class="guess">
+        {{ guess.answer }} <span *ngIf="guess.player">({{ guess.player }})</span>
+      </p>
+    </div>
+
+    <!-- Input container -->
+    <div class="input-container">
+      <p-autoComplete [(ngModel)]="selectedCharacter"
+                    (keyup.enter)="submitCharacter()"
+                    (onSelect)="onCharacterSelect($event)"
+                    [suggestions]="filteredCharacters"
+                    (completeMethod)="filterCharacters($event)"
+                    [placeholder]="currentPlayer === user.name ? 'Írd be a karaktert...' : 'Várd meg a köröd...'"
+                    [disabled]="currentPlayer !== user.name"
+                    class="custom-autocomplete">
+      </p-autoComplete>
+      <button (click)="submitCharacter()" 
+              class="submit-button"
+              [disabled]="currentPlayer !== user.name">
+        <span class="arrow-icon">▶</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Navigation buttons -->
+  <div class="navigation-buttons-container">
+    <div class="navigation-buttons">
+      <button (click)="router.navigate(['/parbaj'])" class="nav-button">Vissza a párbajokhoz</button>
+    </div>
+  </div>
+</div>

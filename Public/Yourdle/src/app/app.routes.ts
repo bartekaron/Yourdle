@@ -20,6 +20,7 @@ import { PictureDuelComponent } from './components/picture-duel/picture-duel.com
 import { SummaryDuelComponent } from './components/summary-duel/summary-duel.component';
 import { QuoteDuelComponent } from './components/quote-duel/quote-duel.component';
 import { ClassicDuelComponent } from './components/classic-duel/classic-duel.component';
+import { EmojiDuelComponent } from './components/emoji-duel/emoji-duel.component';
 // Import any other needed duel components (if they exist)
 
 export const routes: Routes = [
@@ -72,9 +73,5 @@ export const routes: Routes = [
     { path: 'summary-duel/:roomName', component: SummaryDuelComponent, canActivate: [UserAuthGuard] },
     { path: 'quote-duel/:roomName', component: QuoteDuelComponent, canActivate: [UserAuthGuard] },
     { path: 'classic-duel/:roomName', component: ClassicDuelComponent, canActivate: [UserAuthGuard] },
-    
-    // Add placeholder routes for the other duel games to complete the sequence system
-    // These component references will need to be replaced with actual components when they're created
-    { path: 'quote-duel/:roomName', redirectTo: '/description-duel/:roomName', pathMatch: 'prefix' },
-    { path: 'emoji-duel/:roomName', redirectTo: '/description-duel/:roomName', pathMatch: 'prefix' },
+    { path: 'emoji-duel/:roomName', component: EmojiDuelComponent, canActivate: [UserAuthGuard] },
 ];
