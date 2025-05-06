@@ -1,4 +1,4 @@
-import { getAllClassicService, getAllEmojiService, getSolutionClassicService, getSolutionEmojiService, getAllDescriptionService, getSolutionDescriptionService, getAllQuoteService, getSolutionQuoteService, getAllPictureService, getSolutionPictureService, getAllLeaderboardService, getLeaderboardOneUserService, saveMatchResultService, uploadLeaderboardService } from "../services/game.service";
+import { getAllClassicService, getAllEmojiService, getSolutionClassicService, getSolutionEmojiService, getAllDescriptionService, getSolutionDescriptionService, getAllQuoteService, getSolutionQuoteService, getAllPictureService, getSolutionPictureService, getAllLeaderboardService, getLeaderboardOneUserService, saveMatchResultService, uploadLeaderboardService,  getPictureByIdService } from "../services/game.service";
 
 
 export const getAllClassic = async (req, res, next) => {
@@ -200,6 +200,26 @@ export const getSolutionPicture = async (req, res, next) => {
         next(error);
     }
 }
+
+// Add new controller for getting picture by ID
+export const getPictureById = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        if (!id) {
+            return res.status(400).json({ success: false, message: "Missing character ID!" });
+        }
+
+        const result = await getPictureByIdService(id);
+
+        if (result.success) {
+            return res.status(200).json(result);
+        } else {
+            return res.status(400).json(result);
+        }
+    } catch (error) {
+        next(error);
+    }
+};
 
 export const uploadLeaderboard = async (req, res, next) =>{
 

@@ -56,6 +56,10 @@
                     [placeholder]="currentPlayer === user.name ? 'Írd be a karaktert...' : 'Várd meg a köröd...'"
                     [disabled]="currentPlayer !== user.name"
                     class="custom-autocomplete">
+        <!-- Show just the answer text in dropdown items -->
+        <ng-template let-item pTemplate="item">
+          {{extractAnswerFromItem(item)}}
+        </ng-template>
       </p-autoComplete>
       <button (click)="submitCharacter()" 
               class="submit-button"

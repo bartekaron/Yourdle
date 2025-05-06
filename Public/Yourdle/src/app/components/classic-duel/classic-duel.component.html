@@ -44,13 +44,21 @@
     <!-- Autocomplete input -->
     <div class="autocomplete-wrapper">
       <p-autoComplete [(ngModel)]="selectedCharacter"
-                    (completeMethod)="filterCharacters($event)"
-                    [suggestions]="filteredCharacters"
-                    (onSelect)="onCharacterSelect($event)"
                     (keyup.enter)="submitCharacter()"
-                    [disabled]="currentPlayer !== user.name"
+                    (onSelect)="onCharacterSelect($event)"
+                    [suggestions]="filteredCharacters"
+                    (completeMethod)="filterCharacters($event)"
                     placeholder="{{currentPlayer === user.name ? 'Írd be a karaktert...' : 'Várd meg a köröd...'}}"
+                    [disabled]="currentPlayer !== user.name"
+                    field="answer"
                     class="custom-autocomplete">
+        <!-- Show just the answer text in dropdown items -->
+        <ng-template let-item pTemplate="item">
+          {{item.answer}}
+        </ng-template>
+        <ng-template let-item pTemplate="selectedItem">
+          {{extractAnswerFromItem(item)}}
+        </ng-template>
       </p-autoComplete>
       <button (click)="submitCharacter()" 
               class="submit-button"

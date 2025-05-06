@@ -302,11 +302,47 @@ export class EmojiDuelComponent implements OnInit, OnDestroy {
 
   filterCharacters(event: any) {
     let query = event.query.toLowerCase();
-    this.filteredCharacters = this.characters
-      .map(char => char.answer)
-      .filter((name: string) =>
-        name.toLowerCase().includes(query)
-      );
+    this.filteredCharacters = this.characters.filter(
+      (character) => character.answer.toLowerCase().indexOf(query) >= 0
+    );
+  }
+
+  // Add this helper method to extract the answer field from any item type
+  extractAnswerFromItem(item: any): string {
+    if (!item) return '';
+    
+    // If it's already a string, return it directly
+    if (typeof item === 'string') return item;
+    
+    // If it's an object with an answer property, return that
+    if (typeof item === 'object') {
+      // Direct answer property
+      if (item.answer) return item.answer;
+      
+      // For objects like the one in your example with nested value
+      if (item.value && item.value.answer) return item.value.answer;
+      
+      // For JSON strings, try to parse
+      try {
+        const parsed = JSON.parse(JSON.stringify(item));
+        if (parsed && parsed.answer) return parsed.answer;
+        if (parsed && parsed.value && parsed.value.answer) return parsed.value.answer;
+      } catch (e) {
+        // Not a JSON string, ignore
+      }
+    }
+    
+    // Fallback to string representation
+    return String(item);
+  }
+  
+  onCharacterSelect(event: any) {
+    console.log('Original selected event:', event);
+    
+    // Extract answer from the event object, no matter how deeply nested
+    this.selectedCharacter = this.extractAnswerFromItem(event);
+    
+    console.log('Processed selected character:', this.selectedCharacter);
   }
 
   submitCharacter() {
@@ -315,65 +351,80 @@ export class EmojiDuelComponent implements OnInit, OnDestroy {
       return;
     }
     
-    if (this.selectedCharacter || this.filteredCharacters.length === 1) {
-      const characterToSubmit = this.selectedCharacter || this.filteredCharacters[0];
-      
-      const isCorrect = characterToSubmit === this.targetCharacter.answer;
-      
-      const guess = {
-        answer: characterToSubmit,
-        isCorrect: isCorrect,
-        player: this.user.name
-      };
-
-      // Ne adjuk hozzá itt a tippet, azt majd a "newGuess" esemény kezelőjében tesszük meg
-      this.characters = this.characters.filter(char => char.answer !== characterToSubmit);
-      
-      // Következő játékos kiválasztása
-      const currentPlayerIndex = this.players.findIndex(p => p.name === this.currentPlayer);
-      const nextPlayerIndex = (currentPlayerIndex + 1) % this.players.length;
-      const nextPlayer = this.players[nextPlayerIndex].name;
-
-      // Emit the guess and change turn
-      this.socketService.emit("submitGuess", {
-        roomName: this.roomName,
-        guess: guess,
-        player: this.user.name
-      });
-
-      this.socketService.emit("playerTurn", {
-        roomName: this.roomName,
-        playerName: nextPlayer
-      });
-
-      if (isCorrect) {
-        const nextGameIndex = this.currentGameIndex + 1;
-        const nextGame = nextGameIndex < this.gameSequence.length ? this.gameSequence[nextGameIndex] : null;
-        
-        this.socketService.emit("gameCompleted", {
-          roomName: this.roomName,
-          winner: this.user.name,
-          targetCharacter: this.targetCharacter,
-          currentGame: 'emoji',
-          nextGame: nextGame
-        });
-
-        // Várjunk egy kicsit a következő játékra váltás előtt
-        setTimeout(() => {
-          if (nextGame) {
-            this.router.navigate([`/${nextGame}-duel`, this.roomName]);
-          } else {
-            this.router.navigate(['/summary-duel', this.roomName]);
-          }
-        }, 2000);
-      }
-
-      this.selectedCharacter = '';
+    if (!this.selectedCharacter && this.filteredCharacters.length === 1) {
+      // Use just the answer property if auto-selecting
+      this.selectedCharacter = this.filteredCharacters[0].answer;
     }
-  }
+    
+    if (!this.selectedCharacter) return;
+    
+    // Extract answer if it's still an object
+    const selectedValue = this.extractAnswerFromItem(this.selectedCharacter).toLowerCase();
+    
+    // Find the matching character object from our list
+    const characterToSubmit = this.characters.find(
+      char => char.answer.toLowerCase() === selectedValue
+    );
+    
+    if (!characterToSubmit) {
+      console.warn('No matching character found for:', this.selectedCharacter);
+      return;
+    }
+    
+    const isCorrect = characterToSubmit.answer === this.targetCharacter.answer;
+    
+    const guess = {
+      answer: characterToSubmit.answer,
+      isCorrect: isCorrect,
+      player: this.user.name
+    };
+    
+    // Remove guessed character from available options
+    this.characters = this.characters.filter(char => 
+      char.answer.toLowerCase() !== characterToSubmit.answer.toLowerCase()
+    );
+    
+    // Find next player's turn
+    const currentPlayerIndex = this.players.findIndex(p => p.name === this.currentPlayer);
+    const nextPlayerIndex = (currentPlayerIndex + 1) % this.players.length;
+    const nextPlayer = this.players[nextPlayerIndex].name;
 
-  onCharacterSelect(event: any) {
-    this.selectedCharacter = event.value;
+    // Emit the guess to all players
+    this.socketService.emit("submitGuess", {
+      roomName: this.roomName,
+      guess: guess,
+      player: this.user.name
+    });
+
+    // Change turn to next player
+    this.socketService.emit("playerTurn", {
+      roomName: this.roomName,
+      playerName: nextPlayer
+    });
+
+    if (isCorrect) {
+      const nextGameIndex = this.currentGameIndex + 1;
+      const nextGame = nextGameIndex < this.gameSequence.length ? this.gameSequence[nextGameIndex] : null;
+      
+      this.socketService.emit("gameCompleted", {
+        roomName: this.roomName,
+        winner: this.user.name,
+        targetCharacter: this.targetCharacter,
+        currentGame: 'emoji',
+        nextGame: nextGame
+      });
+
+      // Wait a bit before navigating to the next game
+      setTimeout(() => {
+        if (nextGame) {
+          this.router.navigate([`/${nextGame}-duel`, this.roomName]);
+        } else {
+          this.router.navigate(['/summary-duel', this.roomName]);
+        }
+      }, 2000);
+    }
+
+    this.selectedCharacter = '';
   }
 
   ngOnDestroy() {

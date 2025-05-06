@@ -185,19 +185,30 @@ export const getAllPictureService = async (id) => {
     }
 }
 
-
 export const getSolutionPictureService = async (id) => {
     try {
+        // Extract the base ID without any query parameters
+        const baseId = id.split('?')[0];
+        
+        // Always generate a new timestamp for true randomness
+        const timestamp = Date.now();
+        
         const result:any = await new Promise((resolve, reject) =>
-            pool.query(`SELECT id, categoryID, answer, picture FROM picture WHERE categoryID = ? ORDER BY RAND() LIMIT 1`, [id], (err, results) => {
-                if (err) {
-                    return reject(new Error('Hiba az adatbázis kapcsolatban!'));
+            pool.query(
+                `SELECT id, categoryID, answer, picture FROM picture 
+                 WHERE categoryID = ? 
+                 ORDER BY RAND(${timestamp}) LIMIT 1`, 
+                [baseId], 
+                (err, results) => {
+                    if (err) {
+                        return reject(new Error('Hiba az adatbázis kapcsolatban!'));
+                    }
+                    if (results.length === 0) {
+                        return resolve(null);
+                    }
+                    resolve(results[0]);
                 }
-                if (results.length === 0) {
-                    return resolve(null);
-                }
-                resolve(results[0]);
-            })
+            )
         );
 
         if (!result) {
@@ -211,7 +222,42 @@ export const getSolutionPictureService = async (id) => {
 
         return { success: true, data: result }; 
     } catch (error) {
+        console.error("Error in getSolutionPictureService:", error);
         return { success: false, message: "Nem sikerült képet lekérni!" };
+    }
+}
+
+// Add a new service to get a specific picture by ID
+export const getPictureByIdService = async (id) => {
+    try {
+        const result:any = await new Promise((resolve, reject) =>
+            pool.query(
+                `SELECT id, categoryID, answer, picture FROM picture WHERE id = ?`, 
+                [id], 
+                (err, results) => {
+                    if (err) {
+                        return reject(new Error('Hiba az adatbázis kapcsolatban!'));
+                    }
+                    if (results.length === 0) {
+                        return resolve(null);
+                    }
+                    resolve(results[0]);
+                }
+            )
+        );
+
+        if (!result) {
+            return { success: false, message: "Nem található kép ezzel az azonosítóval!" };
+        }
+
+        // Decrypt the picture
+        if (result.picture) {
+            result.picture = decrypt(result.picture);
+        }
+
+        return { success: true, data: result }; 
+    } catch (error) {
+        return { success: false, message: "Nem sikerült képet lekérni az azonosító alapján!" };
     }
 }
 
@@ -370,4 +416,3 @@ export const saveMatchResultService = async (matchData: { player1ID: string; pla
     return { success: false, message: 'Database error occurred' };
   }
 };
-

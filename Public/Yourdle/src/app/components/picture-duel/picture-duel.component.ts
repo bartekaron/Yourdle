@@ -12,8 +12,8 @@ import { environment } from '../../../environments/environment';
   selector: 'app-picture-duel',
   standalone: true,
   imports: [CommonModule, FormsModule, AutoCompleteModule],
-  templateUrl: './picture-duel.component.html',
-  styleUrl: './picture-duel.component.scss'
+  templateUrl: './picture-duel.component.html',  // IMPORTANT: Fixed the path
+  styleUrl: './picture-duel.component.scss'      // IMPORTANT: Fixed the path
 })
 export class PictureDuelComponent implements OnInit, OnDestroy {
   roomName: string = '';
@@ -44,6 +44,9 @@ export class PictureDuelComponent implements OnInit, OnDestroy {
   currentGameIndex: number = 0;
   currentGame: string = 'picture';
   
+  // Add a property to store the shared image URL
+  sharedImageUrl: string | null = null;
+
   constructor(
     private route: ActivatedRoute,
     public router: Router,
@@ -65,6 +68,17 @@ export class PictureDuelComponent implements OnInit, OnDestroy {
       return;
     }
 
+    // Ensure we're starting fresh with no cached target character or image
+    this.targetCharacter = null;
+    this.revealedPicture = null;
+    this.sharedImageUrl = null;
+    
+    // Reset game variables to ensure fresh state
+    this.blurLevel = 20;
+    this.previousGuesses = [];
+    this.characters = [];
+    this.filteredCharacters = [];
+    
     this.setupSocketListeners();
     
     // Check if socket is connected
@@ -136,6 +150,7 @@ export class PictureDuelComponent implements OnInit, OnDestroy {
     this.socketService.off("gameSequence");
     this.socketService.off("disconnect");
     this.socketService.off("connect");
+    this.socketService.off("updateRoomInfo");
 
     // Handle reconnection events
     this.socketService.on("connect", () => {
@@ -223,10 +238,16 @@ export class PictureDuelComponent implements OnInit, OnDestroy {
         if (info.targetCharacter) {
           this.targetCharacter = info.targetCharacter;
           
-          // Instead of directly using the picture property, load the decrypted image
-          this.loadDecryptedImage();
+          // Check if we have a shared image URL from the room owner
+          if (info.sharedImageUrl) {
+            this.sharedImageUrl = info.sharedImageUrl;
+            this.revealedPicture = this.sharedImageUrl;
+            this.loading = false;
+          } else {
+            // Fall back to loading the decrypted image
+            this.loadDecryptedImage();
+          }
           
-          this.loading = false;
           this.loadCharactersIfNeeded();
         } else {
           this.loadCharactersIfNeeded();
@@ -237,15 +258,20 @@ export class PictureDuelComponent implements OnInit, OnDestroy {
       }
     });
 
-    // Listen for target character updates - update this part
+    // Listen for target character updates
     this.socketService.on("targetCharacter", (data: any) => {
       if (data && data.target) {
         this.targetCharacter = data.target;
         
-        // Instead of directly using the picture property, load the decrypted image
-        this.loadDecryptedImage();
-        
-        this.loading = false;
+        // Check if we have a shared image URL
+        if (data.sharedImageUrl) {
+          this.sharedImageUrl = data.sharedImageUrl;
+          this.revealedPicture = this.sharedImageUrl;
+          this.loading = false;
+        } else {
+          // Fall back to loading the decrypted image
+          this.loadDecryptedImage();
+        }
       }
     });
 
@@ -339,20 +365,165 @@ export class PictureDuelComponent implements OnInit, OnDestroy {
       return;
     }
     
-    // Select a random character as the target
+    // Add a timestamp parameter to force a new random selection
+    const timestamp = Date.now();
+    console.log(`Requesting random image for category ${this.categoryId} with timestamp ${timestamp}`);
+    
+    this.api.getSolutionPicture(this.categoryId).subscribe({
+      next: (data: any) => {
+        if (data && data.success && data.data) {
+          console.log("Received random character from API:", data.data.answer);
+          this.targetCharacter = data.data;
+          
+          // Set the revealed picture directly from the API response
+          this.revealedPicture = data.data.picture;
+          this.sharedImageUrl = data.data.picture;
+          this.loading = false;
+          
+          // Share with other players
+          this.shareImageUrlWithOtherPlayers();
+        } else {
+          console.error("Failed to get random character from API, falling back to local selection");
+          this.performLocalRandomSelection();
+        }
+      },
+      error: (err) => {
+        console.error("Error getting random character:", err);
+        this.performLocalRandomSelection();
+      }
+    });
+  }
+  
+  private performLocalRandomSelection() {
+    // Select a random character as the target from the pre-fetched list
     const randomIndex = Math.floor(Math.random() * this.characters.length);
     this.targetCharacter = this.characters[randomIndex];
+    console.log("Selected local random target character:", this.targetCharacter.answer);
     
-    // Instead of directly using the picture property, load the decrypted image
-    this.loadDecryptedImage();
+    // For the fallback, use the picture property directly
+    if (this.targetCharacter.picture) {
+      this.revealedPicture = this.targetCharacter.picture;
+      this.sharedImageUrl = this.targetCharacter.picture;
+      this.loading = false;
+      
+      // Share with other players
+      this.shareImageUrlWithOtherPlayers();
+    } else {
+      // If no picture available, force direct image URL
+      this.forceDirectImageUrl();
+      this.loading = false;
+      
+      // Share with other players anyway
+      this.shareImageUrlWithOtherPlayers();
+    }
+  }
+
+  private loadDecryptedImage() {
+    if (this.targetCharacter && this.categoryId) {
+      // If we already have a shared image URL, use it instead of fetching again
+      if (this.sharedImageUrl) {
+        console.log("Using shared image URL:", this.sharedImageUrl);
+        this.revealedPicture = this.sharedImageUrl;
+        this.loading = false; // Make sure we're not in loading state
+        return;
+      }
+      
+      // Add a timestamp to force a new random selection
+      const timestamp = Date.now();
+      
+      // Use the standard solution picture endpoint
+      this.api.getSolutionPicture(this.categoryId).subscribe({
+        next: (data: any) => this.handleImageResponse(data),
+        error: (err) => {
+          console.error("Error fetching decrypted image:", err);
+          this.forceDirectImageUrl();
+          this.loading = false;
+        }
+      });
+    } else {
+      console.warn("Cannot load decrypted image, missing target character or category ID");
+      this.forceDirectImageUrl();
+      this.loading = false;
+    }
+  }
+  
+  private loadDecryptedImageForCharacter(characterId: string) {
+    if (!this.categoryId) {
+      console.error("Cannot load image: missing category ID");
+      this.forceDirectImageUrl();
+      this.loading = false;
+      return;
+    }
     
-    // Share with others
-    this.socketService.emit("setTargetCharacter", {
+    console.log("Attempting to load image for character with ID:", characterId);
+    
+    // Use the standard solution picture endpoint - it's randomized on the server side
+    this.api.getSolutionPicture(this.categoryId).subscribe({
+      next: (data: any) => this.handleImageResponse(data),
+      error: (err) => {
+        console.error("Error fetching image:", err);
+        this.forceDirectImageUrl();
+        this.loading = false;
+      }
+    });
+  }
+  
+  private handleImageResponse(data: any) {
+    console.log("Received image data:", data);
+    
+    if (data.success && data.data && data.data.picture) {
+      const pictureUrl = data.data.picture;
+      console.log("Setting picture URL from API:", pictureUrl);
+      
+      // Ensure the target character matches the received data
+      if (data.data.answer && this.targetCharacter && 
+          data.data.answer !== this.targetCharacter.answer) {
+        console.warn("Image answer doesn't match target character!", {
+          imageAnswer: data.data.answer,
+          targetCharacter: this.targetCharacter.answer
+        });
+        // Update the target character to match the image
+        this.targetCharacter = data.data;
+      }
+      
+      this.revealedPicture = pictureUrl;
+      this.sharedImageUrl = pictureUrl;
+      this.loading = false;
+      
+      // IMPORTANT: Only the room owner should share the image with others
+      if (this.user?.name === this.roomName) {
+        // Share the image URL immediately to ensure players see the same image
+        this.shareImageUrlWithOtherPlayers();
+      }
+    } else {
+      console.error("Failed to get decrypted image:", data);
+      this.forceDirectImageUrl();
+      this.loading = false;
+    }
+  }
+  
+  private shareImageUrlWithOtherPlayers() {
+    if (!this.sharedImageUrl) {
+      console.error("Cannot share null image URL");
+      return;
+    }
+    
+    console.log("Emitting setTargetCharacter with shared image URL:", this.sharedImageUrl);
+    console.log("Target character being shared:", this.targetCharacter);
+    
+    // Store the image URL in the room state first
+    this.socketService.emit("updateRoomInfo", {
       roomName: this.roomName,
-      target: this.targetCharacter
+      sharedImageUrl: this.sharedImageUrl,
+      targetCharacter: this.targetCharacter // Make sure we share the updated target character
     });
     
-    this.loading = false;
+    // Then send the target character with shared image URL for current players
+    this.socketService.emit("setTargetCharacter", {
+      roomName: this.roomName,
+      target: this.targetCharacter,
+      sharedImageUrl: this.sharedImageUrl
+    });
   }
 
   private forceDirectImageUrl() {
@@ -377,7 +548,6 @@ export class PictureDuelComponent implements OnInit, OnDestroy {
     }
   }
 
-  // Helper method to ensure we have an absolute URL
   private ensureAbsoluteUrl(url: string): string {
     if (!url) return '';
     
@@ -432,7 +602,7 @@ export class PictureDuelComponent implements OnInit, OnDestroy {
     this.socketService.off("playerList");
     this.socketService.off("roomInfo");
     this.socketService.off("targetCharacter");
-    this.socketService.off("newGuess"); 
+    this.socketService.off("newGuess");
     this.socketService.off("playerTurn");
     this.socketService.off("gameOver");
     this.socketService.off("disconnect");
@@ -441,28 +611,48 @@ export class PictureDuelComponent implements OnInit, OnDestroy {
 
   filterCharacters(event: any) {
     const query = event.query.toLowerCase();
+    // Filter characters by answer containing the query
     this.filteredCharacters = this.characters.filter(
       (character) => character.answer.toLowerCase().indexOf(query) >= 0
     );
+  }
+
+  // Add this helper method to extract the answer field from any item type
+  extractAnswerFromItem(item: any): string {
+    if (!item) return '';
     
-    // Auto-select if only one match
-    if (this.filteredCharacters.length === 1) {
-      this.selectedCharacter = this.filteredCharacters[0];
+    // If it's already a string, return it directly
+    if (typeof item === 'string') return item;
+    
+    // If it's an object with an answer property, return that
+    if (typeof item === 'object') {
+      // Direct answer property
+      if (item.answer) return item.answer;
+      
+      // For objects like the one in your example with nested value
+      if (item.value && item.value.answer) return item.value.answer;
+      
+      // For JSON strings, try to parse
+      try {
+        const parsed = JSON.parse(JSON.stringify(item));
+        if (parsed && parsed.answer) return parsed.answer;
+        if (parsed && parsed.value && parsed.value.answer) return parsed.value.answer;
+      } catch (e) {
+        // Not a JSON string, ignore
+      }
     }
+    
+    // Fallback to string representation
+    return String(item);
   }
-
+  
   onCharacterSelect(event: any) {
-    this.selectedCharacter = event;
-  }
-
-  private decreaseBlurLevel(correct: boolean) {
-    if (correct) {
-      // Correct guess, remove all blur
-      this.blurLevel = 0;
-    } else {
-      // Incorrect guess, decrease blur gradually
-      this.blurLevel = Math.max(0, this.blurLevel - 4);
-    }
+    console.log('Original selected event:', event);
+    
+    // Extract answer from the event object, no matter how deeply nested
+    this.selectedCharacter = this.extractAnswerFromItem(event);
+    
+    console.log('Processed selected character:', this.selectedCharacter);
   }
 
   submitCharacter() {
@@ -472,20 +662,22 @@ export class PictureDuelComponent implements OnInit, OnDestroy {
     }
     
     if (!this.selectedCharacter && this.filteredCharacters.length === 1) {
-      this.selectedCharacter = this.filteredCharacters[0];
+      // Use just the answer property if auto-selecting
+      this.selectedCharacter = this.filteredCharacters[0].answer;
     }
     
     if (!this.selectedCharacter) return;
     
+    // Extract answer if it's still an object
+    const selectedValue = this.extractAnswerFromItem(this.selectedCharacter).toLowerCase();
+    
     // Find the matching character object from our list
     const selectedCharacterObj = this.characters.find(
-      char => char.answer.toLowerCase() === 
-      (typeof this.selectedCharacter === 'string' ? 
-       this.selectedCharacter.toLowerCase() : 
-       this.selectedCharacter.answer.toLowerCase())
+      char => char.answer.toLowerCase() === selectedValue
     );
     
     if (!selectedCharacterObj) {
+      console.warn('No matching character found for:', this.selectedCharacter);
       return;
     }
     
@@ -545,27 +737,6 @@ export class PictureDuelComponent implements OnInit, OnDestroy {
     this.joinRoom();
   }
 
-  // Instead of using the target character's picture directly, fetch the decrypted image
-  private loadDecryptedImage() {
-    if (this.targetCharacter && this.categoryId) {
-      // Use the getSolutionPicture endpoint to get the decrypted image
-      this.api.getSolutionPicture(this.categoryId).subscribe({
-        next: (data: any) => {
-          if (data.success && data.data && data.data.picture) {
-            this.revealedPicture = data.data.picture;
-          } else {
-            console.error("Failed to get decrypted image:", data);
-          }
-        },
-        error: (err) => {
-          console.error("Error fetching decrypted image:", err);
-        }
-      });
-    } else {
-      console.warn("Cannot load decrypted image, missing target character or category ID");
-    }
-  }
-
   // Get display name for a game type
   getGameDisplayName(gameType: string): string {
     const displayNames: { [key: string]: string } = {
@@ -573,8 +744,19 @@ export class PictureDuelComponent implements OnInit, OnDestroy {
       'description': 'Leírás',
       'emoji': 'Emoji',
       'quote': 'Idézet',
-      'picture': 'Kép'
+      'picture': 'Kép',
     };
     return displayNames[gameType] || gameType;
+  }
+  
+  private decreaseBlurLevel(isCorrect: boolean): void {
+    if (isCorrect) {
+      // If correct, remove all blur
+      this.blurLevel = 0;
+    } else {
+      // If incorrect, gradually decrease blur
+      // Decrease blur a bit more to ensure progress is visible
+      this.blurLevel = Math.max(0, this.blurLevel - 3);
+    }
   }
 }

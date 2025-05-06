@@ -65,6 +65,13 @@
                   [disabled]="currentPlayer !== user.name"
                   field="answer" 
                   class="custom-autocomplete">
+        <!-- Show just the answer text in dropdown items -->
+        <ng-template let-item pTemplate="item">
+          {{item.answer}}
+        </ng-template>
+        <ng-template let-item pTemplate="selectedItem">
+          {{extractAnswerFromItem(item)}}
+        </ng-template>
       </p-autoComplete>
       <button (click)="submitCharacter()" 
               class="submit-button" 
@@ -82,5 +89,4 @@
     </div>
   </div>
 </div>
-
 

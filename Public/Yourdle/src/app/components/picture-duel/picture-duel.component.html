@@ -60,15 +60,21 @@
     <!-- Autocomplete field for character selection - fixed spacing -->
     <div class="input-container">
       <div class="autocomplete-wrapper" *ngIf="characters.length > 0 && targetCharacter">
-        <p-autoComplete [(ngModel)]="selectedCharacter"
-                    (keyup.enter)="submitCharacter()"
-                    (onSelect)="onCharacterSelect($event)"
-                    [suggestions]="filteredCharacters"
-                    (completeMethod)="filterCharacters($event)"
-                    placeholder="{{currentPlayer === user.name ? 'Írd be a karaktert...' : 'Várd meg a köröd...'}}"
-                    [disabled]="currentPlayer !== user.name"
-                    field="answer" 
-                    class="custom-autocomplete">
+        <p-autoComplete 
+          [(ngModel)]="selectedCharacter"
+          (keyup.enter)="submitCharacter()"
+          (onSelect)="onCharacterSelect($event)"
+          [suggestions]="filteredCharacters"
+          (completeMethod)="filterCharacters($event)"
+          placeholder="{{currentPlayer === user.name ? 'Írd be a karaktert...' : 'Várd meg a köröd...'}}"
+          [disabled]="currentPlayer !== user.name"
+          field="answer" 
+          [style]="{width: '100%'}"
+          class="custom-autocomplete">
+          <!-- Show just the answer text in dropdown items -->
+          <ng-template let-item pTemplate="item">
+            {{item.answer}}
+          </ng-template>
         </p-autoComplete>
         <button (click)="submitCharacter()" 
                 class="submit-button" 

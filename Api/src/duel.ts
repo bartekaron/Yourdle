@@ -273,17 +273,18 @@ export function initializeSocketIO(io: Server) {
             }
         });
 
-        socket.on("setTargetCharacter", ({ roomName, target }) => {
+        socket.on("setTargetCharacter", ({ roomName, target, sharedImageUrl }) => {
             if (rooms.has(roomName)) {
                 const room = rooms.get(roomName);
                 // Store the target character in the room object
                 room.targetCharacter = target;
+                room.sharedImageUrl = sharedImageUrl; // Store shared image URL
                 
                 // Broadcast to all players
                 io.to(roomName).emit("targetCharacter", {
-                    target
+                    target,
+                    sharedImageUrl
                 });
-
             }
         });
 
@@ -303,6 +304,7 @@ export function initializeSocketIO(io: Server) {
                     categoryId: room.categoryId,
                     gameTypes: room.gameTypes,
                     targetCharacter: room.targetCharacter, // Include target character
+                    sharedImageUrl: room.sharedImageUrl, // Include the shared image URL
                     currentGameIndex: room.currentGameIndex || 0
                 });
             }

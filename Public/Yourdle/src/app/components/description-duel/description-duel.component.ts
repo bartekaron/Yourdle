@@ -404,8 +404,42 @@ export class DescriptionDuelComponent implements OnInit, OnDestroy {
     }
   }
 
+  // Add this helper method to extract the answer field from any item type
+  extractAnswerFromItem(item: any): string {
+    if (!item) return '';
+    
+    // If it's already a string, return it directly
+    if (typeof item === 'string') return item;
+    
+    // If it's an object with an answer property, return that
+    if (typeof item === 'object') {
+      // Direct answer property
+      if (item.answer) return item.answer;
+      
+      // For objects like the one in your example with nested value
+      if (item.value && item.value.answer) return item.value.answer;
+      
+      // For JSON strings, try to parse
+      try {
+        const parsed = JSON.parse(JSON.stringify(item));
+        if (parsed && parsed.answer) return parsed.answer;
+        if (parsed && parsed.value && parsed.value.answer) return parsed.value.answer;
+      } catch (e) {
+        // Not a JSON string, ignore
+      }
+    }
+    
+    // Fallback to string representation
+    return String(item);
+  }
+  
   onCharacterSelect(event: any) {
-    this.selectedCharacter = event;
+    console.log('Original selected event:', event);
+    
+    // Extract answer from the event object, no matter how deeply nested
+    this.selectedCharacter = this.extractAnswerFromItem(event);
+    
+    console.log('Processed selected character:', this.selectedCharacter);
   }
 
   submitCharacter() {
@@ -415,20 +449,22 @@ export class DescriptionDuelComponent implements OnInit, OnDestroy {
     }
     
     if (!this.selectedCharacter && this.filteredCharacters.length === 1) {
-      this.selectedCharacter = this.filteredCharacters[0];
+      // Use just the answer property if auto-selecting
+      this.selectedCharacter = this.filteredCharacters[0].answer;
     }
     
     if (!this.selectedCharacter) return;
     
+    // Extract answer if it's still an object
+    const selectedValue = this.extractAnswerFromItem(this.selectedCharacter).toLowerCase();
+    
     // Find the matching character object from our list
     const selectedCharacterObj = this.characters.find(
-      char => char.answer.toLowerCase() === 
-      (typeof this.selectedCharacter === 'string' ? 
-       this.selectedCharacter.toLowerCase() : 
-       this.selectedCharacter.answer.toLowerCase())
+      char => char.answer.toLowerCase() === selectedValue
     );
     
     if (!selectedCharacterObj) {
+      console.warn('No matching character found for:', this.selectedCharacter);
       return;
     }
     
@@ -497,3 +533,4 @@ export class DescriptionDuelComponent implements OnInit, OnDestroy {
     return displayNames[gameType] || gameType;
   }
 }
+

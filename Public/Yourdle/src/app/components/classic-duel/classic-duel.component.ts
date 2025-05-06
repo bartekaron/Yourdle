@@ -305,17 +305,51 @@ export class ClassicDuelComponent implements OnInit, OnDestroy {
 
   filterCharacters(event: any) {
     const query = event.query.toLowerCase();
-    this.filteredCharacters = this.characters
-      .filter(character => character.answer.toLowerCase().includes(query))
-      .map(character => ({
-        ...character,
-        label: character.answer,
-        value: character.answer
-      }));
+    this.filteredCharacters = this.characters.filter(
+      (character) => character.answer.toLowerCase().indexOf(query) >= 0
+    );
+    
+    if (this.filteredCharacters.length === 1) {
+      this.selectedCharacter = this.filteredCharacters[0];
+    }
   }
 
+  // Add helper method to extract the answer field from any item type
+  extractAnswerFromItem(item: any): string {
+    if (!item) return '';
+    
+    // If it's already a string, return it directly
+    if (typeof item === 'string') return item;
+    
+    // If it's an object with an answer property, return that
+    if (typeof item === 'object') {
+      // Direct answer property
+      if (item.answer) return item.answer;
+      
+      // For objects like the one in your example with nested value
+      if (item.value && item.value.answer) return item.value.answer;
+      
+      // For JSON strings, try to parse
+      try {
+        const parsed = JSON.parse(JSON.stringify(item));
+        if (parsed && parsed.answer) return parsed.answer;
+        if (parsed && parsed.value && parsed.value.answer) return parsed.value.answer;
+      } catch (e) {
+        // Not a JSON string, ignore
+      }
+    }
+    
+    // Fallback to string representation
+    return String(item);
+  }
+  
   onCharacterSelect(event: any) {
-    this.selectedCharacter = event;
+    console.log('Original selected event:', event);
+    
+    // Extract answer from the event object, no matter how deeply nested
+    this.selectedCharacter = this.extractAnswerFromItem(event);
+    
+    console.log('Processed selected character:', this.selectedCharacter);
   }
 
   // A submitCharacter metódus javítása:
@@ -324,32 +358,30 @@ export class ClassicDuelComponent implements OnInit, OnDestroy {
       return;
     }
     
-    let characterToSubmit = this.selectedCharacter;
-    
-    // Ha string-ként kaptuk meg a karaktert, keressük meg az objektumot
-    if (typeof this.selectedCharacter === 'string') {
-      characterToSubmit = this.characters.find(
-        char => char.answer.toLowerCase() === this.selectedCharacter.toLowerCase()
-      );
-    }
-    // Ha objektumként kaptuk, de csak az answer property van meg
-    else if (this.selectedCharacter && this.selectedCharacter.answer) {
-      characterToSubmit = this.characters.find(
-        char => char.answer.toLowerCase() === this.selectedCharacter.answer.toLowerCase()
-      );
+    if (!this.selectedCharacter && this.filteredCharacters.length === 1) {
+      // Use just the answer property if auto-selecting
+      this.selectedCharacter = this.filteredCharacters[0].answer;
     }
     
-    if (!characterToSubmit) {
-      console.log("No valid character selected");
+    if (!this.selectedCharacter) return;
+    
+    // Extract answer if it's still an object
+    const selectedValue = this.extractAnswerFromItem(this.selectedCharacter).toLowerCase();
+    
+    // Find the matching character object from our list
+    const selectedCharacterObj = this.characters.find(
+      char => char.answer.toLowerCase() === selectedValue
+    );
+    
+    if (!selectedCharacterObj) {
+      console.warn('No matching character found for:', this.selectedCharacter);
       return;
     }
     
-    console.log("Submitting guess:", characterToSubmit);
-    
-    const isCorrect = characterToSubmit.answer === this.targetCharacter.answer;
+    const isCorrect = selectedCharacterObj.answer === this.targetCharacter.answer;
     
     const guess = {
-      ...characterToSubmit,
+      ...selectedCharacterObj,
       isCorrect: isCorrect,
       player: this.user.name
     };
@@ -359,7 +391,7 @@ export class ClassicDuelComponent implements OnInit, OnDestroy {
     
     // Remove from available characters
     this.characters = this.characters.filter(char => 
-      char.answer.toLowerCase() !== characterToSubmit.answer.toLowerCase()
+      char.answer.toLowerCase() !== selectedCharacterObj.answer.toLowerCase()
     );
     
     // Emit guess to other players
