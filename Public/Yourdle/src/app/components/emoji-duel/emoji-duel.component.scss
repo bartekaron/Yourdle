@@ -1,5 +1,3 @@
-@use '../emoji-game/emoji-game.component.scss' as emoji-game;
-
 /* Base styles */
 :host {
   display: block;
@@ -83,25 +81,35 @@
 /* Emoji container */
 .emoji-container {
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
-  gap: 1rem;
-  margin: 2rem auto;
-  max-width: 900px;
-  padding: 2rem;
-  background: rgba(0, 0, 0, 0.2);
-  border: 1px solid #ff00ff;
-  border-radius: 10px;
-  box-shadow: 0 0 15px #ff00ff;
+  gap: 15px;
+  font-size: 3rem;
+  margin-bottom: 2rem;
+  background: rgba(0, 255, 255, 0.1);
+  padding: 1.5rem;
+  border: 2px solid #ff00ff;
+  box-shadow: 0 0 20px #ff00ff;
+  border-radius: 1rem;
+  min-width: 320px;
 }
 
 .emoji {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 3rem;
-  padding: 0.5rem;
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 8px;
-  min-width: 4rem;
-  text-align: center;
+  border: 2px solid #ff00ff;
+  border-radius: 0.5rem;
+  background-color: rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0 0 10px #ff00ff;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px #ff00ff;
+  }
 }
 
 /* Guesses container */
@@ -273,6 +281,43 @@
   color: #ff5252;
   text-shadow: 0 0 10px #ff0000;
   margin-bottom: 1.5rem;
+}
+
+/* Game sequence list */
+.game-sequence {
+  margin-top: 1rem;
+  padding: 0.5rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 0.5rem;
+}
+
+.game-sequence-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.game-sequence-list li {
+  padding: 0.3rem 0.5rem;
+  border-radius: 0.3rem;
+  background: rgba(0, 0, 0, 0.2);
+  color: #888;
+}
+
+.game-sequence-list li.current-game {
+  background: rgba(255, 0, 255, 0.2);
+  color: #fff;
+  border: 1px solid #ff00ff;
+  font-weight: bold;
+}
+
+.game-sequence-list li.completed-game {
+  background: rgba(0, 255, 0, 0.2);
+  color: #fff;
+  text-decoration: line-through;
 }
 
 /* Animations */

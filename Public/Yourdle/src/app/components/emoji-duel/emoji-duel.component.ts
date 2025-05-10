@@ -434,4 +434,16 @@ export class EmojiDuelComponent implements OnInit, OnDestroy {
     this.socketService.off("newGuess");
     this.socketService.off("playerTurn");
   }
+
+  // Add this method
+  getGameDisplayName(gameType: string): string {
+    const displayNames: { [key: string]: string } = {
+      'classic': 'Klasszikus',
+      'description': 'Leírás',
+      'emoji': 'Emoji',
+      'quote': 'Idézet',
+      'picture': 'Kép'
+    };
+    return displayNames[gameType] || gameType;
+  }
 }

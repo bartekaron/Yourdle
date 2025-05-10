@@ -40,11 +40,11 @@
         </ul>
       </div>
     </div>
-    
-    <!-- Quote container átnevezése -->
-    <div class="quote-container" *ngIf="targetCharacter">
+
+    <!-- Quote container -->
+    <div class="content-container" *ngIf="targetCharacter">
       <h3 class="category-name">Melyik {{ categoryName }} karakter mondta az idézetet?</h3>
-      <h4 class="quote">{{ targetCharacter?.quote }}</h4>
+      <h4 class="content">{{ targetCharacter?.quote }}</h4>
     </div>
 
     <div class="guesses-container">
@@ -55,17 +55,17 @@
       </p>
     </div>
 
+    <!-- Autocomplete input -->
     <div class="autocomplete-wrapper" *ngIf="characters.length > 0 && targetCharacter">
       <p-autoComplete [(ngModel)]="selectedCharacter"
-                  (keyup.enter)="submitCharacter()"
-                  (onSelect)="onCharacterSelect($event)"
-                  [suggestions]="filteredCharacters"
-                  (completeMethod)="filterCharacters($event)"
-                  placeholder="{{currentPlayer === user.name ? 'Írd be a karaktert...' : 'Várd meg a köröd...'}}"
-                  [disabled]="currentPlayer !== user.name"
-                  field="answer"
-                  class="custom-autocomplete">
-        <!-- Show just the answer text in dropdown items -->
+                    (keyup.enter)="submitCharacter()"
+                    (onSelect)="onCharacterSelect($event)"
+                    [suggestions]="filteredCharacters"
+                    (completeMethod)="filterCharacters($event)"
+                    placeholder="{{currentPlayer === user.name ? 'Írd be a karaktert...' : 'Várd meg a köröd...'}}"
+                    [disabled]="currentPlayer !== user.name"
+                    field="answer"
+                    class="custom-autocomplete">
         <ng-template let-item pTemplate="item">
           {{item.answer}}
         </ng-template>
@@ -74,7 +74,7 @@
         </ng-template>
       </p-autoComplete>
       <button (click)="submitCharacter()" 
-              class="submit-button" 
+              class="submit-button"
               [disabled]="currentPlayer !== user.name">
         <span class="arrow-icon">▶</span>
       </button>
