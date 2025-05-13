@@ -33,7 +33,7 @@
       <div class="forms-grid">
         <div class="form-row" *ngFor="let form of forms[category]; let i = index">
           <div class="form-item">
-            <h3>Form {{i + 1}} ({{category}})</h3>
+            <h3>{{category}} {{i + 1}}</h3>
             <div *ngIf="category === 'Klasszikus'" class="p-field">
               <label>Válasz</label>
               <input type="text" [(ngModel)]="form.answer" />

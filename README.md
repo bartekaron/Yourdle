@@ -2,6 +2,8 @@
 
 **Yourdle** egy szórakoztató webes platform, ahol különböző mini játékokkal versenyezhetsz más felhasználókkal, vagy játszhatsz egyedül. Regisztrált felhasználóként saját kategóriákat hozhatsz létre, és részt vehetsz kihívásokban.
 
+A platform megjelenése egyedi, **cyberpunk stílusban** készült: sötét témák, neonfények és futurisztikus hangulat jellemzi a felületet.
+
 ---
 
 ## Technológiai Stack
