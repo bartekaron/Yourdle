@@ -4,3 +4,43 @@ html, body {
     height: 100%;
     color: white;
 }
+
+html {
+    color-scheme: dark;
+  }
+
+  // Globális fix bizonyos világos elemekre
+.p-card {
+    background-color: #121212 !important;
+    color: #fff !important;
+  }
+  
+  input, textarea, select {
+    background-color: #1e1e1e !important;
+    color: #fff !important;
+    border-color: #0ff !important;
+  }
+  
+  .p-button {
+    background-color: #121212 !important;
+    border: 2px solid #0ff !important;
+    color: #0ff !important;
+  }
+  
+  .p-button:hover {
+    background-color: #0ff !important;
+    color: #000 !important;
+  }
+  
+  // Scrollbar is, ha kell
+  ::-webkit-scrollbar {
+    width: 12px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0a0a0a;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #0ff;
+    border-radius: 6px;
+  }
+  
