@@ -85,6 +85,7 @@
     color: #0ff;
   }
   
+
   ::ng-deep .p-datatable .p-datatable-thead > tr > th {
     text-align: center;
     padding: 10px;
@@ -93,6 +94,26 @@
     text-shadow: 0 0 5px #0ff;
     border-bottom: 1px solid #0ff;
   }
+
+  ::ng-deep .p-checkbox-input{
+    background-color: black;
+    color: black;
+  }
+
+  ::ng-deep .p-paginator {
+    --p-paginator-background: rgba(0, 0, 0, 0.85);
+    --p-paginator-color: #0ff;
+    --p-paginator-border: none;
+    --p-paginator-padding: 1rem;
+    --p-paginator-border-radius: 0.5rem;
+    --p-paginator-gap: 0.5rem;
+  
+    color: #0ff;
+    box-shadow: 0 0 10px #0ff;
+    border-top: 1px solid rgba(0, 255, 255, 0.2);
+  }
+  
+  
   
   ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
     text-align: center;

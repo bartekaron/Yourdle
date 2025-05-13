@@ -180,3 +180,88 @@ p-dropdown, p-checkbox {
   color: #000 !important;
   box-shadow: 0 0 20px #0ff;
 }
+
+
+:host ::ng-deep .p-dialog .p-dropdown {
+  background: rgba(15, 15, 30, 0.95);
+  border: 2px solid #0ff;
+  color: #0ff;
+  font-family: 'Share Tech Mono', monospace;
+  box-shadow: 0 0 10px #0ff;
+  border-radius: 0.5rem;
+}
+
+:host ::ng-deep .p-dropdown .p-dropdown-label {
+  color: #0ff;
+}
+
+:host ::ng-deep .p-dropdown-panel {
+  background: rgba(10, 10, 20, 0.95);
+  color: #0ff;
+  font-family: 'Share Tech Mono', monospace;
+  box-shadow: 0 0 20px #0ff;
+}
+
+:host ::ng-deep .p-dropdown-item {
+  color: #0ff;
+}
+
+:host ::ng-deep .p-dropdown-item.p-highlight {
+  background-color: #0ff;
+  color: #000;
+}
+
+/* Checkbox sötétítés */
+:host ::ng-deep .p-checkbox {
+  margin-right: 0.5rem;
+}
+
+:host ::ng-deep .p-checkbox-box {
+  background: rgba(15, 15, 30, 0.95);
+  border: 2px solid #0ff;
+  box-shadow: 0 0 10px #0ff;
+}
+
+:host ::ng-deep .p-checkbox-box.p-highlight {
+  background-color: #0ff;
+  border-color: #0ff;
+  color: #000;
+}
+
+:host ::ng-deep .p-dialog .p-dropdown {
+  background: rgba(15, 15, 30, 0.95);
+  border: 2px solid #0ff;
+  color: #0ff;
+  font-family: 'Share Tech Mono', monospace;
+  box-shadow: 0 0 10px #0ff;
+  border-radius: 0.5rem;
+}
+
+:host ::ng-deep .p-dropdown .p-dropdown-label {
+  color: #0ff;
+}
+
+:host ::ng-deep .p-dropdown-panel {
+  background: rgba(10, 10, 20, 0.95);
+  color: #0ff;
+  font-family: 'Share Tech Mono', monospace;
+  box-shadow: 0 0 20px #0ff;
+  border: 1px solid #0ff;
+}
+
+/* Itt a lenyíló listában az <li> elemek */
+:host ::ng-deep .p-dropdown-item {
+  background: rgba(0, 0, 0, 0.95); /* Fekete háttér */
+  color: #0ff;
+  font-family: 'Share Tech Mono', monospace;
+}
+
+:host ::ng-deep .p-dropdown-item:hover {
+  background: #0ff;
+  color: #000;
+}
+
+:host ::ng-deep .p-dropdown-item.p-highlight {
+  background-color: #0ff;
+  color: #000;
+}
