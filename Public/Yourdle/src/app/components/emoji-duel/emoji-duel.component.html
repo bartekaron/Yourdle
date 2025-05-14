@@ -4,6 +4,9 @@
   <!-- Loading indicator -->
   <div *ngIf="loading" class="loading">
     <p>Játék betöltése...</p>
+    <button (click)="reloadGame()" class="submit-button">
+      Újrapróbál
+    </button>
   </div>
   
   <!-- Error message -->
@@ -85,6 +88,7 @@
   <div class="navigation-buttons-container">
     <div class="navigation-buttons">
       <button (click)="router.navigate(['/parbaj'])" class="nav-button">Vissza a párbajokhoz</button>
+      <button (click)="reloadGame()" class="nav-button">Újratöltés</button>
     </div>
   </div>
 </div>

@@ -446,4 +446,15 @@ export class EmojiDuelComponent implements OnInit, OnDestroy {
     };
     return displayNames[gameType] || gameType;
   }
+    reloadGame() {
+    this.loading = true;
+    this.error = '';
+    
+    if (!this.socketService.isConnected()) {
+      this.attemptReconnection();
+      return;
+    }
+      
+    this.joinRoom();
+  }
 }
