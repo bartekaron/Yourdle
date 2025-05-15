@@ -248,4 +248,34 @@ import { throwError } from 'rxjs';
     return this.http.post(this.server + '/games/saveMatchResult', matchData, this.tokenHeader());
   }
 
+  updateResetToken(userId: string, token: string): Observable<any> {
+    // Get current Budapest time (UTC+2)
+    const budapestOffset = 2 * 60 * 60 * 1000; // 2 hours in milliseconds
+    const now = new Date();
+    
+    // Adjust for Budapest time zone
+    const budapestTime = new Date(now.getTime() + budapestOffset);
+    
+    // Add 30 minutes for expiration
+    const expirationDate = new Date(budapestTime.getTime() + 30 * 60 * 1000);
+    
+    // Format date in MySQL format (YYYY-MM-DD HH:MM:SS)
+    const formatDate = (date: Date) => {
+      const pad = (num: number) => String(num).padStart(2, '0');
+      return `${date.getUTCFullYear()}-${pad(date.getUTCMonth() + 1)}-${pad(date.getUTCDate())} ${pad(date.getUTCHours())}:${pad(date.getUTCMinutes())}:${pad(date.getUTCSeconds())}`;
+    };
+    
+    const expiresAt = formatDate(expirationDate);
+    
+    console.log('Current time (Budapest):', formatDate(budapestTime));
+    console.log('Token will expire at (Budapest):', expiresAt);
+    
+    const data = {
+      reset_token: token,
+      token_expires_at: expiresAt
+    };
+    
+    return this.http.patch(this.server + '/public/users/id/eq/' + userId, data);
+  }
+
 }

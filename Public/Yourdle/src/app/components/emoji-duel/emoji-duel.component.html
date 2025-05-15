@@ -16,8 +16,13 @@
   </div>
 
   <div *ngIf="!loading && !error" class="game-content">
+    <!-- Players toggle button - mobile only -->
+    <button class="players-toggle-btn" (click)="togglePlayersBox()">
+      {{ playersVisible ? 'Játékosok elrejtése' : 'Játékosok mutatása' }}
+    </button>
+    
     <!-- Players box -->
-    <div class="players-box" *ngIf="players.length > 0">
+    <div class="players-box" *ngIf="players.length > 0" [class.visible]="playersVisible">
       <h4 class="players-title">Játékosok</h4>
       <ul class="players-list">
         <li *ngFor="let player of players" 
@@ -63,24 +68,30 @@
 
     <!-- Input container -->
     <div class="input-container">
-      <p-autoComplete [(ngModel)]="selectedCharacter"
-                    (keyup.enter)="submitCharacter()"
-                    (onSelect)="onCharacterSelect($event)"
-                    [suggestions]="filteredCharacters"
-                    (completeMethod)="filterCharacters($event)"
-                    [placeholder]="currentPlayer === user.name ? 'Írd be a karaktert...' : 'Várd meg a köröd...'"
-                    [disabled]="currentPlayer !== user.name"
-                    class="custom-autocomplete">
-        <!-- Show just the answer text in dropdown items -->
-        <ng-template let-item pTemplate="item">
-          {{extractAnswerFromItem(item)}}
-        </ng-template>
-      </p-autoComplete>
-      <button (click)="submitCharacter()" 
-              class="submit-button"
-              [disabled]="currentPlayer !== user.name">
-        <span class="arrow-icon">▶</span>
-      </button>
+      <div class="autocomplete-wrapper">
+        <p-autoComplete [(ngModel)]="selectedCharacter"
+                      (keyup.enter)="submitCharacter()"
+                      (onSelect)="onCharacterSelect($event)"
+                      [suggestions]="filteredCharacters"
+                      (completeMethod)="filterCharacters($event)"
+                      [placeholder]="currentPlayer === user.name ? 'Írd be a karaktert...' : 'Várd meg a köröd...'"
+                      [disabled]="currentPlayer !== user.name"
+                      field="answer"
+                      class="custom-autocomplete">
+          <!-- Show just the answer text in dropdown items -->
+          <ng-template let-item pTemplate="item">
+            {{item.answer}}
+          </ng-template>
+          <ng-template let-item pTemplate="selectedItem">
+            {{extractAnswerFromItem(item)}}
+          </ng-template>
+        </p-autoComplete>
+        <button (click)="submitCharacter()" 
+                class="submit-button"
+                [disabled]="currentPlayer !== user.name">
+          <span class="arrow-icon">▶</span>
+        </button>
+      </div>
     </div>
   </div>
 

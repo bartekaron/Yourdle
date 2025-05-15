@@ -39,7 +39,6 @@ export class ForgottenPasswordComponent {
     }
     this.api.read('users', 'email', 'eq', this.email).subscribe((res: any) => {
       if (res.length == 0) {
-
         this.messageService.add({
           severity: 'error',
           summary: 'Hiba',
@@ -47,45 +46,47 @@ export class ForgottenPasswordComponent {
         });
         return;
       }
-      let data = {
-        email: this.email,
-        content: "http://localhost:4200/restorepass/"+res[0].id//+"/"+res[0].secret
+      
+      // Generate reset token for 30 minute expiration with Budapest time
+      const resetToken = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+      
+      // Use the updateResetToken method that handles time correctly
+      this.api.updateResetToken(res[0].id, resetToken).subscribe((updateRes: any) => {
+        let data = {
+          email: this.email,
+          content: `http://localhost:4200/restorepass/${res[0].id}/${resetToken}`
+        };
         
-      }
-      this.api.forgottPassword(data).subscribe({
-        next: (res: any) => {
-          if (res.success) {
-            this.messageService.add({
-              severity: 'success',
-              summary: 'Sikeres jelszó emlékeztető kérés',
-              detail: res.message
-            });
-            this.closeDialog();
-            this.openLoginDialog();
-  
-          }
-          else{
+        this.api.forgottPassword(data).subscribe({
+          next: (res: any) => {
+            if (res.success) {
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Sikeres jelszó emlékeztető kérés',
+                detail: res.message
+              });
+              this.closeDialog();
+              this.openLoginDialog();
+            }
+            else {
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Hiba',
+                detail: res.message
+              });
+            }
+          },
+          error: (err) => {
+            const errorMsg = err.error?.message || "Ismeretlen hiba történt.";
             this.messageService.add({
               severity: 'error',
               summary: 'Hiba',
-              detail: res.message
+              detail: errorMsg
             });
           }
-          
-        },
-        error: (err) => {
-          const errorMsg = err.error?.message || "Ismeretlen hiba történt.";
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Hiba',
-            detail: errorMsg
-          });
-        }
-        
+        });
       });
-    }
-    );
-    
+    });
   }
 
   validateEmail(email: string): boolean {

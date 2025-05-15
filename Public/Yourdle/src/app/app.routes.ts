@@ -51,6 +51,9 @@ export const routes: Routes = [
         path:"restorepass/:userId", component: RestorepassComponent
     },
     {
+        path:"restorepass/:userId/:token", component: RestorepassComponent
+    },
+    {
         path:"kategoria-keszito", component: CategoryCreatorComponent, canActivate:[UserAuthGuard]
     },
     {

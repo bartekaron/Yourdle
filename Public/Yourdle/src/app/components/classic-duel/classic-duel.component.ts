@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AutoCompleteModule } from 'primeng/autocomplete';
@@ -52,6 +52,9 @@ export class ClassicDuelComponent implements OnInit, OnDestroy {
   private maxRetries: number = 5;
   private socketReconnecting: boolean = false;
 
+  // Add this property if it's not already there
+  playersVisible = true;
+  
   constructor(
     private route: ActivatedRoute,
     public router: Router,
@@ -59,6 +62,12 @@ export class ClassicDuelComponent implements OnInit, OnDestroy {
     private auth: AuthService,
     private socketService: SocketService
   ) {}
+
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    // Set visibility based on screen size
+    this.playersVisible = window.innerWidth > 768;
+  }
 
   ngOnInit() {
     // ... similar to description-duel init ...
@@ -79,6 +88,9 @@ export class ClassicDuelComponent implements OnInit, OnDestroy {
     } else {
       this.joinRoom();
     }
+
+    // Set initial players visibility based on screen size
+    this.playersVisible = window.innerWidth > 768;
   }
 
   private setupSocketListeners() {
@@ -458,6 +470,11 @@ export class ClassicDuelComponent implements OnInit, OnDestroy {
       'picture': 'Kép'
     };
     return displayNames[gameType] || gameType;
+  }
+
+  // Add this method to toggle the players box
+  togglePlayersBox() {
+    this.playersVisible = !this.playersVisible;
   }
 
   ngOnDestroy() {

@@ -40,6 +40,7 @@ body {
   width: 100%;
   max-width: 900px;
   margin: 0 auto;
+  position: relative;
 }
 
 /* Players box */
@@ -372,4 +373,63 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #00cccc;
+}
+
+/* Players toggle button - only for small screens */
+.players-toggle-btn {
+  display: none; /* Hidden by default, shown only in media query */
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: rgba(15, 15, 30, 0.95);
+  color: #0ff;
+  border: 2px solid #0ff;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-family: 'Share Tech Mono', monospace;
+  box-shadow: 0 0 10px #0ff;
+  cursor: pointer;
+  z-index: 1100; /* Above players box */
+}
+
+/* Media queries */
+@media (max-width: 768px) {
+  .players-toggle-btn {
+    display: block; /* Show on small screens */
+  }
+  
+  .players-box {
+    display: none; /* Hide by default on small screens */
+  }
+  
+  .players-box.visible {
+    display: block; /* Show when toggled */
+    position: fixed;
+    top: 70px; /* Below the toggle button */
+    right: 20px;
+    z-index: 1000;
+  }
+}
+
+/* Responsive title sizes */
+@media (max-width: 1200px) {
+  .title {
+    font-size: 4rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 3rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 2.5rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
 }

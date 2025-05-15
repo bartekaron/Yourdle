@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AutoCompleteModule } from 'primeng/autocomplete';
@@ -40,6 +40,9 @@ export class QuoteDuelComponent implements OnInit, OnDestroy {
   currentGameIndex: number = 0;
   currentGame: string = 'quote';
 
+  // Add property to control visibility of players box
+  playersVisible = true;
+  
   constructor(
     private route: ActivatedRoute,
     public router: Router,
@@ -48,7 +51,16 @@ export class QuoteDuelComponent implements OnInit, OnDestroy {
     private socketService: SocketService
   ) {}
 
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    // Set visibility based on screen size
+    this.playersVisible = window.innerWidth > 768;
+  }
+
   ngOnInit() {
+    // Set initial players visibility based on screen size
+    this.playersVisible = window.innerWidth > 768;
+    
     this.user = this.auth.loggedUser().data;
     this.roomName = this.route.snapshot.paramMap.get('roomName') || '';
     
@@ -327,6 +339,7 @@ export class QuoteDuelComponent implements OnInit, OnDestroy {
       (character) => character.answer.toLowerCase().indexOf(query) >= 0
     );
     
+    // Auto-select if only one match, just like in classic-duel and picture-duel
     if (this.filteredCharacters.length === 1) {
       this.selectedCharacter = this.filteredCharacters[0];
     }
@@ -365,7 +378,13 @@ export class QuoteDuelComponent implements OnInit, OnDestroy {
     console.log('Original selected event:', event);
     
     // Extract answer from the event object, no matter how deeply nested
-    this.selectedCharacter = this.extractAnswerFromItem(event);
+    if (typeof event === 'object' && event !== null) {
+      // If it's an object with an answer field, use that directly
+      this.selectedCharacter = this.extractAnswerFromItem(event);
+    } else {
+      // Otherwise just use the raw value
+      this.selectedCharacter = event;
+    }
     
     console.log('Processed selected character:', this.selectedCharacter);
   }
@@ -453,6 +472,11 @@ export class QuoteDuelComponent implements OnInit, OnDestroy {
       'picture': 'Kép'
     };
     return displayNames[gameType] || gameType;
+  }
+
+  // Add method to toggle the players box
+  togglePlayersBox() {
+    this.playersVisible = !this.playersVisible;
   }
 
   ngOnDestroy() {

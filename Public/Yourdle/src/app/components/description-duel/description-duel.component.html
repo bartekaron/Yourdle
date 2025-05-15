@@ -17,8 +17,13 @@
   
   <!-- Game content -->
   <div *ngIf="!loading && !error" class="game-content">
+    <!-- Players toggle button - mobile only -->
+    <button class="players-toggle-btn" (click)="togglePlayersBox()">
+      {{ playersVisible ? 'Játékosok elrejtése' : 'Játékosok mutatása' }}
+    </button>
+    
     <!-- Players box like in quote-duel -->
-    <div class="players-box" *ngIf="players.length > 0">
+    <div class="players-box" *ngIf="players.length > 0" [class.visible]="playersVisible">
       <h4 class="players-title">Játékosok</h4>
       <ul class="players-list">
         <li *ngFor="let player of players" 

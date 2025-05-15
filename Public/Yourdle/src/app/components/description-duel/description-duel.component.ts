@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AutoCompleteModule } from 'primeng/autocomplete';
@@ -40,6 +40,9 @@ export class DescriptionDuelComponent implements OnInit, OnDestroy {
   currentGameIndex: number = 0;
   currentGame: string = 'description';
   
+  // Add property to control visibility of players box
+  playersVisible = true;
+  
   constructor(
     private route: ActivatedRoute,
     public router: Router,
@@ -48,7 +51,16 @@ export class DescriptionDuelComponent implements OnInit, OnDestroy {
     private socketService: SocketService
   ) {}
 
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    // Set visibility based on screen size
+    this.playersVisible = window.innerWidth > 768;
+  }
+
   ngOnInit() {
+    // Set initial players visibility based on screen size
+    this.playersVisible = window.innerWidth > 768;
+    
     this.user = this.auth.loggedUser().data;
     this.roomName = this.route.snapshot.paramMap.get('roomName') || '';
     
@@ -531,6 +543,11 @@ export class DescriptionDuelComponent implements OnInit, OnDestroy {
       'picture': 'Kép'
     };
     return displayNames[gameType] || gameType;
+  }
+  
+  // Add method to toggle the players box
+  togglePlayersBox() {
+    this.playersVisible = !this.playersVisible;
   }
 }
 

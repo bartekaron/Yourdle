@@ -15,8 +15,8 @@ export const appConfig: ApplicationConfig = {
     providePrimeNG({ theme: {
       preset: Aura
     }}),
-    
-
-
-    provideRouter(routes), importProvidersFrom(HttpClientModule), MessageService]
+    provideRouter(routes),
+    importProvidersFrom(HttpClientModule),
+    MessageService
+  ]
 };

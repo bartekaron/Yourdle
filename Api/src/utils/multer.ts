@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 const multer = require('multer');
-import { pool } from './config/database';
-import { encrypt } from './utils/decrypt';
+import { pool } from '../config/database';
+import { encrypt } from './decrypt';
 
 // Konfiguráljuk a fájlok feltöltését
 const storage = multer.diskStorage({

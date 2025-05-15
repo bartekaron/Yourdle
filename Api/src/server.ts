@@ -6,9 +6,9 @@ import { authMiddleware } from "./middleware/AuthMiddleware";
 import path = require("path");
 import { createServer } from "http";
 import { Server } from "socket.io";
-import { initializeSocketIO } from "./duel";
-import { forgotPassword, getPublicData, updatePublicData } from "./nodemailer";
-import { uploadProfilePicture, uploadCategoryPicture, updateProfilePicture, updateCategoryPicture } from "./multer";
+import { initializeSocketIO } from "./utils/duel";
+import { forgotPassword, getPublicData, updatePublicData } from "./utils/nodemailer";
+import { uploadProfilePicture, uploadCategoryPicture, updateProfilePicture, updateCategoryPicture } from "./utils/multer";
 
 const app = express();
 const server = createServer(app);

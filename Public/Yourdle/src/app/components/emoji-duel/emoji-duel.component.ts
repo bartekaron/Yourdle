@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AutoCompleteModule } from 'primeng/autocomplete';
@@ -47,6 +47,9 @@ export class EmojiDuelComponent implements OnInit, OnDestroy {
   // Add missing properties
   names: string[] = [];
 
+  // Add property to control visibility of players box
+  playersVisible = true;
+
   constructor(
     private route: ActivatedRoute,
     public router: Router,
@@ -55,7 +58,16 @@ export class EmojiDuelComponent implements OnInit, OnDestroy {
     private socketService: SocketService
   ) {}
 
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    // Set visibility based on screen size
+    this.playersVisible = window.innerWidth > 768;
+  }
+
   ngOnInit() {
+    // Set initial players visibility based on screen size
+    this.playersVisible = window.innerWidth > 768;
+
     this.user = this.auth.loggedUser().data;
     this.roomName = this.route.snapshot.paramMap.get('roomName') || '';
     
@@ -305,6 +317,11 @@ export class EmojiDuelComponent implements OnInit, OnDestroy {
     this.filteredCharacters = this.characters.filter(
       (character) => character.answer.toLowerCase().indexOf(query) >= 0
     );
+    
+    // Auto-select if only one match, just like in other duels
+    if (this.filteredCharacters.length === 1) {
+      this.selectedCharacter = this.filteredCharacters[0];
+    }
   }
 
   // Add this helper method to extract the answer field from any item type
@@ -340,7 +357,13 @@ export class EmojiDuelComponent implements OnInit, OnDestroy {
     console.log('Original selected event:', event);
     
     // Extract answer from the event object, no matter how deeply nested
-    this.selectedCharacter = this.extractAnswerFromItem(event);
+    if (typeof event === 'object' && event !== null) {
+      // If it's an object with an answer field, use that directly
+      this.selectedCharacter = this.extractAnswerFromItem(event);
+    } else {
+      // Otherwise just use the raw value
+      this.selectedCharacter = event;
+    }
     
     console.log('Processed selected character:', this.selectedCharacter);
   }
@@ -446,7 +469,13 @@ export class EmojiDuelComponent implements OnInit, OnDestroy {
     };
     return displayNames[gameType] || gameType;
   }
-    reloadGame() {
+  
+  // Add method to toggle the players box
+  togglePlayersBox() {
+    this.playersVisible = !this.playersVisible;
+  }
+
+  reloadGame() {
     this.loading = true;
     this.error = '';
     

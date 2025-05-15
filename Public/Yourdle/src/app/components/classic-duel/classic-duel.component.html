@@ -17,8 +17,13 @@
   
   <!-- Game content -->
   <div *ngIf="!loading && !error" class="game-content">
+    <!-- Players toggle button - mobile only -->
+    <button class="players-toggle-btn" (click)="togglePlayersBox()">
+      {{ playersVisible ? 'Játékosok elrejtése' : 'Játékosok mutatása' }}
+    </button>
+    
     <!-- Players box -->
-    <div class="players-box" *ngIf="players.length > 0">
+    <div class="players-box" *ngIf="players.length > 0" [class.visible]="playersVisible">
       <h4 class="players-title">Játékosok</h4>
       <ul class="players-list">
         <li *ngFor="let player of players" 
@@ -68,56 +73,57 @@
     </div>
 
     <!-- Guesses table -->
-  <div class="guess-container">
-    <table class="guess-table">
-      <thead>
-        <tr>
-          <th>Név</th>
-          <th>Nem</th>
-          <th>Magasság</th>
-          <th>Súly</th>
-          <th>Hajszín</th>
-          <th>Származás</th>
-          <th>Életkor</th>
-          <th>Játékos</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let guess of previousGuesses">
-          <td [ngClass]="{'correct': guess.answer === targetCharacter?.answer, 'incorrect': guess.answer !== targetCharacter?.answer}">
-            {{ guess.answer }}
-          </td>
-          <td [ngClass]="{'correct': isPropertyCorrect('gender', guess), 'incorrect': !isPropertyCorrect('gender', guess)}">
-            {{ guess.gender }}
-          </td>
-          <td [ngClass]="{'correct': isPropertyCorrect('height', guess), 'incorrect': !isPropertyCorrect('height', guess)}">
-            {{ guess.height }}
-            <span *ngIf="showPropertyHint('height', guess)" class="hint-arrow">
-              {{ getPropertyHint('height', guess) }}
-            </span>
-          </td>
-          <td [ngClass]="{'correct': isPropertyCorrect('weight', guess), 'incorrect': !isPropertyCorrect('weight', guess)}">
-            {{ guess.weight }}
-            <span *ngIf="showPropertyHint('weight', guess)" class="hint-arrow">
-              {{ getPropertyHint('weight', guess) }}
-            </span>
-          </td>
-          <td [ngClass]="{'correct': isPropertyCorrect('hairColor', guess), 'incorrect': !isPropertyCorrect('hairColor', guess)}">
-            {{ guess.hairColor }}
-          </td>
-          <td [ngClass]="{'correct': isPropertyCorrect('address', guess), 'incorrect': !isPropertyCorrect('address', guess)}">
-            {{ guess.address }}
-          </td>
-          <td [ngClass]="{'correct': isPropertyCorrect('age', guess), 'incorrect': !isPropertyCorrect('age', guess)}">
-            {{ guess.age }}
-            <span *ngIf="showPropertyHint('age', guess)" class="hint-arrow">
-              {{ getPropertyHint('age', guess) }}
-            </span>
-          </td>
-          <td>{{ guess.player }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="guess-container">
+      <table class="guess-table">
+        <thead>
+          <tr>
+            <th>Név</th>
+            <th>Nem</th>
+            <th>Magasság</th>
+            <th>Súly</th>
+            <th>Hajszín</th>
+            <th>Származás</th>
+            <th>Életkor</th>
+            <th>Játékos</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let guess of previousGuesses">
+            <td [ngClass]="{'correct': guess.answer === targetCharacter?.answer, 'incorrect': guess.answer !== targetCharacter?.answer}">
+              {{ guess.answer }}
+            </td>
+            <td [ngClass]="{'correct': isPropertyCorrect('gender', guess), 'incorrect': !isPropertyCorrect('gender', guess)}">
+              {{ guess.gender }}
+            </td>
+            <td [ngClass]="{'correct': isPropertyCorrect('height', guess), 'incorrect': !isPropertyCorrect('height', guess)}">
+              {{ guess.height }}
+              <span *ngIf="showPropertyHint('height', guess)" class="hint-arrow">
+                {{ getPropertyHint('height', guess) }}
+              </span>
+            </td>
+            <td [ngClass]="{'correct': isPropertyCorrect('weight', guess), 'incorrect': !isPropertyCorrect('weight', guess)}">
+              {{ guess.weight }}
+              <span *ngIf="showPropertyHint('weight', guess)" class="hint-arrow">
+                {{ getPropertyHint('weight', guess) }}
+              </span>
+            </td>
+            <td [ngClass]="{'correct': isPropertyCorrect('hairColor', guess), 'incorrect': !isPropertyCorrect('hairColor', guess)}">
+              {{ guess.hairColor }}
+            </td>
+            <td [ngClass]="{'correct': isPropertyCorrect('address', guess), 'incorrect': !isPropertyCorrect('address', guess)}">
+              {{ guess.address }}
+            </td>
+            <td [ngClass]="{'correct': isPropertyCorrect('age', guess), 'incorrect': !isPropertyCorrect('age', guess)}">
+              {{ guess.age }}
+              <span *ngIf="showPropertyHint('age', guess)" class="hint-arrow">
+                {{ getPropertyHint('age', guess) }}
+              </span>
+            </td>
+            <td>{{ guess.player }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
   <!-- Navigation buttons -->

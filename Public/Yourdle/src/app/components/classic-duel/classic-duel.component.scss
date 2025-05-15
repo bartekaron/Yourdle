@@ -47,6 +47,24 @@ body {
   z-index: 1000;
 }
 
+/* Players toggle button - consistent with picture-duel */
+.players-toggle-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: rgba(15, 15, 30, 0.95);
+    color: #0ff;
+    border: 2px solid #0ff;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-family: 'Share Tech Mono', monospace;
+    box-shadow: 0 0 10px #0ff;
+  cursor: pointer;
+  z-index: 1100;
+  font-family: 'Share Tech Mono', monospace;
+  display: none; /* Hidden by default, shown only in media queries */
+}
+
 .players-title {
   color: #ff00ff;
   font-size: 1.5rem;
@@ -185,12 +203,25 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 2rem auto;
+  width: 350px; /* Fixed width instead of percentage */
+  max-width: 90%; /* Still limit to not overflow on small screens */
+  margin: 1.5rem auto; /* Auto margins will center it */
+  text-align: center;
+  position: static; /* Remove relative positioning */
+  transform: none; /* Remove transform */
 }
 
+::ng-deep p-autoComplete.custom-autocomplete {
+  width: 350px !important; /* Set a fixed width */
+  display: inline-block; /* Change to inline-block */
+}
+
+::ng-deep p-autoComplete.custom-autocomplete .p-autocomplete {
+  width: 100%;
+}
 
 ::ng-deep p-autoComplete.custom-autocomplete .p-inputtext {
-  width: 100% !important;
+  width: 100%;
   font-family: 'Share Tech Mono', monospace;
   font-size: 1.1rem;
   padding: 0.6rem;
@@ -198,8 +229,13 @@ body {
   background-color: rgba(0, 0, 0, 0.6);
   border: 2px solid #0ff;
   box-shadow: 0 0 10px #0ff;
-  border-radius: 0.5rem;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
   transition: all 0.3s ease;
+  margin: 0;
+  border-right: none; /* Remove right border to avoid double borders */
 }
 
 ::ng-deep p-autoComplete.custom-autocomplete .p-inputtext:focus {
@@ -208,18 +244,33 @@ body {
   outline: none;
 }
 
-
-
 .submit-button {
   background-color: transparent;
   border: 2px solid #0ff;
-  border-radius: 0.5rem;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
   padding: 0.6rem 1.2rem;
   font-size: 1.2rem;
   color: #0ff;
   box-shadow: 0 0 10px #0ff;
   cursor: pointer;
   transition: all 0.3s ease;
+  height: 41.5px; /* Set a fixed height to match the input */
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+/* Center the dropdown panel */
+::ng-deep .p-autocomplete-panel {
+  margin: 0 auto !important;
+  left: 0 !important; /* Reset left position */
+  right: 0 !important; /* Add right position */
+  transform: none !important; /* Remove transform */
+  max-width: 400px !important;
+  width: 100% !important;
 }
 
 .submit-button:hover {
@@ -363,11 +414,61 @@ body {
   }
 }
 
+/* Media queries */
+@media (max-width: 768px) {
+  .players-toggle-btn {
+    display: block; /* Show on small screens */
+  }
+  
+  .players-box {
+    display: none; /* Hide by default on small screens */
+    top: 70px; /* Below the toggle button */
+  }
+  
+  .players-box.visible {
+    display: block;
+  }
+}
+
+@media (min-width: 769px) {
+  .players-toggle-btn {
+    display: none;
+  }
+}
+
+/* Game content layout */
+.game-content {
+  position: relative;
+}
+
 /* Add responsive padding for larger screens */
 @media screen and (max-width: 768px) {
   .guess-container {
     width: calc(100% - 4rem);
     padding: 0 2rem;
     margin: 2rem 0;
+  }
+}
+
+/* Add responsive title sizes */
+@media (max-width: 1200px) {
+  .title {
+    font-size: 4rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 3rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 2.5rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
   }
 }
