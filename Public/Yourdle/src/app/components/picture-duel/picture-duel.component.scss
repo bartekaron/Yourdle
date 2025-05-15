@@ -221,12 +221,12 @@ body {
 
 .submit-button {
   background-color: transparent;
-  border: 2px solid #ff00ff;
+  border: 2px solid #0ff;
+  color: #0ff;
+  box-shadow: 0 0 10px #0ff;
   border-radius: 0.5rem;
   padding: 0.6rem 1.2rem;
   font-size: 1.2rem;
-  color: #ff00ff;
-  box-shadow: 0 0 10px #ff00ff;
   cursor: pointer;
   transition: all 0.3s ease;
 
@@ -237,9 +237,9 @@ body {
   }
 
   &:not(:disabled):hover {
-    background-color: #ff00ff;
+    background-color: #0ff;
     color: #000;
-    box-shadow: 0 0 20px #ff00ff;
+    box-shadow: 0 0 20px #0ff;
   }
 }
 
@@ -264,25 +264,25 @@ body {
 
 .nav-button {
   background-color: transparent;
-  color: #ff00ff;
-  border: 2px solid #ff00ff;
+  color: #0ff;
+  border: 2px solid #0ff;
+  box-shadow: 0 0 10px #0ff;
   border-radius: 0.5rem;
   padding: 0.8rem 1.5rem;
   font-size: 1rem;
   font-family: 'Share Tech Mono', monospace;
-  box-shadow: 0 0 10px #ff00ff;
   transition: all 0.3s ease;
   cursor: pointer;
 
   &:hover {
-    background-color: #ff00ff;
+    background-color: #0ff;
     color: #000;
-    box-shadow: 0 0 20px #ff00ff;
+    box-shadow: 0 0 20px #0ff;
   }
 
   &:active {
     transform: scale(0.95);
-    background-color: #ff00ff;
+    background-color: #0ff;
     color: #000;
   }
 }

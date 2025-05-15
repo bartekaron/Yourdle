@@ -160,11 +160,11 @@ body {
   .submit-button {
     background-color: transparent;
     border: 2px solid #0ff;
+    color: #0ff;
+    box-shadow: 0 0 10px #0ff;
     border-radius: 0.5rem;
     padding: 0.6rem 1.2rem;
     font-size: 1.2rem;
-    color: #0ff;
-    box-shadow: 0 0 10px #0ff;
     cursor: pointer;
     transition: all 0.3s ease;
   }
@@ -202,11 +202,11 @@ body {
     background-color: transparent;
     color: #0ff;
     border: 2px solid #0ff;
+    box-shadow: 0 0 10px #0ff;
     border-radius: 0.5rem;
     padding: 0.8rem 1.5rem;
     font-size: 1rem;
     font-family: 'Share Tech Mono', monospace;
-    box-shadow: 0 0 10px #0ff;
     transition: all 0.3s ease;
     cursor: pointer;
   }
